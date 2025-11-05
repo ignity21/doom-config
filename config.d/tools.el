@@ -40,7 +40,6 @@
         :desc "Format buffer" "C-c c f" #'lsp-format-buffer
 
         :map lsp-ui-mode-map
-        :desc "Lsp Symbol List" "C-c c l s" #'lsp-ui-imenu
         :desc "Lsp Symbol List" "C-c t i" #'lsp-ui-imenu
 
         :map lsp-ui-imenu-mode-map
