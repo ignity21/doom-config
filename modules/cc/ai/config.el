@@ -14,6 +14,7 @@
 (use-package! aidermacs
   :commands aidermacs-transient-menu
   :init
+  (setq! aidermacs-program "aider")
   (map! :desc "Aidermacs menu" "C-c a" #'aidermacs-transient-menu))
 
 ;; gptel
