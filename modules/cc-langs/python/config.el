@@ -5,14 +5,13 @@
     "The number of spaces to indent inside python blocks.")
 
   (after! pyvenv
-    (setq! pyvenv-activate ".venv")
-    (add-hook! 'python-mode-hook #'pyvenv-tracking-mode))
+    (add-hook! 'python-base-mode-hook #'pyvenv-tracking-mode))
 
 
-  (setq-hook! 'python-mode-hook
+  (setq-hook! 'python-base-mode-hook
     python-indent-offset cc/python-indent-offset)
 
-  (add-hook! 'python-mode-hook
+  (add-hook! 'python-base-mode-hook
              #'cc/python-set-default-capf
              #'whole-line-or-region-local-mode)
   (add-hook! 'lsp-completion-mode-hook #'cc/python-set-lsp-capf)
@@ -22,7 +21,7 @@
          doom-modeline-env-enable-python nil)
 
   (when (modulep! :ui indent-guides)
-    (add-hook! 'python-mode-hook
+    (add-hook! 'python-base-mode-hook
       (defun configure-indent-guides ()
         (setq-local indent-bars-treesit-support t
                     indent-bars-treesit-wrap
@@ -33,7 +32,7 @@
                       (python list_comprehension))
                     indent-bars-treesit-ignore-blank-lines-types '("module")))))
 
-  (map! :map python-mode-map
+  (map! :map python-base-mode-map
         "C-c <TAB> a" nil ; python-add-import
         "C-c <TAB> s" nil
         "C-c <TAB> f" nil
@@ -79,7 +78,7 @@
            lsp-pylsp-plugins-yapf-enabled nil))
   (after! lsp-pyright
     (setq! lsp-pyright-disable-organize-imports t
-           lsp-pyright-type-checking-mode "standard"))
+           lsp-pyright-type-checking-mode "recommended"))
   (map! :map lsp-mode-map
         :desc "Organize imports" "C-c c o"
         #'lsp-organize-imports))
