@@ -7,10 +7,13 @@
 (package! magit
   :pin "fd1882b8c981c5e859522bde1dd9c88af9485709") ; 4.3.6
 
-(package! aider
-  :recipe (:host github :repo "tninja/aider.el" ))
+;; (package! aider
+;;   :recipe (:host github :repo "tninja/aider.el" ))
 
-(package! aidermacs)
+(package! aidermacs
+  :recipe (:host github
+           :repo "MatthewZMD/aidermacs"
+           :files ("*.el")))
 
 (package! gptel :recipe (:nonrecursive t))
 
@@ -18,3 +21,8 @@
   :recipe (:host github
            :repo "lizqwerscott/mcp.el"
            :files ("*.el")))
+
+;; (package! copilot-chat
+;;   :recipe (:host github
+;;            :repo "chep/copilot-chat.el"
+;;            :files ("*.el")))

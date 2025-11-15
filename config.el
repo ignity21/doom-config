@@ -21,7 +21,6 @@
 (load! "config.d/checkers.el")
 (load! "config.d/tools.el")
 (load! "config.d/langs.el")
-(load! "config.d/ai.el")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.

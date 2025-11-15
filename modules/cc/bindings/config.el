@@ -360,6 +360,11 @@
           :desc "Jupyter stop" "s" #'ein:stop))
        )
 
+      ;; C-c m --- ai tools
+      (:prefix-map
+       ("m" . "<ai-tools>")
+       )
+
       ;; C-c p --- project
       (:prefix-map ("p" . "<project>")
        :desc "Open current editorconfig" "e" #'editorconfig-find-current-editorconfig
