@@ -30,7 +30,7 @@
   (setq! +treemacs-git-mode 'deferred)
   (when (modulep! :ui treemacs +lsp)
     (setq! lsp-treemacs-sync-mode t
-           treemacs-width 25
+           treemacs-width 30
            lsp-treemacs-error-list-expand-depth 3)
     (map! :map lsp-treemacs-generic-map
           :desc "Select window" "C-x o" #'other-window)))

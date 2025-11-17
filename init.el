@@ -100,7 +100,7 @@
        markdown            ; writing docs for people to ignore
        (org +roam2 +present) ; TODO +noter
        plantuml            ; diagrams for confusing people more
-       (python +lsp +pyright +tree-sitter) ; use pylsp+ruff; optional +pyright
+       (python +lsp +pyright +tree-sitter)
        ;; (python +lsp +pyenv +poetry +pyright +tree-sitter) ; basedpyright lsp server with poetry, pyenv
        qt                  ; the 'cutest' gui framework ever
        rst                 ; ReST in peace

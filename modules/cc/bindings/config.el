@@ -270,7 +270,7 @@
          :desc "Rename" "r" #'lsp-rename
          :desc "Inlay Hints Mode" "I" #'lsp-inlay-hints-mode
          (:prefix ("s". "<lsp-session>")
-          :desc "Describe session" "?" #'lsp-describe-session
+          :desc "List sessions" "l" #'lsp-describe-session
           :desc "Disconnect" "q" #'lsp-disconnect
           :desc "Restart" "r" #'lsp-workspace-restart
           :desc "Shutdown" "d" #'lsp-workspace-shutdown
