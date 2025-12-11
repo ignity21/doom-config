@@ -4,8 +4,9 @@
   (defvar cc/python-indent-offset 4
     "The number of spaces to indent inside python blocks.")
 
-  ;; (after! pyvenv
-  ;;   (add-hook! 'python-base-mode-hook #'pyvenv-tracking-mode))
+  (after! pyvenv
+    (setq! pyvenv-activate ".venv")
+    (add-hook! 'python-base-mode-hook #'pyvenv-tracking-mode))
 
   (setq-hook! 'python-base-mode-hook
     python-indent-offset cc/python-indent-offset)
@@ -49,19 +50,19 @@
           #'sphinx-doc))
 
   ;; emacs-pet for virtual environment detection
-  (use-package! pet
-    :defer t
-    :init
-    (add-hook! 'python-base-mode-hook
-               #'pet-mode
-               (defun cc/configure-pet-mode ()
-                 ;; lsp-pyright
-                 (setq-local
-                  lsp-pyright-langserver-command "basedpyright"))
-               ;;   ;; ;; dap-python
-               ;;   ;; (setq-local dap-python-executable python-shell-interpreter)
-               ;;   )
-               ))
+  ;; (use-package! pet
+  ;;   :defer t
+  ;;   :init
+  ;;   (add-hook! 'python-base-mode-hook
+  ;;              #'pet-mode
+  ;;              (defun cc/configure-pet-mode ()
+  ;;                ;; lsp-pyright
+  ;;                (setq-local
+  ;;                 lsp-pyright-langserver-command "basedpyright"))
+  ;;              ;;   ;; ;; dap-python
+  ;;              ;;   ;; (setq-local dap-python-executable python-shell-interpreter)
+  ;;              ;;   )
+  ;;              ))
   )
 
 (when (modulep! :lang python +poetry)
@@ -71,11 +72,12 @@
 
 (when (modulep! :lang python +lsp)
   (after! lsp-ruff
-    (setq! lsp-ruff-advertize-fix-all nil
-           ;; lsp-ruff-advertize-organize-imports t
+    (setq! lsp-ruff-advertize-fix-all t
+           lsp-ruff-log-level "warn"
+           lsp-ruff-advertize-organize-imports t
            ))
   (after! lsp-pyright
-    (setq! lsp-pyright-disable-organize-imports nil
+    (setq! lsp-pyright-disable-organize-imports t
            lsp-pyright-langserver-command "basedpyright"
            lsp-pyright-type-checking-mode "standard"
            lsp-pyright-auto-import-completions t

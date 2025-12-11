@@ -7,10 +7,10 @@
  pipenv
  pip-requirements
  pyenv
- pyvenv
+ ;; pyvenv
  pyimport
  py-isort)
 
 (package! sphinx-doc)
-(package! pet
-  :recipe (:host github :repo "wyuenho/emacs-pet" :files ("*.el")))
+;; (package! pet
+;;   :recipe (:host github :repo "wyuenho/emacs-pet" :files ("*.el")))
