@@ -1,6 +1,11 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;; mycustom.el
 
+;; Some functionality uses this to identify you, e.g. GPG configuration, email
+;; clients, file templates and snippets. It is optional.
+(setq! user-full-name "Name"
+       user-mail-address "name@example.com"
+
 ;; cc-ui
 (setq! cc/mono-font "Hack"
        cc/unicode-font "Source Han Sans CN"

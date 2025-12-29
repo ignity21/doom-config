@@ -60,6 +60,7 @@
          cc/agenda-study-file (file-name-concat cc/org-agenda-dir "study.org")
          org-deadline-warning-days 5
          org-log-done 'time
+         org-todo-repeat-to-state "LOOP"
          org-log-into-drawer t)
 
   (setq! org-tag-alist
@@ -81,6 +82,7 @@
            ("i" "Quick ideas" entry
             (file+headline +org-capture-todo-file "Ideas")
             "* %u %?\n%i\n" :prepend t)
+
            ;; Study
            ("c" "Start a cource" entry
             (file+headline cc/agenda-study-file "Courses")
@@ -100,7 +102,7 @@
             (file+headline cc/agenda-projects-file "Projects")
             "* PROJ %^{Project name}\n%i\nCREATED:%u\n** TODO Task1%?"
             :prepend t :empty-lines 1)
-           ("p" "Start a work project" entry
+           ("w" "Start a work project" entry
             (file+headline cc/agenda-work-file "Projects")
             "* PROJ %^{Project name}\n%i\nCREATED:%u\n** TODO Task1%?"
             :prepend t :empty-lines 1)
@@ -109,29 +111,19 @@
            ("h" "Create a habit")
            ("hd" "Daily habit" entry
             (file+headline cc/agenda-habits-file "Habits")
-            "* [ ] [#C] %^{Habit Name}\nSCHEDULED: <%<%Y-%m-%d %a> .+1d>\n"
+            "* LOOP [#C] %^{Habit Name}\nSCHEDULED: <%<%Y-%m-%d %a> .+1d>\n"
             :prepend t :empty-lines 1
             )
            ("hw" "Weekly habit" entry
             (file+headline cc/agenda-habits-file "Habits")
-            "* [ ] [#C] %^{Habit Name}\nSCHEDULED: <%<%Y-%m-%d %a> .+1w>\n"
+            "* LOOP [#C] %^{Habit Name}\nSCHEDULED: <%<%Y-%m-%d %a> .+1w>\n"
             :prepend t :empty-lines 1
             )
            ("hm" "Monthly habit" entry
             (file+headline cc/agenda-habits-file "Habits")
-            "* [ ] [#C] %^{Habit Name}\nSCHEDULED: <%<%Y-%m-%d %a> .+1m>\n"
+            "* LOOP [#C] %^{Habit Name}\nSCHEDULED: <%<%Y-%m-%d %a> .+1m>\n"
             :prepend t :empty-lines 1
             )
-           ;; ("l" "Templates for local projects")
-           ;; ("lt" "Project-local todo" entry
-           ;;  (file+headline +org-capture-project-todo-file "TODOs")
-           ;;  "* [ ] %?\n%i\n" :prepend t)
-           ;; ("ln" "Project-local notes" entry
-           ;;  (file+headline +org-capture-project-notes-file "Notes")
-           ;;  "* %U %?\n%i\n" :prepend t)
-           ;; ("lc" "Project-local changelog" entry
-           ;;  (file+headline +org-capture-project-changelog-file "Unreleased")
-           ;;  "* %U %?\n%i\n%a" :prepend t))
            ))
   )
 

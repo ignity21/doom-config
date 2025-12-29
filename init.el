@@ -102,7 +102,7 @@
        plantuml            ; diagrams for confusing people more
        (python +lsp +pyright +tree-sitter)
        ;; (python +lsp +pyenv +poetry +pyright +tree-sitter) ; basedpyright lsp server with poetry, pyenv
-       qt                  ; the 'cutest' gui framework ever
+       ;; qt                  ; the 'cutest' gui framework ever
        rst                 ; ReST in peace
        ;; (rest + jq)      ; TODO Emacs as a REST client +jq Enable support for reading and processing REST responses with jq
        (sh +lsp +tree-sitter)
