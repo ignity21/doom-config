@@ -63,7 +63,7 @@
        :desc "Find agenda file" "f" #'+default/find-in-notes
        :desc "Agenda view""a" #'org-agenda
        :desc "Agenda capture" "c" #'org-capture
-       :desc "Agenda Archive" "A" #'org-agenda-archive
+       :desc "Agenda archive" "A" #'org-agenda-archive
        (:map org-mode-map
         :prefix ("e" . "<effort>")
         :desc "Add estimate" "a" #'org-set-effort

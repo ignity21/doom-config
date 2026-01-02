@@ -1,5 +1,5 @@
-;; -*- no-byte-compile: t; -*-
-;;; cc/agenda/config.el -*- lexical-binding: t; -*-
+;;; -*- lexical-binding: t; no-byte-compile: t; -*-
+;;; cc/agenda/config.el
 
 ;; DOOM org-todo-keywords explanation
 ;;
@@ -74,23 +74,46 @@
            ;; Quick tasks
            ("t" "Quick todo" entry
             (file+headline +org-capture-todo-file "Quick Tasks")
-            "* [ ] %?\n%U\n" :prepend t)
+            "* [ ] %?\n%U\n"
+            :prepend t
+            :kill-buffer t)
            ("s" "Quick start" entry
             (file+headline +org-capture-todo-file "Quick Tasks")
             "* [-] %?\n%U\n"
-            :clock-in t :clock-keep t prepend t)
+            :clock-in t
+            :clock-keep t
+            :prepend t
+            :kill-buffer t)
            ("i" "Quick ideas" entry
             (file+headline +org-capture-todo-file "Ideas")
-            "* %u %?\n%i\n" :prepend t)
-
+            "* %u %?\n%i\n"
+            :prepend t)
+           ("j" "Write journal" plain
+            (file+olp+datetree +org-capture-journal-file)
+            "%?\n---"
+            :kill-buffer t
+            :tree-type week)
            ;; Study
            ("c" "Start a cource" entry
             (file+headline cc/agenda-study-file "Courses")
-            "* PROJ %^{Course name}\n%i\nSTARTED:%u\n\n** TODO L1%?"
-            :prepend t :empty-lines 1)
+            "* PROJ %^{Course name} :Course:
+:PROPERTIES:
+:CATEGORY: %\\1
+:END:
+%i
+STARTED:%u
+** TODO L1%?"
+            :prepend t
+            :empty-lines 1)
            ("b" "Start a book" entry
             (file+headline cc/agenda-study-file "Books")
-            "* PROJ %^{Book name}\n%i\nSTARTED:%u\n** TODO C1%?"
+            "* PROJ %^{Book name} :Book:
+:PROPERTIES:
+:CATEGORY: %\\1
+:END:
+%i
+STARTED:%u
+** TODO C1%?"
             :empty-lines 1)
            ("b" "Start a segment" entry
             (file+headline cc/agenda-study-file "Segments")
@@ -100,29 +123,46 @@
            ;; Projects
            ("p" "Start a project" entry
             (file+headline cc/agenda-projects-file "Projects")
-            "* PROJ %^{Project name}\n%i\nCREATED:%u\n** TODO Task1%?"
-            :prepend t :empty-lines 1)
+            "* PROJ %^{Project name} :Project:
+:PROPERTIES:
+:CATEGORY: %\\1
+:END:
+%i
+CREATED:%u
+** TODO Task1%?"
+            :prepend t
+            :empty-lines 1)
            ("w" "Start a work project" entry
             (file+headline cc/agenda-work-file "Projects")
-            "* PROJ %^{Project name}\n%i\nCREATED:%u\n** TODO Task1%?"
-            :prepend t :empty-lines 1)
+            "* PROJ %^{Project name} :Work:
+:PROPERTIES:
+:CATEGORY: %\\1
+:END:
+%i
+CREATED:%u
+** TODO Task1%?"
+            :prepend t
+            :empty-lines 1)
 
            ;; Habits
            ("h" "Create a habit")
            ("hd" "Daily habit" entry
             (file+headline cc/agenda-habits-file "Habits")
             "* LOOP [#C] %^{Habit Name}\nSCHEDULED: <%<%Y-%m-%d %a> .+1d>\n"
-            :prepend t :empty-lines 1
+            :prepend t
+            :empty-lines 1
             )
            ("hw" "Weekly habit" entry
             (file+headline cc/agenda-habits-file "Habits")
             "* LOOP [#C] %^{Habit Name}\nSCHEDULED: <%<%Y-%m-%d %a> .+1w>\n"
-            :prepend t :empty-lines 1
+            :prepend t
+            :empty-lines 1
             )
            ("hm" "Monthly habit" entry
             (file+headline cc/agenda-habits-file "Habits")
             "* LOOP [#C] %^{Habit Name}\nSCHEDULED: <%<%Y-%m-%d %a> .+1m>\n"
-            :prepend t :empty-lines 1
+            :prepend t
+            :empty-lines 1
             )
            ))
   )
