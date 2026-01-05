@@ -148,19 +148,19 @@ CREATED:%u
            ("h" "Create a habit")
            ("hd" "Daily habit" entry
             (file+headline cc/agenda-habits-file "Habits")
-            "* LOOP [#C] %^{Habit Name}\nSCHEDULED: <%<%Y-%m-%d %a> .+1d>\n"
+            "* LOOP %^{Habit Name}\nSCHEDULED: <%<%Y-%m-%d %a> .+1d>\n"
             :prepend t
             :empty-lines 1
             )
            ("hw" "Weekly habit" entry
             (file+headline cc/agenda-habits-file "Habits")
-            "* LOOP [#C] %^{Habit Name}\nSCHEDULED: <%<%Y-%m-%d %a> .+1w>\n"
+            "* LOOP %^{Habit Name}\nSCHEDULED: <%<%Y-%m-%d %a> .+1w>\n"
             :prepend t
             :empty-lines 1
             )
            ("hm" "Monthly habit" entry
             (file+headline cc/agenda-habits-file "Habits")
-            "* LOOP [#C] %^{Habit Name}\nSCHEDULED: <%<%Y-%m-%d %a> .+1m>\n"
+            "* LOOP %^{Habit Name}\nSCHEDULED: <%<%Y-%m-%d %a> .+1m>\n"
             :prepend t
             :empty-lines 1
             )
