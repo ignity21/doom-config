@@ -30,7 +30,7 @@
   "C-c 1" "<checker>"
   "C-x <RET>" "coding-system"
   "M-s h" "highlight"
-  "C-x n" "<narrow/widen>"
+  "C-x n" "<narrow>"
   "C-x r" "register"
   "C-x t" "tab"
   "C-x w" "win-select"
@@ -52,49 +52,102 @@
     "C-c p c x" "execute"
     "C-c p c s" "search"))
 
+;; C-x keybindings
+(map! :prefix "C-x"
+      ;; C-x n -- narrow
+      (:prefix ("n" . "<narrow>")
+               "g" nil))
+
 ;; C-h keybindings
 (map! :prefix "C-h"
       :desc "Woman" "w" #'woman)
 
-;; C-x keybindings
-(map! :prefix "C-x"
-      :desc "ibuffer" "C-b" #'ibuffer
-      (:prefix-map ("a" . "<agenda>")
-       :desc "Find agenda file" "f" #'+default/find-in-notes
-       :desc "Agenda view""a" #'org-agenda
-       :desc "Agenda capture" "c" #'org-capture
-       :desc "Agenda archive" "A" #'org-agenda-archive
-       (:map org-mode-map
-        :prefix ("e" . "<effort>")
-        :desc "Add estimate" "a" #'org-set-effort
-        :desc "Edit estimate" "e" #'org-clock-modify-effort-estimate
-        :desc "Clock in" "i" #'org-clock-in
-        :desc "Clock out" "o" #'org-clock-out
-        :desc "Cancel clock" "c" #'org-clock-cancel
-        :desc "Goto clock" "g" #'org-clock-goto)))
-
 ;; C-c keybindings
 (map! :prefix "C-c"
-      ;; C-c g -- global keybindings
-      (:prefix-map
-       ("g" . "<global>")
-       (:when (modulep! :ui popup)
-         :desc "Close all popups" "c" #'+popup/close-all))
+      ;; C-c a -- ai
+      (:prefix
+       ("a" . "<ai>"))
 
-      ;; C-c w --- workspace
+      ;; C-c c -- code
       (:prefix-map
-       ("w" . "<workspace>")
-       (:when (modulep! :ui workspaces)
-         :desc "Make workspace" "m" #'+workspace/new-named
-         :desc "Save workspace" "s" #'+workspace/save
-         :desc "Load workspace" "l" #'+workspace/load
-         :desc "Remove workspace" "r" #'+workspace/delete
-         :desc "Switch workspace" "o" #'+workspace/switch-to
-         :desc "Display workspaces" "d" #'+workspace/display)
-       :desc "Kill other buffers" "k" #'doom/kill-other-buffers
-       :desc "Kill all buffers" "K" #'doom/kill-all-buffers
-       ;; session
-       :desc "Load last session" "w" #'doom/quickload-session)
+       ("c" . "<code>")
+       :desc "Compile" "c" #'+default/compile
+       :desc "Format buffer/region" "f" #'+format/region-or-buffer
+       (:when (modulep! :completion vertico)
+         :desc "Embark act" "a" #'embark-act
+         :desc "Embark dwim" "d" #'embark-dwim)
+       (:when (and (modulep! :tools lsp)
+                   (not (modulep! :tools lsp +eglot)))
+         :map lsp-mode-map
+         :desc "Action" "a" #'lsp-execute-code-action
+         :desc "Rename" "r" #'lsp-rename
+         :desc "Inlay Hints Mode" "I" #'lsp-inlay-hints-mode
+         (:prefix ("s". "<lsp-session>")
+          :desc "List sessions" "l" #'lsp-describe-session
+          :desc "Disconnect" "q" #'lsp-disconnect
+          :desc "Restart" "r" #'lsp-workspace-restart
+          :desc "Shutdown" "d" #'lsp-workspace-shutdown
+          :desc "Add folder" "a" #'lsp-workspace-folders-add
+          :desc "Remove folder" "k" #'lsp-workspace-folders-remove
+          :desc "Remove all folders" "K" #'lsp-workspace-remove-all-folders
+          :desc "Unblock folders" "b" #'lsp-workspace-blocklist-remove
+          :desc "Switch client" "s" #'+lsp/switch-client)
+         (:when (modulep! :ui treemacs +lsp)
+           :desc "Errors List" "e" #'lsp-treemacs-errors-list
+           (:prefix ("t" . "<treemacs-lsp>")
+            :desc "Incoming call hierarchy" "i" #'lsp-treemacs-call-hierarchy
+            ;; :desc "Outgoing call hierarchy" "o" (cmd!! #'lsp-treemacs-call-hierarchy t)
+            :desc "Type hierarchy" "t" #'lsp-treemacs-type-hierarchy)
+           )
+         )
+       )
+
+      ;; C-c d -- debug
+      (:prefix-map
+       ("d". "<debug>")
+       (:when (modulep! :tools debugger)
+         :map prog-mode-map
+         :desc "Start" "d" #'+debugger/start
+         :desc "Stop" "s" #'+debugger/quit)
+       (:when (modulep! :tools lsp)
+         :desc "dap-debug" "g" #'dap-debug
+         :desc "dap-hydra" "h" #'dap-hydra
+         :map lsp-mode-map
+         :desc "Edit dap template" "t" #'dap-debug-edit-template
+         (:prefix ("b" . "<breakpoint>")
+          :desc "Toggle" "b" #'dap-breakpoint-toggle
+          :desc "Delete all" "d" #'dap-breakpoint-delete-all)))
+
+      ;; C-c e -- edit/writing
+      (:prefix-map
+       ("e" . "<edit>")
+       (:when (modulep! :editor multiple-cursors)
+         (:prefix ("m" . "<multicursors>")
+          :desc "Edit lines" "e" #'mc/edit-lines
+          :desc "Mark next like this" "n" #'mc/mark-next-like-this
+          :desc "Mark previous like this" "p" #'mc/mark-previous-like-this
+          :desc "Mark all like this" "a" #'mc/mark-all-like-this))
+       (:when (modulep! :emacs undo)
+         (:prefix ("u" . "<undo>")
+          :desc "Undo" "u" #'undo-fu-only-undo
+          :desc "Undo tree redo" "r" #'undo-fu-only-redo
+          :desc "Undo tree redo all" "R" #'undo-fu-redo-all))
+       (:when (modulep! :checkers spell)
+         (:prefix ("s" . "<spell>")
+          :desc "Correct this word" "c" #'+spell/correct
+          :desc "Add word to dict""a" #'+spell/add-word
+          :desc "Remove word" "r" #'+spell/remove-word
+          (:unless (modulep! :checkers spell +flyspell)
+            :desc "Toggle spell-fu" "t" #'spell-fu-mode
+            :desc "Reset word cache" "k" #'spell-fu-reset
+            :desc "Next error" "n" #'spell-fu-goto-next-error
+            :desc "Previous error" "p" #'spell-fu-goto-previous-error)))
+       (:prefix
+        ("w" . "<writing>")
+        (:when (modulep! :checkers grammar)
+          (:desc "Grammar check" "c" #'langtool-check
+           :desc "Grammar correct" "e" #'langtool-correct-buffer)))
+       )
 
       ;; C-c f -- file
       (:prefix-map
@@ -131,55 +184,22 @@
           :desc "Open remote file" "f"#'ssh-deploy-open-remote-file-handler
           :desc "Diff" "x" #'ssh-deploy-diff-handler)))
 
-      ;; C-c e -- edit/writing
+      ;; C-c g -- global keybindings
       (:prefix-map
-       ("e" . "<edit>")
-       (:when (modulep! :editor multiple-cursors)
-         (:prefix ("m" . "<multicursors>")
-          :desc "Edit lines" "e" #'mc/edit-lines
-          :desc "Mark next like this" "n" #'mc/mark-next-like-this
-          :desc "Mark previous like this" "p" #'mc/mark-previous-like-this
-          :desc "Mark all like this" "a" #'mc/mark-all-like-this))
-       (:when (modulep! :emacs undo)
-         (:prefix ("u" . "<undo>")
-          :desc "Undo" "u" #'undo-fu-only-undo
-          :desc "Undo tree redo" "r" #'undo-fu-only-redo
-          :desc "Undo tree redo all" "R" #'undo-fu-redo-all))
-       (:when (modulep! :checkers spell)
-         (:prefix ("s" . "<spell>")
-          :desc "Correct this word" "c" #'+spell/correct
-          :desc "Add word to dict""a" #'+spell/add-word
-          :desc "Remove word" "r" #'+spell/remove-word
-          (:unless (modulep! :checkers spell +flyspell)
-            :desc "Toggle spell-fu" "t" #'spell-fu-mode
-            :desc "Reset word cache" "k" #'spell-fu-reset
-            :desc "Next error" "n" #'spell-fu-goto-next-error
-            :desc "Previous error" "p" #'spell-fu-goto-previous-error)))
-       (:prefix
-        ("w" . "<writing>")
-        (:when (modulep! :checkers grammar)
-          (:desc "Grammar check" "c" #'langtool-check
-           :desc "Grammar correct" "e" #'langtool-correct-buffer)))
-       )
+       ("g" . "<global>")
+       (:when (modulep! :ui popup)
+         :desc "Close all popups" "c" #'+popup/close-all))
 
-      ;; C-c l -- local keybindings
-      ;; which related to current major mode
+      ;; C-c i -- insert
       (:prefix-map
-       ("l" . "<local>")
-       )
-
-      ;; C-c a -- ai
-      (:prefix
-       ("a" . "<ai>"))
-
-      ;; C-c o -- open
-      (:prefix-map
-       ("o" . "<open>")
-       :desc "New frame" "f" #'make-frame
-       (:when (modulep! :term vterm)
-         :desc "vterm" "t" #'+vterm/toggle)
-       (:when (modulep! :tools docker)
-         :desc "Docker" "d" #'docker)
+       ("i" . "<insert>")
+       :desc "From clipboard" "c" #'+default/yank-pop
+       (:when (modulep! :completion corfu)
+         :desc "From dict" "d" #'cape-dict
+         :desc "Emoji" "e" #'cape-emoji
+         :desc "dabbrev" "a" #'cape-dabbrev)
+       (:when (modulep! :editor snippets)
+         :desc "Insert snippet" "s" #'yas-insert-snippet)
        )
 
       ;; C-c k -- lookup
@@ -199,118 +219,15 @@
          :desc "Search symbols" "s" #'consult-lsp-symbols)
        )
 
-      ;; C-c t -- toggle
+      ;; C-c l -- local keybindings
+      ;; which related to current major mode
       (:prefix-map
-       ("t" . "<toggle>")
-       :desc "Line numbers mode" "l" #'doom/toggle-line-numbers
-       (:when (modulep! :ui minimap)
-         :desc "Minimap" "m" #'minimap-mode)
-       (:when (modulep! :ui treemacs)
-         :desc "Treemacs" "t" #'+treemacs/toggle)
-       (:when (modulep! :ui zen)
-         :desc "zen-mode" "z" #'+zen/toggle)
-       (:when (modulep! :ui indent-guides)
-         :desc "Indent guides" "<TAB>" #'indent-bars-mode)
-       (:when (modulep! :editor word-wrap)
-         :desc "Visual line mode" "v" #'+word-wrap-mode)
-       (:when (modulep! :checkers spell)
-         :desc "spell-fu-mode" "s" #'spell-fu-mode)
-       (:when (and (modulep! :checkers syntax)
-                   (not (modulep! :checkers syntax +flymake)))
-         :desc "Flycheck" "c" #'flycheck-mode)
-       (:when (modulep! :lang org +present)
-         :map org-mode-map
-         :desc "Org presentation" "p" #'org-tree-slide-mode)
+       ("l" . "<local>")
        )
 
-      ;; C-c r -- run/eval
+      ;; C-c m --- ai tools
       (:prefix-map
-       ("r" . "<run/eval>")
-       (:when (modulep! :tools eval)
-         (:map prog-mode-map
-          :desc "Eval buffer" "b" #'+eval/buffer
-          :desc "Eval region" "r" #'+eval/region
-          :desc "Eval line" "l" #'+eval/line-or-region
-          :desc "Send to REPL" "s" #'+eval/send-region-to-repl
-          :desc "Open REPL" "o" #'+eval/open-repl-other-window
-          :desc "Open REPL here" "O" #'+eval/open-repl-same-window))
-       (:map emacs-lisp-mode-map
-        :desc "Eval buffer" "b" #'eval-buffer
-        :desc "Eval defun" "d" #'eval-defun
-        :desc "Eval region" "r" #'eval-region
-        :desc "Eval last sexp" "e" #'eval-last-sexp))
-
-      ;; C-c d -- debug
-      (:prefix-map
-       ("d". "<debug>")
-       (:when (modulep! :tools debugger)
-         :map prog-mode-map
-         :desc "Start" "d" #'+debugger/start
-         :desc "Stop" "s" #'+debugger/quit)
-       (:when (modulep! :tools lsp)
-         :desc "dap-debug" "g" #'dap-debug
-         :desc "dap-hydra" "h" #'dap-hydra
-         :map lsp-mode-map
-         :desc "Edit dap template" "t" #'dap-debug-edit-template
-         (:prefix ("b" . "<breakpoint>")
-          :desc "Toggle" "b" #'dap-breakpoint-toggle
-          :desc "Delete all" "d" #'dap-breakpoint-delete-all)))
-
-      ;; C-c c -- code
-      (:prefix-map
-       ("c" . "<code>")
-       :desc "Compile" "c" #'+default/compile
-       :desc "Format buffer/region" "f" #'+format/region-or-buffer
-       (:when (modulep! :completion vertico)
-         :desc "Embark act" "a" #'embark-act
-         :desc "Embark dwim" "d" #'embark-dwim)
-       (:when (and (modulep! :tools lsp)
-                   (not (modulep! :tools lsp +eglot)))
-         :map lsp-mode-map
-         :desc "Action" "a" #'lsp-execute-code-action
-         :desc "Rename" "r" #'lsp-rename
-         :desc "Inlay Hints Mode" "I" #'lsp-inlay-hints-mode
-         (:prefix ("s". "<lsp-session>")
-          :desc "List sessions" "l" #'lsp-describe-session
-          :desc "Disconnect" "q" #'lsp-disconnect
-          :desc "Restart" "r" #'lsp-workspace-restart
-          :desc "Shutdown" "d" #'lsp-workspace-shutdown
-          :desc "Add folder" "a" #'lsp-workspace-folders-add
-          :desc "Remove folder" "k" #'lsp-workspace-folders-remove
-          :desc "Remove all folders" "K" #'lsp-workspace-remove-all-folders
-          :desc "Unblock folders" "b" #'lsp-workspace-blocklist-remove
-          :desc "Switch client" "s" #'+lsp/switch-client)
-         (:when (modulep! :ui treemacs +lsp)
-           :desc "Errors List" "e" #'lsp-treemacs-errors-list
-           (:prefix ("t" . "<treemacs-lsp>")
-            :desc "Incoming call hierarchy" "i" #'lsp-treemacs-call-hierarchy
-            ;; :desc "Outgoing call hierarchy" "o" (cmd!! #'lsp-treemacs-call-hierarchy t)
-            :desc "Type hierarchy" "t" #'lsp-treemacs-type-hierarchy)
-           )
-         )
-       )
-
-      ;; C-c y -- yasnippets
-      (:when (modulep! :editor snippets)
-        (:prefix-map ("y" . "<snippets>")
-         :desc "New snippet" "n" #'+snippets/new
-         :desc "Edit snippet" "e" #'+snippets/edit
-         :desc "Find snippet" "f" #'+snippets/find
-         :desc "Browse snippets" "b" #'+default/browse-templates
-         :desc "aya create" "m" #'aya-create
-         :desc "aya expand" "a" #'aya-expand
-         :desc "Describe snippets" "d" #'yas-describe-tables))
-
-      ;; C-c i -- insert
-      (:prefix-map
-       ("i" . "<insert>")
-       :desc "From clipboard" "c" #'+default/yank-pop
-       (:when (modulep! :completion corfu)
-         :desc "From dict" "d" #'cape-dict
-         :desc "Emoji" "e" #'cape-emoji
-         :desc "dabbrev" "a" #'cape-dabbrev)
-       (:when (modulep! :editor snippets)
-         :desc "Insert snippet" "s" #'yas-insert-snippet)
+       ("m" . "<ai-tools>")
        )
 
       ;; C-c n --- note
@@ -351,7 +268,12 @@
       ;; C-c o --- open
       (:prefix-map
        ("o" . "<open>")
+       :desc "New frame" "f" #'make-frame
        :desc "Color list" "C" #'list-colors-display
+       (:when (modulep! :term vterm)
+         :desc "vterm" "t" #'+vterm/toggle)
+       (:when (modulep! :tools docker)
+         :desc "Docker" "d" #'docker)
        (:when (modulep! :app calendar)
          :desc "Calendar" "c" #'+calendar/open-calendar)
        (:when (modulep! :tools ein)
@@ -359,11 +281,6 @@
           :desc "Jupyter run" "r" #'ein:run
           :desc "Jupyter login" "l" #'ein:login
           :desc "Jupyter stop" "s" #'ein:stop))
-       )
-
-      ;; C-c m --- ai tools
-      (:prefix-map
-       ("m" . "<ai-tools>")
        )
 
       ;; C-c p --- project
@@ -387,6 +304,23 @@
        :desc "Report" "r" #'profiler-report
        )
 
+      ;; C-c r -- run/eval
+      (:prefix-map
+       ("r" . "<run/eval>")
+       (:when (modulep! :tools eval)
+         (:map prog-mode-map
+          :desc "Eval buffer" "b" #'+eval/buffer
+          :desc "Eval region" "r" #'+eval/region
+          :desc "Eval line" "l" #'+eval/line-or-region
+          :desc "Send to REPL" "s" #'+eval/send-region-to-repl
+          :desc "Open REPL" "o" #'+eval/open-repl-other-window
+          :desc "Open REPL here" "O" #'+eval/open-repl-same-window))
+       (:map emacs-lisp-mode-map
+        :desc "Eval buffer" "b" #'eval-buffer
+        :desc "Eval defun" "d" #'eval-defun
+        :desc "Eval region" "r" #'eval-region
+        :desc "Eval last sexp" "e" #'eval-last-sexp))
+
       ;; C-c s --- search
       (:prefix-map ("s" . "<search>")
        :desc "Search line" "l"
@@ -401,4 +335,54 @@
          :desc "Word dictionary" "w" #'+lookup/dictionary-definition
          :desc "Thesaurus/θɪˈsɔːrəs/" "t" #'+lookup/synonyms
          :desc "Find file" "f" #'+lookup/file))
+
+      ;; C-c t -- toggle
+      (:prefix-map
+       ("t" . "<toggle>")
+       :desc "Line numbers mode" "l" #'doom/toggle-line-numbers
+       (:when (modulep! :ui minimap)
+         :desc "Minimap" "m" #'minimap-mode)
+       (:when (modulep! :ui treemacs)
+         :desc "Treemacs" "t" #'+treemacs/toggle)
+       (:when (modulep! :ui zen)
+         :desc "zen-mode" "z" #'+zen/toggle)
+       (:when (modulep! :ui indent-guides)
+         :desc "Indent guides" "<TAB>" #'indent-bars-mode)
+       (:when (modulep! :editor word-wrap)
+         :desc "Visual line mode" "v" #'+word-wrap-mode)
+       (:when (modulep! :checkers spell)
+         :desc "spell-fu-mode" "s" #'spell-fu-mode)
+       (:when (and (modulep! :checkers syntax)
+                   (not (modulep! :checkers syntax +flymake)))
+         :desc "Flycheck" "c" #'flycheck-mode)
+       (:when (modulep! :lang org +present)
+         :map org-mode-map
+         :desc "Org presentation" "p" #'org-tree-slide-mode)
+       )
+
+      ;; C-c w --- workspace
+      (:prefix-map
+       ("w" . "<workspace>")
+       (:when (modulep! :ui workspaces)
+         :desc "Make workspace" "m" #'+workspace/new-named
+         :desc "Save workspace" "s" #'+workspace/save
+         :desc "Load workspace" "l" #'+workspace/load
+         :desc "Remove workspace" "r" #'+workspace/delete
+         :desc "Switch workspace" "o" #'+workspace/switch-to
+         :desc "Display workspaces" "d" #'+workspace/display)
+       :desc "Kill other buffers" "k" #'doom/kill-other-buffers
+       :desc "Kill all buffers" "K" #'doom/kill-all-buffers
+       ;; session
+       :desc "Load last session" "w" #'doom/quickload-session)
+
+      ;; C-c y -- yasnippets
+      (:when (modulep! :editor snippets)
+        (:prefix-map ("y" . "<snippets>")
+         :desc "New snippet" "n" #'+snippets/new
+         :desc "Edit snippet" "e" #'+snippets/edit
+         :desc "Find snippet" "f" #'+snippets/find
+         :desc "Browse snippets" "b" #'+default/browse-templates
+         :desc "aya create" "m" #'aya-create
+         :desc "aya expand" "a" #'aya-expand
+         :desc "Describe snippets" "d" #'yas-describe-tables))
       )

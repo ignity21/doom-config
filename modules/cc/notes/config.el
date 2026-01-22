@@ -35,8 +35,9 @@
       :desc "Search in outline tree" "C-c s o" #'org-sparse-tree
       ;; C-x n --- narrow
       (:prefix "C-x n"
-       :desc "Narrow to subtree" "n" #'org-narrow-to-subtree
-       :desc "Widen" "w" #'widen)
+       :desc "Org narrow to subtree" "n" #'org-narrow-to-subtree
+       :desc "Widen" "w" #'widen
+       )
       ;; C-c i --- insert
       (:prefix "C-c i"
        :desc "Org insert date" "t" #'org-timestamp-inactive
@@ -57,7 +58,7 @@
        (:prefix ("p" . "<preview/plot>")
         :desc "Preview latex fragment" "l" #'org-latex-preview
         :desc "Preview image" "i" #'org-display-inline-images
-        :desc "Plot table" "p" #'org-plot/gnuplot))
+        :desc "Plot table" "" #'org-plot/gnuplot))
       )
 
 (after! org
