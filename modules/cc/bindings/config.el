@@ -8,6 +8,13 @@
   "C-x C-z"
   "C-x 8" ; emoji
   "C-h 4" ; info other window
+  "C-<wheel-up>" ; text scale up
+  "C-<wheel-down>" ; text scale down
+  )
+
+(define-key! global-map
+  "M-<wheel-up>" #'mouse-wheel-text-scale
+  "M-<wheel-down>" #'mouse-wheel-text-scale
   )
 
 ;; which-key configuration
@@ -55,8 +62,14 @@
 ;; C-x keybindings
 (map! :prefix "C-x"
       ;; C-x n -- narrow
+      :desc "ibuffer" "C-b" #'ibuffer
       (:prefix ("n" . "<narrow>")
-               "g" nil))
+               "g" nil)
+      (:prefix-map ("a" . "<agenda>")
+       :desc "Find agenda file" "f" #'+default/find-in-notes
+       :desc "Agenda view""a" #'org-agenda
+       :desc "Agenda capture" "c" #'org-capture
+       :desc "Agenda archive" "A" #'org-agenda-archive))
 
 ;; C-h keybindings
 (map! :prefix "C-h"
