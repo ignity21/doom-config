@@ -129,6 +129,7 @@
        :cc-langs
        cpp
        python
+       web
        )
 
 ;; Using "mycustom" instead of "custom" to keep the custom file clean
