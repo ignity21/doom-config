@@ -80,15 +80,15 @@
   (after! lsp-clangd
     ;; [project] use compile_commands.json
     ;; [user] use ~/.config/clangd/config.yaml
-    (setq! lsp-clients-clangd-args
-           '("-j=4"
-             "--background-index"
-             "--clang-tidy"
-             "--limit-results=30"
-             "--completion-style=detailed"
-             ;; "--header-insertion=never"
-             "--header-insertion-decorators=0"
-             ))
+    (setopt lsp-clients-clangd-args
+            '("-j=4"
+              "--background-index"
+              "--clang-tidy"
+              "--limit-results=30"
+              "--completion-style=detailed"
+              ;; "--header-insertion=never"
+              "--header-insertion-decorators=0"
+              ))
     (set-lsp-priority! 'clangd 2)))
 
 (when (modulep! :tools debugger +lsp)

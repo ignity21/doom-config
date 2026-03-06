@@ -7,6 +7,6 @@
   (setq org-directory cc/default-org-dir))
 
 (when (boundp 'cc/notes-base-dir)
-  (setq! cc/roam-notes-dir (concat cc/notes-base-dir "roamnotes/")
-         cc/org-pdf-notes-dir (concat cc/notes-base-dir "pdfnotes/")
-         cc/roam-journals-dir (concat cc/notes-base-dir "journals/")))
+  (setopt cc/roam-notes-dir (concat cc/notes-base-dir "roamnotes/")
+          cc/org-pdf-notes-dir (concat cc/notes-base-dir "pdfnotes/")
+          cc/roam-journals-dir (concat cc/notes-base-dir "journals/")))

@@ -15,10 +15,10 @@
   (let ((chosen-dir
          (completing-read "Choose directory: "
                           (directory-files cc/roam-notes-dir nil "^[A-Z]"))))
-    (setq! org-roam-directory
-           (expand-file-name chosen-dir cc/roam-notes-dir)
-           org-roam-db-location
-           (expand-file-name ".cache/org-roam.db" org-roam-directory))
+    (setopt org-roam-directory
+            (expand-file-name chosen-dir cc/roam-notes-dir)
+            org-roam-db-location
+            (expand-file-name ".cache/org-roam.db" org-roam-directory))
     (unless (file-exists-p org-roam-db-location)
       (org-roam-db-sync)
       )))

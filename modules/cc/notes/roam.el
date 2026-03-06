@@ -14,14 +14,14 @@
         ,(cape-capf-super #'pcomplete-completions-at-point #'yasnippet-capf)
         cape-dabbrev
         t))
-    (setq! org-roam-db-gc-threshold most-positive-fixnum
-           org-roam-completion-everywhere nil
-           org-roam-dailies-directory cc/roam-journals-dir
-           org-roam-capture-templates
-           '(("d" "default" plain "%?"
-              :if-new (file+head "${slug}-%<%Y%m%d>.org"
-                                 "#+title: ${title}\n")
-              :unnarrowed t)))
+    (setopt org-roam-db-gc-threshold most-positive-fixnum
+            org-roam-completion-everywhere nil
+            org-roam-dailies-directory cc/roam-journals-dir
+            org-roam-capture-templates
+            '(("d" "default" plain "%?"
+               :if-new (file+head "${slug}-%<%Y%m%d>.org"
+                                  "#+title: ${title}\n")
+               :unnarrowed t)))
 
     ;; To export roam note correctly
     (advice-add 'org-export-dispatch
@@ -32,10 +32,10 @@
   (use-package! org-roam-ui
     :commands org-roam-ui-mode
     :config
-    (setq! org-roam-ui-sync-theme t
-           org-roam-ui-follow t
-           org-roam-ui-update-on-save t
-           org-roam-ui-open-on-start t)
+    (setopt org-roam-ui-sync-theme t
+            org-roam-ui-follow t
+            org-roam-ui-update-on-save t
+            org-roam-ui-open-on-start t)
     :init
     (map! :prefix ("C-c n u" . "<org-roam-ui>")
           :desc "Start roam UI" "u" #'org-roam-ui-mode

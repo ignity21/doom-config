@@ -2,9 +2,9 @@
 ;;; config.d/checkers.el
 
 (when (modulep! :checkers spell)
-  (setq! spell-fu-idle-delay 0.5
-         spell-fu-word-delimit-camel-case t
-         ispell-dictionary "en_US")
+  (setopt spell-fu-idle-delay 0.5
+          spell-fu-word-delimit-camel-case t
+          ispell-dictionary "en_US")
 
   ;; exclude what faces to preform spellchecking on
   (setf

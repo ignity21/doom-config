@@ -63,17 +63,17 @@
 
 (after! org
   (remove-hook 'org-mode-hook #'org-indent-mode)
-  (setq! org-startup-indented nil
-         ;; TODO org-id-locations cc/org-id-locations
-         org-ellipsis " ▼"
-         org-appear-autoemphasis nil
-         ;; pretty latex preview
-         org-pretty-entities t
-         org-pretty-entities-include-sub-superscripts nil
-         org-highlight-latex-and-related '(native latex entities)
+  (setopt org-startup-indented nil
+          ;; TODO org-id-locations cc/org-id-locations
+          org-ellipsis " ▼"
+          org-appear-autoemphasis nil
+          ;; pretty latex preview
+          org-pretty-entities t
+          org-pretty-entities-include-sub-superscripts nil
+          org-highlight-latex-and-related '(native latex entities)
 
-         ;; inline image
-         org-startup-with-inline-images t)
+          ;; inline image
+          org-startup-with-inline-images t)
   (dolist (face '((org-level-1 . 1.2)
                   (org-level-2 . 1.1)
                   (org-level-3 . 1.05)))
@@ -85,10 +85,10 @@
         :desc "Find note files" "f" #'cc/open-pdf-note-files
         :desc "Org noter" "o" #'org-noter)
   (after! org-noter
-    (setq! org-noter-notes-search-path `(,cc/org-pdf-notes-dir)
-           org-noter-highlight-selected-text t
-           org-noter-auto-save-last-location t
-           org-noter-max-short-selected-text-length 40)
+    (setopt org-noter-notes-search-path `(,cc/org-pdf-notes-dir)
+            org-noter-highlight-selected-text t
+            org-noter-auto-save-last-location t
+            org-noter-max-short-selected-text-length 40)
     (add-hook! 'org-noter-doc-mode-hook
       (setq-local pdf-view-display-size 'fit-width))
     (map! (:map (org-noter-notes-mode-map org-noter-doc-mode-map)
@@ -106,17 +106,17 @@
            :desc "Insert precise note" "M-e" #'org-noter-insert-precise-note))))
 
 (when (modulep! :lang plantuml)
-  (setq! plantuml-default-exec-mode 'executable
-         plantuml-indent-level 4))
+  (setopt plantuml-default-exec-mode 'executable
+          plantuml-indent-level 4))
 
 (use-package! anki-editor
   ;;:after-call (org-mode-hook)
   :commands (anki-editor-push-notes
              anki-editor-insert-note)
   :config
-  (setq! anki-editor-create-decks t
-         anki-editor-org-tags-as-anki-tags t
-         anki-editor-use-math-jax t)
+  (setopt anki-editor-create-decks t
+          anki-editor-org-tags-as-anki-tags t
+          anki-editor-use-math-jax t)
   :init
   (map! :map org-mode-map
         :prefix ("C-c l a" . "<anki>")
@@ -139,8 +139,8 @@
         :desc "Rename at point" "r" #'org-download-rename-at-point
         :desc "Delete at point" "d" #'org-download-delete)
   :config
-  (setq! org-download-image-dir "images/screenshots/"
-         org-download-heading-lvl 1
-         org-download-annotate-function (lambda (_link) "")))
+  (setopt org-download-image-dir "images/screenshots/"
+          org-download-heading-lvl 1
+          org-download-annotate-function (lambda (_link) "")))
 
 (load! "roam")

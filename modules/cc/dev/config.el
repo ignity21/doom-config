@@ -6,7 +6,7 @@
 (when (modulep! :tools ein)
   (after! ein
     ;; for jupyter-lab, otherwise use "notebook"
-    (setq! ein:jupyter-server-use-subcommand "server")))
+    (setopt ein:jupyter-server-use-subcommand "server")))
 
 ;; [Packages]
 ;; Rainbow mode: highlight color string
@@ -25,12 +25,12 @@
   ;;   (unless lsp-copilot-enabled
   ;;     (add-hook! (prog-mode yaml-mode conf-mode) #'copilot-mode)))
   :config
-  (setq! copilot-indent-offset-warning-disable t)
+  (setopt copilot-indent-offset-warning-disable t)
   ;; For Github Copilot compatibility
   ;; Cursor Jump to End of Line When Typing
   ;; If you are using whitespace-mode, make sure to remove newline-mark from whitespace-style.
   ;; TODO may not be needed anymore
-  (setq! whitespace-style (delq 'newline-mark whitespace-style))
+  ;; (setopt whitespace-style (delq 'newline-mark whitespace-style))
   (map! :desc "Copilot mode" "C-c t a" #'copilot-mode
         :map copilot-completion-map
         "M-<return>" #'copilot-accept-completion
@@ -50,9 +50,9 @@
         "M-<return>" #'minuet-accept-suggestion
         "M-l" #'minuet-accept-suggestion-line
         "C-g" #'minuet-dismiss-suggestion)
-  (setq! minuet-auto-suggestion-debounce-delay 0.8
-         minuet-auto-suggestion-throttle-delay 3.0
-         minuet-request-timeout 10)
+  (setopt minuet-auto-suggestion-debounce-delay 0.8
+          minuet-auto-suggestion-throttle-delay 3.0
+          minuet-request-timeout 10)
   (cc/minuet--use-claude)
   ;; (cc/minuet--use-ollama)
   )

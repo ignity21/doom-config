@@ -23,14 +23,14 @@
 ;; (add-hook! 'doom-first-buffer-hook
 ;;            :append
 ;;            #'which-key-mode)
-(setq! doom-leader-key nil
-       doom-localleader-key nil
-       doom-leader-alt-key "C-c M-;"
-       doom-localleader-alt-key "C-c M-l")
+(setopt doom-leader-key nil
+        doom-localleader-key nil
+        doom-leader-alt-key "C-c M-;"
+        doom-localleader-alt-key "C-c M-l")
 
 (after! which-key
-  (setq! which-key-sort-order 'which-key-description-order
-         which-key-use-C-h-commands t))
+  (setopt which-key-sort-order 'which-key-description-order
+          which-key-use-C-h-commands t))
 
 ;; Adding which-key descriptions
 (which-key-add-key-based-replacements

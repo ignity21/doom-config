@@ -5,7 +5,7 @@
     "The number of spaces to indent inside python blocks.")
 
   (after! pyvenv
-    (setq! pyvenv-activate ".venv")
+    (setopt pyvenv-activate ".venv")
     (add-hook! 'python-base-mode-hook #'pyvenv-tracking-mode))
 
   (setq-hook! 'python-base-mode-hook
@@ -17,8 +17,8 @@
   (add-hook! 'lsp-completion-mode-hook #'cc/python-set-lsp-capf)
 
   ;; set default python interpreter
-  (setq! python-shell-interpreter "python3"
-         doom-modeline-env-enable-python nil)
+  (setopt python-shell-interpreter "python3"
+          doom-modeline-env-enable-python nil)
 
   (when (modulep! :ui indent-guides)
     (add-hook! 'python-base-mode-hook
@@ -43,8 +43,8 @@
   (use-package! sphinx-doc
     :hook (python-mode . sphinx-doc-mode)
     :config
-    (setq! sphinx-doc-include-types nil
-           sphinx-doc-python-indent cc/python-indent-offset)
+    (setopt sphinx-doc-include-types nil
+            sphinx-doc-python-indent cc/python-indent-offset)
     (map! :map sphinx-doc-mode-map
           :desc "Insert docstring" "C-c i d"
           #'sphinx-doc))
@@ -66,24 +66,24 @@
   )
 
 (when (modulep! :lang python +poetry)
-  (setq! poetry-tracking-strategy 'projectile)
+  (setopt poetry-tracking-strategy 'projectile)
   (map! :map python-base-mode-map
         :desc "poetry" "C-c l p" #'poetry))
 
 (when (modulep! :lang python +lsp)
   (after! lsp-ruff
-    (setq! lsp-ruff-advertize-fix-all t
-           lsp-ruff-log-level "warn"
-           lsp-ruff-advertize-organize-imports t
-           ))
+    (setopt lsp-ruff-advertize-fix-all t
+            lsp-ruff-log-level "warn"
+            lsp-ruff-advertize-organize-imports t
+            ))
   (after! lsp-pyright
-    (setq! lsp-pyright-disable-organize-imports t
-           lsp-pyright-langserver-command "basedpyright"
-           lsp-pyright-type-checking-mode "standard"
-           lsp-pyright-auto-import-completions t
-           lsp-pyright-multi-root nil
-           lsp-pyright-basedpyright-inlay-hints-generic-types t
-           ))
+    (setopt lsp-pyright-disable-organize-imports t
+            lsp-pyright-langserver-command "basedpyright"
+            lsp-pyright-type-checking-mode "standard"
+            lsp-pyright-auto-import-completions t
+            lsp-pyright-multi-root nil
+            lsp-pyright-basedpyright-inlay-hints-generic-types t
+            ))
   (map! :map lsp-mode-map
         :desc "Organize imports" "C-c c o"
         #'lsp-organize-imports)
@@ -104,4 +104,4 @@
     ;; HACK pyvenv-tracking-mode will help find the executable
     (defun dap-python--pyenv-executable-find (command)
       (executable-find command))
-    (setq! dap-python-debugger 'debugpy)))
+    (setopt dap-python-debugger 'debugpy)))

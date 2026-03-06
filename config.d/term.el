@@ -2,4 +2,4 @@
 ;;; config.d/term.el
 
 (when (modulep! :term vterm)
-  (setq! vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=yes")
+  (setopt vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=yes")

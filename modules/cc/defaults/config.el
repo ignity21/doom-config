@@ -9,7 +9,7 @@
 
 ;; recentf
 (after! recentf
-  (setq! recentf-max-saved-items 21)
+  (setopt recentf-max-saved-items 21)
   (add-to-list 'recentf-exclude "autosave"))
 
 (when (modulep! :config default +smartparens)

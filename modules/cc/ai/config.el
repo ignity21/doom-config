@@ -16,12 +16,12 @@
   :init
   (map! :desc "Aidermacs menu" "C-c a" #'aidermacs-transient-menu)
   :config
-  (setq! aidermacs-program '("aider-ce" "aider")
-         aidermacs-default-model "gemini"
-         aidermacs-weak-model "flash"
-         aidermacs-auto-commits nil
-         ;; May modify aidermacs-common-prompts
-         )
+  (setopt aidermacs-program '("aider-ce" "aider")
+          aidermacs-default-model "gemini"
+          aidermacs-weak-model "flash"
+          aidermacs-auto-commits nil
+          ;; May modify aidermacs-common-prompts
+          )
   )
 
 ;; gptel
@@ -41,19 +41,19 @@
          :desc "gptel mcp rm" "-" #'gptel-mcp-disconnect
          ))
   :config
-  (setq! gptel-default-mode 'org-mode
-         gptel-log-level 'info
-         gptel-use-tools t
-         gptel-include-reasoning t
-         ;; gptel-rewrite-default-action 'ediff
-         ;; gptel-temperature 0.8
-         ;; gptel-max-tokens 2048
-         gptel-model 'claude-sonnet-4.5
-         gptel-backend (gptel-make-gh-copilot "Copilot"))
+  (setopt gptel-default-mode 'org-mode
+          gptel-log-level 'info
+          gptel-use-tools t
+          gptel-include-reasoning t
+          ;; gptel-rewrite-default-action 'ediff
+          ;; gptel-temperature 0.8
+          ;; gptel-max-tokens 2048
+          gptel-model 'claude-sonnet-4.5
+          gptel-backend (gptel-make-gh-copilot "Copilot"))
   (gptel-make-anthropic "Claude" :stream t)
   (gptel-make-gemini "Gemini" :stream t)
   (gptel-make-deepseek "DeepSeek" :stream t)
-  ;; (setq! gptel-api-key cc/openai-key)
+  ;; (setopt gptel-api-key cc/openai-key)
   ;; (gptel-make-ollama "Ollama"
   ;;   :host "localhost:11434"
   ;;   :stream t
@@ -65,20 +65,20 @@
 (use-package! mcp
   :after gptel
   :init
-  (setq! mcp-hub-servers
-         ;; support multiple directories
-         `(
-           ;; NOTE filesystem server
-           ("filesystem" .
-            (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem" ,cc/mcp-fs-directory)))
+  (setopt mcp-hub-servers
+          ;; support multiple directories
+          `(
+            ;; NOTE filesystem server
+            ("filesystem" .
+             (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem" ,cc/mcp-fs-directory)))
 
-           ;; NOTE mcp-server-fetch server
-           ;; ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
+            ;; NOTE mcp-server-fetch server
+            ;; ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
 
-           ;; NOTE git server
-           ;; ("git" . (:command "uvx" :args ("mcp-server-git" "--git-dir" ,cc/mcp-git-directory)))
-           )
-         )
+            ;; NOTE git server
+            ;; ("git" . (:command "uvx" :args ("mcp-server-git" "--git-dir" ,cc/mcp-git-directory)))
+            )
+          )
   :config
   (require 'mcp-hub)
   (require 'gptel-integrations)

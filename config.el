@@ -3,8 +3,6 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
-
-
 (when (modulep! :cc ui)
   (cc/set-doom-ui-appearance))
 
@@ -21,7 +19,7 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-;; (setq! display-line-numbers-type t)
+;; (setopt display-line-numbers-type t)
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an

@@ -6,7 +6,7 @@
         :desc "Raise popup" "C-c C-p" #'+popup/raise))
 
 (when (modulep! :ui doom-dashboard)
-  (setq! +doom-dashboard-name "Happy Hacking!"))
+  (setopt +doom-dashboard-name "Happy Hacking!"))
 
 (when (modulep! :ui treemacs)
   (map! :map treemacs-mode-map
@@ -27,11 +27,11 @@
          :desc "Edit workspaces" "e" #'treemacs-edit-workspaces
          :desc "Rename workspace" "m" #'treemacs-rename-workspace
          :desc "Switch workspace" "o" #'treemacs-switch-workspace))
-  (setq! +treemacs-git-mode 'deferred)
+  (setopt +treemacs-git-mode 'deferred)
   (when (modulep! :ui treemacs +lsp)
-    (setq! lsp-treemacs-sync-mode t
-           treemacs-width 30
-           lsp-treemacs-error-list-expand-depth 3)
+    (setopt lsp-treemacs-sync-mode t
+            treemacs-width 30
+            lsp-treemacs-error-list-expand-depth 3)
     (map! :map lsp-treemacs-generic-map
           :desc "Select window" "C-x o" #'other-window)))
 
@@ -42,7 +42,7 @@
 (when (and (modulep! :ui window-select)
            (modulep! :ui treemacs))
   (after! (:and treemacs ace-window)
-    (setq! aw-ignored-buffers (delq 'treemacs-mode aw-ignored-buffers))))
+    (setopt aw-ignored-buffers (delq 'treemacs-mode aw-ignored-buffers))))
 
 (when (modulep! :ui workspaces)
   (map! :map persp-mode-map
@@ -54,7 +54,7 @@
     (map! "C-c w s" #'+workspace/save-current)))
 
 (when (modulep! :ui zen)
-  (setq! +zen-text-scale 0.8)
+  (setopt +zen-text-scale 0.8)
   (add-hook! 'writeroom-mode-enable-hook
     (display-line-numbers-mode -1))
   (add-hook! 'writeroom-mode-disable-hook

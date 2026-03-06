@@ -47,7 +47,7 @@
        multiple-cursors ; editing in many places at once, demo: https://emacsrocks.com/e13.html
        snippets             ; my elves. They type so I don't have to
        word-wrap            ; soft wrapping with language-aware indent
-       
+
        :emacs
        (dired +icons)    ; making dired pretty [functional]
        (ibuffer +icons)  ; interactive buffer management
@@ -98,7 +98,7 @@
        (latex +cdlatex)      ; NOTE may try +lsp
        ;;lua               ; one-based indices? one-based indices
        markdown            ; writing docs for people to ignore
-       (org +roam2 +present) ; TODO +noter
+       (org +roam +present) ; TODO +noter
        plantuml            ; diagrams for confusing people more
        (python +lsp +pyright +tree-sitter)
        ;; (python +lsp +pyenv +poetry +pyright +tree-sitter) ; basedpyright lsp server with poetry, pyenv

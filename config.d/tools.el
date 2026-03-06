@@ -3,7 +3,7 @@
 (when (modulep! :tools debugger)
   (remove-hook! 'dap-ui-mode-hook #'dap-ui-controls-mode)
   (remove-hook! 'dap-mode-hook #'dap-tooltip-mode)
-  (setq! dap-auto-configure-features '(locals breakpoints)))
+  (setopt dap-auto-configure-features '(locals breakpoints)))
 
 (when (modulep! :tools lsp)
   (add-hook! 'lsp-mode-hook
@@ -14,27 +14,27 @@
   (when (modulep! :editor snippets)
     (add-hook! 'lsp-mode-hook #'yas-minor-mode-on))
 
-  (setq! lsp-idle-delay 0.8
-         lsp-copilot-enabled nil
-         lsp-headerline-breadcrumb-enable t
-         lsp-signature-render-documentation nil
-         lsp-enable-snippet nil
+  (setopt lsp-idle-delay 0.8
+          lsp-copilot-enabled nil
+          lsp-headerline-breadcrumb-enable t
+          lsp-signature-render-documentation nil
+          lsp-enable-snippet nil
 
-         lsp-ui-sideline-show-diagnostics t
-         lsp-ui-sideline-show-code-actions t
-         lsp-ui-sideline-show-symbol nil
-         lsp-ui-sideline-delay 1
+          lsp-ui-sideline-show-diagnostics t
+          lsp-ui-sideline-show-code-actions t
+          lsp-ui-sideline-show-symbol nil
+          lsp-ui-sideline-delay 1
 
-         lsp-ui-imenu-buffer-position 'left
-         lsp-ui-imenu-auto-refresh t
-         lsp-imenu-detailed-outline nil
-         lsp-imenu-index-symbol-kinds '(Namespace Class Constructor Method Property Function)
+          lsp-ui-imenu-buffer-position 'left
+          lsp-ui-imenu-auto-refresh t
+          lsp-imenu-detailed-outline nil
+          lsp-imenu-index-symbol-kinds '(Namespace Class Constructor Method Property Function)
 
-         lsp-inline-completion-enable nil
-         ;; lsp-inline-completion-idle-delay 0.5
+          lsp-inline-completion-enable nil
+          ;; lsp-inline-completion-idle-delay 0.5
 
-         ;; lsp-ui-doc
-         lsp-ui-doc-enable nil)
+          ;; lsp-ui-doc
+          lsp-ui-doc-enable nil)
   (map! :map lsp-mode-map
         "s-l" nil
         :desc "Format buffer" "C-c c f" #'lsp-format-buffer

@@ -7,6 +7,9 @@
 # Backup files
 *~
 
+# KDE files
+.directory
+
 # Undo-tree save-files
 *.~undo-tree
 
