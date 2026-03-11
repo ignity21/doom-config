@@ -76,9 +76,9 @@
             lsp-ruff-log-level "warn"
             lsp-ruff-advertize-organize-imports t
             ))
+  (setopt lsp-pyright-langserver-command "basedpyright")
   (after! lsp-pyright
     (setopt lsp-pyright-disable-organize-imports t
-            lsp-pyright-langserver-command "basedpyright"
             lsp-pyright-type-checking-mode "standard"
             lsp-pyright-auto-import-completions t
             lsp-pyright-multi-root nil

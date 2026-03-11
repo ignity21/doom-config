@@ -3,4 +3,4 @@
 # key: dk
 # uuid: dk
 # --
-(define-key ${1:keymap} ${2:key} ${0:fn})
+(keymap-set ${1:keymap} ${2:key} ${0:fn})

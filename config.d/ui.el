@@ -6,7 +6,7 @@
         :desc "Raise popup" "C-c C-p" #'+popup/raise))
 
 (when (modulep! :ui doom-dashboard)
-  (setopt +doom-dashboard-name "Happy Hacking!"))
+  (setopt +doom-dashboard-name "*Happy Hacking!*"))
 
 (when (modulep! :ui treemacs)
   (map! :map treemacs-mode-map

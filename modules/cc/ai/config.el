@@ -1,6 +1,16 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;; cc/ai/config.el
 
+;; ai-code-interface
+(use-package! ai-code
+  :init
+  (map! :desc "ai-code" "C-c a" #'ai-code-menu)
+  :commands (ai-code-menu)
+  :config
+  (ai-code-set-backend 'aider)
+  )
+
+
 ;; aider
 ;; (use-package! aider
 ;;   :commands (aider-transient-menu)
@@ -10,19 +20,19 @@
 ;;          :desc "Aider send region" "C-c C-e" #'aider-send-line-or-region
 ;;          :desc "Switch to aider" "C-c C-b" #'aider-switch-to-buffer)))
 
-;; aidermacs
-(use-package! aidermacs
-  :commands aidermacs-transient-menu
-  :init
-  (map! :desc "Aidermacs menu" "C-c a" #'aidermacs-transient-menu)
-  :config
-  (setopt aidermacs-program '("aider-ce" "aider")
-          aidermacs-default-model "gemini"
-          aidermacs-weak-model "flash"
-          aidermacs-auto-commits nil
-          ;; May modify aidermacs-common-prompts
-          )
-  )
+;; ;; aidermacs
+;; (use-package! aidermacs
+;;   :commands aidermacs-transient-menu
+;;   :init
+;;   (map! :desc "Aidermacs menu" "C-c a" #'aidermacs-transient-menu)
+;;   :config
+;;   (setopt aidermacs-program '("aider-ce" "aider")
+;;           aidermacs-default-model "gemini"
+;;           aidermacs-weak-model "flash"
+;;           aidermacs-auto-commits nil
+;;           ;; May modify aidermacs-common-prompts
+;;           )
+;;   )
 
 ;; gptel
 (use-package! gptel
