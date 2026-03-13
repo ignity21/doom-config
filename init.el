@@ -14,9 +14,12 @@
 ;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
-;; Ignore "Package cl is deprecated" warning
-(setq byte-compile-warnings '(cl-functions))
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+(setq initial-frame-alist '((fullscreen . maximized)))
+
+;; add "lisp" directory to load-path for custom utility functions
+;; (add-to-list 'load-path (expand-file-name "lisp" doom-user-dir))
+;; (require 'cc-funcs)
+;; (require 'cc-autoloads)
 
 (doom! :completion
        (vertico +icons)    ; the search engine of the future
@@ -25,10 +28,10 @@
        :ui
        doom              ; what makes DOOM look the way it does 😖😕
        doom-dashboard    ; a nifty splash screen for Emacs
-       doom-quit         ; DOOM quit-message prompts when you quit Emacs ;
+       ;; doom-quit         ; DOOM quit-message prompts when you quit Emacs ;
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW/BUG/XXX
        indent-guides     ; highlighted indent columns
-       minimap           ; show a map of the code on the side
+       ;; minimap           ; show a map of the code on the side
        modeline          ; snazzy, Atom-inspired modeline, plus API
        nav-flash         ; blink cursor line after big motions
        ophints           ; highlight the region an operation acts on
@@ -38,20 +41,21 @@
        vc-gutter         ; vcs diff in the fringe
        (window-select +numbers)     ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
-       zen               ; distraction-free coding or writing:
+       ;; zen               ; distraction-free coding or writing:
 
        :editor
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
-       (format +lsp)       ; automated prettiness +format/buffer will use lsp if available
+       (format +lsp +onsave)       ; automated prettiness +format/buffer will use lsp if available
        multiple-cursors ; editing in many places at once, demo: https://emacsrocks.com/e13.html
        snippets             ; my elves. They type so I don't have to
        word-wrap            ; soft wrapping with language-aware indent
 
        :emacs
+       ;; electric
        (dired +icons)    ; making dired pretty [functional]
        (ibuffer +icons)  ; interactive buffer management
-       undo              ; persistent, smarter undo for your inevitable mistakes (undo-fu)
+       (undo +tree)      ; persistent, smarter undo for your inevitable mistakes (undo-fu)
        vc                ; version-control and Emacs, sitting in a tree (gitignore, gitconfig)
 
        :email

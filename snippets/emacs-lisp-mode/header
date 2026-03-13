@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: Emacs Lisp file header
+# key: header
+# --
+;;; `(file-name-nondirectory (buffer-file-name))` --- ${1:Summary}  -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;; ${2:Description.}
+
+;;; Code:
+
+$0
+
+(provide '`(file-name-sans-extension (file-name-nondirectory (buffer-file-name)))`)
+;;; `(file-name-nondirectory (buffer-file-name))` ends here
