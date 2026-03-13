@@ -1,0 +1,53 @@
+#+TITLE: Emacs Keybinding Conventions
+#+DATE: 2026-03-13
+#+STARTUP: content
+
+* Emacs 按键映射
+
+** 系统保留前缀（不要绑）
+
+| 前缀       | 归属                               |
+|-----------+-----------------------------------|
+| ~C-x~     | Emacs 核心命令（文件、buffer、窗口等） |
+| ~C-c C-x~ | 主模式（major mode）专用             |
+| ~M-x~     | 命令入口                            |
+| ~C-h~     | 帮助系统                            |
+| ~ESC~     | Meta 前缀替代                       |
+
+** 用户自定义空间
+
+| 前缀             | 说明                    |
+|-----------------+------------------------|
+| ~C-c [a-z/A-Z]~ | 官方规范留给用户的绑定空间  |
+| ~C-c C-[a-z]~   | 留给主模式使用，用户尽量避免 |
+
+按照规范，所有个人自定义绑定应放在 ~C-c <单个字母>~ 下。
+
+** 灰色地带（实践中常用）
+
+| 前缀     | 说明                                       |
+|---------+-------------------------------------------|
+| ~C-c c~ | 个人前缀再加一层，避免与包冲突                  |
+| ~C-z~   | 原为 ~suspend-frame~，常被重映射为个人 leader |
+| ~C-;~   | 单键，适合高频命令（Embark 默认占用）           |
+| ~C-.~   | 单键，适合高频命令                            |
+
+* 按键前缀规划
+- ~C-c [a-z]~: 全局
+| 前缀     | 分配给         |
+|---------+---------------|
+| ~C-c s~ | 搜索（Search）  |
+| ~C-c b~ | Buffer        |
+| ~C-c f~ | 文件（File）    |
+| ~C-c g~ | Git           |
+| ~C-c o~ | Org           |
+| ~C-c p~ | 项目（Project） |
+
+- ~C-c l~: 主模式专用
+- ~C-.~: 待定
+- ~M-SPC~: ~ESC SPC~: 待定
+- ~C-;~: Embark 默认占用
+
+* 参考
+
+- [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Key-Binding-Conventions.html][GNU Emacs Manual: Key Binding Conventions]]

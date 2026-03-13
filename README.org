@@ -12,9 +12,9 @@
 - ~doom-first-buffer-hook~
 
 * Feature Providers
-| Feature                | Providers       |
-|------------------------+-----------------|
-| Project search/replace | vertico+ripgrep |
+| Feature                | Providers                        |
+|------------------------+----------------------------------|
+| Project search/replace | vertico+ripgrep -> embark export |
 
 * Configuration
 ** Icon Fonts

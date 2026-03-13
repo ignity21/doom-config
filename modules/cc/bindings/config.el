@@ -1,7 +1,6 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;; cc/bindings/config.el
 
-
 ;; Unset global keybindings
 (undefine-key! global-map
   "C-z"
@@ -47,7 +46,9 @@
   "C-x p" "project"
   "C-h d p" "doom/help-packages"
   "C-c M-d" "doom/leader"
-  "C-c M-d l" "doom/localleader")
+  "C-c M-d l" "doom/localleader"
+  "C-c s" "+<search>"
+  "C-." "+<lookup>")
 
 (after! projectile
   (keymap-set projectile-mode-map "C-c p c"
@@ -86,9 +87,6 @@
        ("c" . "<code>")
        :desc "Compile" "c" #'+default/compile
        :desc "Format buffer/region" "f" #'+format/region-or-buffer
-       (:when (modulep! :completion vertico)
-         :desc "Embark act" "a" #'embark-act
-         :desc "Embark dwim" "d" #'embark-dwim)
        (:when (and (modulep! :tools lsp)
                    (not (modulep! :tools lsp +eglot)))
          :map lsp-mode-map
@@ -165,15 +163,9 @@
       ;; C-c f -- file
       (:prefix-map
        ("f" . "<file>")
-       :desc "Recent files" "r"
-       (cond ((modulep! :completion vertico) #'consult-recent-file)
-             (t #'recentf-open-files))
        :desc "Copy this file" "c" #'doom/copy-this-file
        :desc "Delete this file" "d" #'doom/delete-this-file
        :desc "Move this file" "m" #'doom/move-this-file
-       :desc "Locate file" "l"
-       (cond ((modulep! :completion vertico) #'consult-locate)
-             (t #'locate))
        :desc "Find file under here (-r)" "." #'+default/find-file-under-here
        (:when (modulep! :lang org +roam2)
          :desc "Find roam note" "n" #'org-roam-node-find)
@@ -215,18 +207,20 @@
          :desc "Insert snippet" "s" #'yas-insert-snippet)
        )
 
-      ;; C-c k -- lookup
+      ;; C-c k -- lookup means search at point
+      ;; TODO change to use C-. as prefix
       (:prefix-map
        ("k" . "<lookup>")
        (:when (modulep! :tools lookup)
-         :desc "Jump to definition" "." #'+lookup/definition
          :desc "Jump to references" "r" #'+lookup/references
+         :desc "Jump to file" "f" #'+lookup/file
          :desc "Jump to documentation" "k" #'+lookup/documentation
          :desc "Find type definition" "t" #'+lookup/type-definition
          :desc "Find implementations" "c" #'+lookup/implementations
-         :desc "Search imenu" "i" #'consult-imenu
          :desc "Search online" "o" #'+lookup/online
-         :desc "Search dictionary" "d" #'+lookup/dictionary-definition)
+         :desc "Find in dictionary" "d" #'+lookup/dictionary-definition
+         :desc "Find synonyms" "w" #'+lookup/synonyms)
+
        (:when (and (modulep! :completion vertico)
                    (modulep! :tools lsp))
          :desc "Search symbols" "s" #'consult-lsp-symbols)
@@ -333,21 +327,6 @@
         :desc "Eval defun" "d" #'eval-defun
         :desc "Eval region" "r" #'eval-region
         :desc "Eval last sexp" "e" #'eval-last-sexp))
-
-      ;; C-c s --- search
-      (:prefix-map ("s" . "<search>")
-       :desc "Search line" "l"
-       (cond ((modulep! :completion vertico)   #'consult-line)
-             ((modulep! :completion ivy)       #'swiper)
-             ((modulep! :completion helm)      #'swiper))
-       (:when (modulep! :completion vertico)
-         :desc "Search symbol" "s" #'+vertico/search-symbol-at-point ; consult-line
-         :desc "Consult line" "l" #'consult-line
-         )
-       (:when (modulep! :tools lookup)
-         :desc "Word dictionary" "w" #'+lookup/dictionary-definition
-         :desc "Thesaurus/θɪˈsɔːrəs/" "t" #'+lookup/synonyms
-         :desc "Find file" "f" #'+lookup/file))
 
       ;; C-c t -- toggle
       (:prefix-map

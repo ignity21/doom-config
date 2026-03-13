@@ -1,0 +1,65 @@
+#+TITLE: Vertico Ecosystem Keybindings
+#+DATE: 2026-03-13
+#+STARTUP: content
+
+* Keybindings 提示
+** Vertico
+| 按键       | 功能                             |
+|-----------+---------------------------------|
+| ~C-o~     | 预览                             |
+| ~C-l~     | vertico-directory 上级目录        |
+| ~C-c C-e~ | embark-export 导出批量编辑        |
+| ~C-c C-l~ | embark-collect 选择候选项进行操作   |
+| ~C-. s~   | +vertico/search-symbol-at-point |
+
+** Consult - 返回命令行\工具结果
+| 按键       | 命令                   | 功能            |
+|-----------+-----------------------+----------------|
+| ~C-s~     | ~consult-line~        | 当前 buffer 搜索 |
+| ~C-x b~   | ~consult-buffer~      | 切换 buffer     |
+| ~C-c f r~ | ~consult-recent-file~ | 最近打开文件     |
+| ~C-c s g~ | ~consult-ripgrep~     | 目录匹配搜索     |
+| ~C-c s i~ | ~consult-imenu~       | 跳转当前文件符号  |
+
+*** Minibuffer 内
+
+| 按键    | 功能           |
+|---------+----------------|
+| ~C-SPC~ | 预览开关       |
+
+** Embark — 候选项操作
+
+*** 触发
+
+| 按键  | 命令             | 功能               |
+|-------+------------------+--------------------|
+| ~C-.~ | ~embark-act~     | 对候选项执行操作   |
+| ~C-;~ | ~embark-dwim~    | 智能默认操作       |
+| ~C-h B~ | ~embark-bindings~ | 查看所有可用操作 |
+
+*** Embark Act 菜单内
+
+| 按键 | 功能               |
+|------+--------------------|
+| ~d~  | 删除               |
+| ~r~  | 重命名             |
+| ~k~  | Kill buffer        |
+| ~f~  | 在另一窗口打开     |
+| ~e~  | Export 到独立 buffer |
+
+** Marginalia — 注解
+
+| 按键  | 功能                           |
+|-------+--------------------------------|
+| ~M-A~ | 切换注解详细程度（minibuffer 内）|
+
+** Orderless — 过滤语法
+
+输入时使用，非按键绑定。
+
+| 语法       | 效果           |
+|------------+----------------|
+| ~foo bar~  | 空格分隔，AND 匹配 |
+| ~!foo~     | 排除含 foo 的项 |
+| ~=foo~     | 精确匹配       |
+| ~,foo~     | 

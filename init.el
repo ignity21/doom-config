@@ -22,7 +22,7 @@
 ;; (require 'cc-autoloads)
 
 (doom! :completion
-       (vertico +icons)    ; the search engine of the future
+       (vertico +icons)    ; Vertico, Consult, Embark, Marginalia, Orderless
        (corfu +orderless +icons) ; the ultimate code completion backend
 
        :ui
@@ -120,6 +120,9 @@
 
        :config
        (default +smartparens) ;; +bindings
+
+       :cc-new
+       completion
 
        :cc
        theme
