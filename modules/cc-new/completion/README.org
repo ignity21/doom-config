@@ -4,13 +4,14 @@
 
 * Keybindings 提示
 ** Vertico
-| 按键       | 功能                             |
-|-----------+---------------------------------|
-| ~C-o~     | 预览                             |
-| ~C-l~     | vertico-directory 上级目录        |
-| ~C-c C-e~ | embark-export 导出批量编辑        |
-| ~C-c C-l~ | embark-collect 选择候选项进行操作   |
-| ~C-. s~   | +vertico/search-symbol-at-point |
+| 按键       | 功能                                |
+|-----------+------------------------------------|
+| ~C-o~     | 预览                                |
+| ~C-l~     | vertico-directory 上级目录           |
+| ~C-c C-;~ | embark-export 导出到合适的只读 buffer |
+| ~C-c C-e~ | embark-export 导出（可编辑）          |
+| ~C-c C-l~ | embark-collect 选择候选项进行操作      |
+| ~C-. s~   | +vertico/search-symbol-at-point    |
 
 ** Consult - 返回命令行\工具结果
 | 按键       | 命令                   | 功能            |
@@ -22,12 +23,11 @@
 | ~C-c s i~ | ~consult-imenu~       | 跳转当前文件符号  |
 
 *** Minibuffer 内
-
 | 按键    | 功能           |
 |---------+----------------|
 | ~C-SPC~ | 预览开关       |
 
-** Embark — 候选项操作
+** COMMENT Embark — 候选项操作
 
 *** 触发
 
@@ -47,13 +47,13 @@
 | ~f~  | 在另一窗口打开     |
 | ~e~  | Export 到独立 buffer |
 
-** Marginalia — 注解
+** COMMENT Marginalia — 注解
 
 | 按键  | 功能                           |
 |-------+--------------------------------|
 | ~M-A~ | 切换注解详细程度（minibuffer 内）|
 
-** Orderless — 过滤语法
+** COMMENT Orderless — 过滤语法
 
 输入时使用，非按键绑定。
 
