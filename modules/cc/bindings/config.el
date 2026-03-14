@@ -47,8 +47,7 @@
   "C-h d p" "doom/help-packages"
   "C-c M-d" "doom/leader"
   "C-c M-d l" "doom/localleader"
-  "C-c s" "+<search>"
-  "C-." "+<lookup>")
+  "C-." "<lookup>")
 
 (after! projectile
   (keymap-set projectile-mode-map "C-c p c"
@@ -161,33 +160,33 @@
        )
 
       ;; C-c f -- file
-      (:prefix-map
-       ("f" . "<file>")
-       :desc "Copy this file" "c" #'doom/copy-this-file
-       :desc "Delete this file" "d" #'doom/delete-this-file
-       :desc "Move this file" "m" #'doom/move-this-file
-       :desc "Find file under here (-r)" "." #'+default/find-file-under-here
-       (:when (modulep! :lang org +roam2)
-         :desc "Find roam note" "n" #'org-roam-node-find)
-       :desc "Find agenda file" "a" #'+default/find-in-notes
-       :desc "Find in doom" "p" #'doom/find-file-in-private-config
-       :desc "Browse in doom" "P" #'doom/open-private-config
-       :desc "Find in emacsd" "e" #'doom/find-file-in-emacsd
-       :desc "Browse in emacsd" "E" #'doom/browse-in-emacsd
-       :desc "Sudo this file" "s" #'doom/sudo-this-file
-       :desc "Find file""f" #'find-file
-       :desc "Sudo find file" "F" #'doom/sudo-find-file
-       :desc "Copy file path" "y" #'+default/yank-buffer-path
-       (:when (modulep! :tools upload)
-         (:prefix ("u" . "<upload>")
-          :desc "Upload" "u" #'ssh-deploy-upload-handler
-          :desc "Upload forced" "U" #'ssh-deploy-upload-handler-forced
-          :desc "Download" "d" #'ssh-deploy-download-handler
-          :desc "Delete" "D" #'ssh-deploy-delete-handler
-          :desc "Browse remote" "b" #'ssh-deploy-browse-remote-handler
-          :desc "Remote changes" "e" #'ssh-deploy-remote-changes-handler
-          :desc "Open remote file" "f"#'ssh-deploy-open-remote-file-handler
-          :desc "Diff" "x" #'ssh-deploy-diff-handler)))
+      ;; (:prefix-map
+      ;;  ("f" . "<file>")
+      ;;  :desc "Copy this file" "c" #'doom/copy-this-file
+      ;;  :desc "Delete this file" "d" #'doom/delete-this-file
+      ;;  :desc "Move this file" "m" #'doom/move-this-file
+      ;;  :desc "Find file under here (-r)" "." #'+default/find-file-under-here
+      ;;  (:when (modulep! :lang org +roam2)
+      ;;    :desc "Find roam note" "n" #'org-roam-node-find)
+      ;;  :desc "Find agenda file" "a" #'+default/find-in-notes
+      ;;  :desc "Find in doom" "p" #'doom/find-file-in-private-config
+      ;;  :desc "Browse in doom" "P" #'doom/open-private-config
+      ;;  :desc "Find in emacsd" "e" #'doom/find-file-in-emacsd
+      ;;  :desc "Browse in emacsd" "E" #'doom/browse-in-emacsd
+      ;;  :desc "Sudo this file" "s" #'doom/sudo-this-file
+      ;;  :desc "Find file""f" #'find-file
+      ;;  :desc "Sudo find file" "F" #'doom/sudo-find-file
+      ;;  :desc "Copy file path" "y" #'+default/yank-buffer-path
+      ;;  (:when (modulep! :tools upload)
+      ;;    (:prefix ("u" . "<upload>")
+      ;;     :desc "Upload" "u" #'ssh-deploy-upload-handler
+      ;;     :desc "Upload forced" "U" #'ssh-deploy-upload-handler-forced
+      ;;     :desc "Download" "d" #'ssh-deploy-download-handler
+      ;;     :desc "Delete" "D" #'ssh-deploy-delete-handler
+      ;;     :desc "Browse remote" "b" #'ssh-deploy-browse-remote-handler
+      ;;     :desc "Remote changes" "e" #'ssh-deploy-remote-changes-handler
+      ;;     :desc "Open remote file" "f"#'ssh-deploy-open-remote-file-handler
+      ;;     :desc "Diff" "x" #'ssh-deploy-diff-handler)))
 
       ;; C-c g -- global keybindings
       (:prefix-map

@@ -4,7 +4,7 @@
 (when (modulep! :completion vertico)
   ;; vertico
   (map!
-   (:prefix "C-."
+   (:map cc/ctl-c-lookup-map
     :desc "Find symbol" "s" #'+vertico/search-symbol-at-point)
    (:map vertico-map
          "C-M-n" #'vertico-next-group
@@ -15,10 +15,11 @@
   ;; consult
   (map!
    "C-s" #'consult-line
-   (:prefix "C-c s"
-    :desc "ripgrep" "g" #'consult-ripgrep
+   (:map cc/ctl-c-search-map
     :desc "imenu" "i" #'consult-imenu
-    :desc "imenu-multi" "I" #'consult-imenu-multi)
-   (:prefix "C-c f"
+    :desc "imenu-multi" "I" #'consult-imenu-multi
+    :desc "Search directory" "d" #'consult-ripgrep
+    :desc "Search project" "p" #'+vertico/project-search)
+   (:map cc/ctl-c-file-map
     :desc "locate" "l" #'consult-locate
     :desc "Recent files" "r" #'consult-recent-file)))

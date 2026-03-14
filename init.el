@@ -122,6 +122,7 @@
        (default +smartparens) ;; +bindings
 
        :cc-new
+       keymaps
        completion
 
        :cc
