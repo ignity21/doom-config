@@ -18,7 +18,7 @@
 
 (defun cc/load-config (name)
   (load! (concat "config.d.new/" name) doom-user-dir t))
-(cc/load-config "keymaps.el")
+(cc/load-config "keybindings.el")
 (cc/load-config "completion.el")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
