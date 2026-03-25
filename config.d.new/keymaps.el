@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
-;;; cc-new/keymaps/init.el
+;;; config.d.new/keymaps.el
 
 ;;; modules/cc/keymaps/init.el
 (defmacro cc/def-keymap (name key desc)

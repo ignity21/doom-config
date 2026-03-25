@@ -49,6 +49,21 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;;(unpin! t)
 
+(package! transient
+  :pin "1f7039ef8d548d6fe858084fcbeae7588eba4190"
+  ) ; 0.12.0
+
+(package! magit
+  :pin "c800f79c2061621fde847f6a53129eca0e8da728"
+  ) ; 4.5.0
+
+(package! copilot
+  :recipe (:host github
+           :repo "copilot-emacs/copilot.el"
+           :files ("*.el"))
+  :pin "c8c06efaa508569e13d7191882ae33435bb14543"
+  ) ; 0.5.0
+
 (disable-packages! vimish-fold
                    evil-vimish-fold)
 

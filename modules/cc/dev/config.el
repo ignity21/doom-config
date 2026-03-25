@@ -16,15 +16,11 @@
   (add-hook! 'rainbow-mode-hook
     (hl-line-mode (if rainbow-mode -1 +1))))
 
-(when (modulep! :lang yaml)
-  (setq-hook! 'yaml-mode-hook
-    tab-width 2))
-
 ;; Github Copilot
 (use-package! copilot
   :hook ((emacs-lisp-mode) . copilot-mode)
   :init
-  (add-hook! (prog-mode yaml-mode conf-mode) #'copilot-mode #'copilot-nes-mode)
+  (add-hook! (prog-mode yaml-mode conf-mode) #'copilot-mode) ; #'copilot-nes-mode
   :config
   (setopt copilot-indent-offset-warning-disable t)
   (map! :desc "Copilot mode" "C-c t o" #'copilot-mode

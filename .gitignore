@@ -14,5 +14,6 @@
 *.~undo-tree
 
 mycustom.el
+custom-vars.el
 custom.el
 .aider*

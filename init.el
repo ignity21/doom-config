@@ -36,7 +36,7 @@
        nav-flash         ; blink cursor line after big motions
        ophints           ; highlight the region an operation acts on
        (popup +defaults)   ; Not all windows are created equally.
-       (treemacs +lsp)   ; a project drawer, like neotree but cooler
+       ;; (treemacs +lsp)   ; a project drawer, like neotree but cooler
        unicode           ; extended unicode support for various languages
        vc-gutter         ; vcs diff in the fringe
        (window-select +numbers)     ; visually switch windows
@@ -85,33 +85,33 @@
        pdf                 ; pdf enhancements
        ;; tmux
        ;;terraform         ; May try it: infrastructure as code, try it when using multiple cloud services
-       tree-sitter       ; TODO may use the built-in in Emacs29+ instead later on, if highlight is supported
+       ;;tree-sitter       ; TODO may use the built-in in Emacs29+ instead later on, if highlight is supported
        upload            ; map local to remote projects via ssh/ftp
 
        :lang
        emacs-lisp          ; drown in parentheses
-       (cc +lsp +tree-sitter) ; C > C++ == 1
+       (cc +lsp) ; C > C++ == 1
        ;;common-lisp       ; if you've seen one lisp, you've seen them all
        ;;data              ; config/data formats
        ;;ess               ; emacs speaks statistics
        graphviz            ; language for visualizing graphs
        ;;(graphql +lsp)    ; Give queries a REST
-       (json +lsp +tree-sitter)       ; At least it ain't XML
+       (json +lsp)       ; At least it ain't XML
        ;;(java +lsp)       ; the poster child for carpal tunnel syndrome
-       ;;(javascript +lsp +tree-sitter) ; all(hope(abandon(ye(who(enter(here))))))
+       ;;(javascript +lsp) ; all(hope(abandon(ye(who(enter(here))))))
        (latex +cdlatex)      ; NOTE may try +lsp
        ;;lua               ; one-based indices? one-based indices
        markdown            ; writing docs for people to ignore
        (org +roam +present) ; TODO +noter
        plantuml            ; diagrams for confusing people more
-       (python +lsp +pyright +tree-sitter)
-       ;; (python +lsp +pyenv +poetry +pyright +tree-sitter) ; basedpyright lsp server with poetry, pyenv
+       (python +lsp +pyright)
+       ;; (python +lsp +pyenv +poetry +pyright) ; basedpyright lsp server with poetry, pyenv
        ;; qt                  ; the 'cutest' gui framework ever
        rst                 ; ReST in peace
        ;; (rest + jq)      ; TODO Emacs as a REST client +jq Enable support for reading and processing REST responses with jq
-       (sh +lsp +tree-sitter)
-       (web +lsp +tree-sitter)   ; support for various web languages, including HTML5, CSS, SASS/SCSS, as well as Django
-       (yaml +lsp +tree-sitter)        ; JSON, but readable
+       (sh +lsp)
+       (web +lsp)   ; support for various web languages, including HTML5, CSS, SASS/SCSS, as well as Django
+       (yaml +lsp)        ; JSON, but readable
 
        :app
        calendar
@@ -120,11 +120,6 @@
 
        :config
        (default +smartparens) ;; +bindings
-
-       :cc-new
-       config
-       keymaps
-       completion
 
        :cc
        theme
@@ -139,6 +134,7 @@
        cpp
        python
        web
+       yaml
        )
 
 ;; Using "mycustom" instead of "custom" to keep the custom file clean

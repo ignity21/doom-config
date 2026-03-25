@@ -16,9 +16,14 @@
 (load! "config.d/tools.el")
 (load! "config.d/langs.el")
 
+(defun cc/load-config (name)
+  (load! (concat "config.d.new/" name) doom-user-dir t))
+(cc/load-config "keymaps.el")
+(cc/load-config "completion.el")
+
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-;; (setopt display-line-numbers-type t)
+(setopt display-line-numbers-type t) ; absolute line numbers
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
