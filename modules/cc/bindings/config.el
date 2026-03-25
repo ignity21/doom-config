@@ -297,7 +297,7 @@
          :desc "spell-fu-mode" "s" #'spell-fu-mode)
        (:when (and (modulep! :checkers syntax)
                    (not (modulep! :checkers syntax +flymake)))
-         :desc "Flycheck" "c" #'flycheck-mode)
+         :desc "Flycheck" "f" #'flycheck-mode)
        (:when (modulep! :lang org +present)
          :map org-mode-map
          :desc "Org presentation" "p" #'org-tree-slide-mode)
@@ -361,16 +361,16 @@
 
  ;; C-. -- lookup means search at point
  (:map
-  cc/ctl-c-lookup-map
+  cc/ctl-dot-lookup-map
   (:when (modulep! :tools lookup)
     :desc "Jump to references" "r" #'+lookup/references
     :desc "Jump to file" "f" #'+lookup/file
-    :desc "Jump to documentation" "k" #'+lookup/documentation
+    :desc "Jump to documentation" "d" #'+lookup/documentation
     :desc "Find type definition" "t" #'+lookup/type-definition
     :desc "Find implementations" "c" #'+lookup/implementations
     :desc "Search online" "o" #'+lookup/online
-    :desc "Find in dictionary" "d" #'+lookup/dictionary-definition
-    :desc "Find synonyms" "w" #'+lookup/synonyms)
+    :desc "Find in dictionary" "w" #'+lookup/dictionary-definition
+    :desc "Replace with synonyms" "W" #'+lookup/synonyms)
 
   (:when (and (modulep! :completion vertico)
               (modulep! :tools lsp))

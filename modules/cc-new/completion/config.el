@@ -4,7 +4,7 @@
 (when (modulep! :completion vertico)
   ;; vertico
   (map!
-   (:map cc/ctl-c-lookup-map
+   (:map cc/ctl-dot-lookup-map
     :desc "Find symbol" "s" #'+vertico/search-symbol-at-point)
    (:map vertico-map
          "C-M-n" #'vertico-next-group
@@ -23,3 +23,14 @@
    (:map cc/ctl-c-file-map
     :desc "locate" "l" #'consult-locate
     :desc "Recent files" "r" #'consult-recent-file)))
+
+
+(when (modulep! :completion corfu)
+  (map! :map corfu-map
+        "C-c C-l" #'+corfu/move-to-minibuffer
+        "C-SPC" #'corfu-insert-separator
+        "M-RET" #'corfu-quick-comple
+        "C-h" #'corfu-popupinfo-toggle
+        :map corfu-popupinfo-map
+        "C-M-p" #'corfu-popupinfo-scroll-down
+        "C-M-n" #'corfu-popupinfo-scroll-up.))

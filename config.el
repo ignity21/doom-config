@@ -9,7 +9,6 @@
 ;; load config files
 (load! "config.d/defaults.el")
 (load! "config.d/org.el")
-(load! "config.d/completion.el")
 (load! "config.d/ui.el")
 (load! "config.d/editor.el")
 (load! "config.d/emacs.el")

@@ -23,7 +23,7 @@
 
 (doom! :completion
        (vertico +icons)    ; Vertico, Consult, Embark, Marginalia, Orderless
-       (corfu +orderless +icons) ; the ultimate code completion backend
+       (corfu +orderless +icons +dabbrev)
 
        :ui
        doom              ; what makes DOOM look the way it does 😖😕
@@ -122,6 +122,7 @@
        (default +smartparens) ;; +bindings
 
        :cc-new
+       config
        keymaps
        completion
 

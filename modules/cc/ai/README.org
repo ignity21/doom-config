@@ -1,0 +1,10 @@
+#+title: Readme
+
+* Aider Models
+- ~aider --list-models [copilot]~
+- check the output of the following command to find the model id for copilot:
+#+begin_src bash
+curl -s https://api.githubcopilot.com/models \
+  -H "Authorization: Bearer $(cat ~/.config/litellm/github_copilot/access-token)" \
+  | jq '.data[] | {id: .id, type: .capabilities.type}'
+#+end_src

@@ -13,4 +13,4 @@ NAME is the variable name (unquoted), KEY is the key string, DESC is the which-k
 
 (cc/def-keymap cc/ctl-c-file-map "C-c f" "file")
 (cc/def-keymap cc/ctl-c-search-map "C-c s" "search")
-(cc/def-keymap cc/ctl-c-lookup-map "C-." "lookup")
+(cc/def-keymap cc/ctl-dot-lookup-map "C-." "lookup")
