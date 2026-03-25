@@ -15,8 +15,9 @@ NAME is the variable name (unquoted), KEY is the key string, DESC is the which-k
 
 (which-key-add-key-based-replacements "C-c l" "<local>")
 
-;; global keybindings
+;; Global keybindings
 (map! "M-." #'+lookup/definition
+      "M-," #'better-jumper-jump-backward
       "C-s" #'consult-line)
 
 ;; C-. prefix
@@ -25,12 +26,11 @@ NAME is the variable name (unquoted), KEY is the key string, DESC is the which-k
       :desc "Find references" "r" #'+lookup/references
       :desc "Find implementations" "i" #'+lookup/implementation
       :desc "Find type definition" "t" #'+lookup/type-definition
-      :desc "Find documentation" "d" #'+lookup/documentation
+      :desc "Find documentation" "RET" #'+lookup/documentation
       :desc "Find file" "f" #'+lookup/file
       :desc "Search online" "o" #'+lookup/online
-      :desc "Find in dictionary" "w" #'+lookup/dictionary-definition
-      :desc "Replace with synonyms" "W" #'+lookup/synonyms
-      )
+      :desc "Find in dictionary" "d" #'+lookup/dictionary-definition
+      :desc "Replace with synonyms" "D" #'+lookup/synonyms)
 
 ;; C-c s prefix
 (map! :map cc/ctl-c-search-map

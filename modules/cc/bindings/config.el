@@ -294,7 +294,7 @@
        (:when (modulep! :editor word-wrap)
          :desc "Visual line mode" "v" #'+word-wrap-mode)
        (:when (modulep! :checkers spell)
-         :desc "spell-fu-mode" "s" #'spell-fu-mode)
+         :desc "Spelling check" "s" #'spell-fu-mode)
        (:when (and (modulep! :checkers syntax)
                    (not (modulep! :checkers syntax +flymake)))
          :desc "Flycheck" "f" #'flycheck-mode)
@@ -363,14 +363,7 @@
  (:map
   cc/ctl-dot-lookup-map
   (:when (modulep! :tools lookup)
-    :desc "Jump to references" "r" #'+lookup/references
-    :desc "Jump to file" "f" #'+lookup/file
-    :desc "Jump to documentation" "d" #'+lookup/documentation
-    :desc "Find type definition" "t" #'+lookup/type-definition
-    :desc "Find implementations" "c" #'+lookup/implementations
-    :desc "Search online" "o" #'+lookup/online
-    :desc "Find in dictionary" "w" #'+lookup/dictionary-definition
-    :desc "Replace with synonyms" "W" #'+lookup/synonyms)
+    )
 
   (:when (and (modulep! :completion vertico)
               (modulep! :tools lsp))

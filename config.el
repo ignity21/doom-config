@@ -3,6 +3,8 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
+(load! "custom-vars.el")
+
 (when (modulep! :cc ui)
   (cc/set-doom-ui-appearance))
 

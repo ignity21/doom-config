@@ -1,14 +1,13 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;; config.d.new/completion.el
 
-;; vertico
 (map! :map vertico-map
       "C-M-n" #'vertico-next-group
       "C-M-p" #'vertico-previous-group
       "C-o" #'+vertico/embark-preview
       "C-l" #'vertico-directory-delete-word)
 
-;; corfu cape
+
 (map! :map corfu-map
       "C-c C-l" #'+corfu/move-to-minibuffer
       "C-SPC" #'corfu-insert-separator
@@ -20,9 +19,10 @@
 
 ;; copilot
 (use-package! copilot
-  :hook ((emacs-lisp-mode) . copilot-mode)
   :init
-  (add-hook! (prog-mode yaml-pro-ts-mode conf-mode) #'copilot-mode) ; #'copilot-nes-mode
+  (add-hook!
+    (prog-mode emacs-lisp-mode yaml-pro-ts-mode conf-mode)
+    #'copilot-mode) ; #'copilot-nes-mode
   :config
   (setopt copilot-indent-offset-warning-disable t)
   (map! :desc "Copilot mode" "C-c t o" #'copilot-mode
