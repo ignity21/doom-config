@@ -61,8 +61,7 @@
   :recipe (:host github
            :repo "copilot-emacs/copilot.el"
            :files ("*.el"))
-  :pin "c8c06efaa508569e13d7191882ae33435bb14543"
-  ) ; 0.5.0
+  :pin "ab5c58bc969f52f6d75e972658f2c3381c70b4fa")
 
 (disable-packages! vimish-fold
                    evil-vimish-fold)

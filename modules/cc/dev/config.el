@@ -16,32 +16,6 @@
   (add-hook! 'rainbow-mode-hook
     (hl-line-mode (if rainbow-mode -1 +1))))
 
-;; Github Copilot
-(use-package! copilot
-  :hook ((emacs-lisp-mode) . copilot-mode)
-  :init
-  (add-hook! (prog-mode yaml-mode conf-mode) #'copilot-mode) ; #'copilot-nes-mode
-  :config
-  (setopt copilot-indent-offset-warning-disable t)
-  (map! :desc "Copilot mode" "C-c t o" #'copilot-mode
-        (:map copilot-completion-map
-              "<tab>" #'copilot-accept-completion
-              "<right>" #'copilot-accept-completion
-              "C-<tab>" #'copilot-accept-completion-by-word
-              "M-<right>" #'copilot-accept-completion-by-word
-              "C-l" #'copilot-accept-completion-by-line
-              "<end>" #'copilot-accept-completion-by-line
-              "C-c C-e" #'copilot-panel-complete
-              "M-n" #'copilot-next-completion
-              "M-p" #'copilot-previous-completion)
-        (:map copilot-mode-map
-         :desc "Copilot Chat" "C-c o o" #'copilot-chat
-         (:prefix ("C-c l o" . "<copilot>")
-          :desc "Send to copilot" "o" #'copilot-chat-send
-          :desc "Send region" "r" #'copilot-chat-send-region
-          :desc "Stop" "k" #'copilot-chat-stop
-          :desc "Reset" "R" #'copilot-chat-reset))))
-
 ;; minuet configuration
 ;; (use-package! minuet
 ;;   :init

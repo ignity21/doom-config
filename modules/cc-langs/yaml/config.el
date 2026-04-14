@@ -5,7 +5,9 @@
   (setopt yaml-indent-offset 2)
   (add-to-list 'major-mode-remap-alist '(yaml-mode . yaml-ts-mode))
   (setq-hook! '(yaml-mode-hook yaml-ts-mode-hook)
-    tab-width 2))
+    tab-width 2)
+  (add-hook! '(yaml-mode-hook yaml-ts-mode-hook)
+    (spell-fu-mode -1)))
 
 (when (modulep! :lang yaml)
   (use-package! yaml-pro
