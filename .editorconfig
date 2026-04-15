@@ -5,9 +5,11 @@ end_of_line = lf
 insert_final_newline = true
 
 [*.el]
-indent_style = space
-# indent_size = 2
-end_of_line = lf
 charset = utf-8
+end_of_line = lf
 trim_trailing_whitespace = true
 insert_final_newline = true
+max_line_length = 100
+
+indent_style = space
+indent_size = 2

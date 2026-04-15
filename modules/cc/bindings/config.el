@@ -262,23 +262,6 @@
        :desc "Report" "r" #'profiler-report
        )
 
-      ;; C-c r -- run/eval
-      (:prefix-map
-       ("r" . "<run/eval>")
-       (:when (modulep! :tools eval)
-         (:map prog-mode-map
-          :desc "Eval buffer" "b" #'+eval/buffer
-          :desc "Eval region" "r" #'+eval/region
-          :desc "Eval line" "l" #'+eval/line-or-region
-          :desc "Send to REPL" "s" #'+eval/send-region-to-repl
-          :desc "Open REPL" "o" #'+eval/open-repl-other-window
-          :desc "Open REPL here" "O" #'+eval/open-repl-same-window))
-       (:map emacs-lisp-mode-map
-        :desc "Eval buffer" "b" #'eval-buffer
-        :desc "Eval defun" "d" #'eval-defun
-        :desc "Eval region" "r" #'eval-region
-        :desc "Eval last sexp" "e" #'eval-last-sexp))
-
       ;; C-c t -- toggle
       (:prefix-map
        ("t" . "<toggle>")

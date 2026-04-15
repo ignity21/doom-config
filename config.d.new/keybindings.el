@@ -12,13 +12,23 @@ NAME is the variable name (unquoted), KEY is the key string, DESC is the which-k
 (cc/def-keymap cc/ctl-c-file-map "C-c f" "file")
 (cc/def-keymap cc/ctl-c-search-map "C-c s" "search")
 (cc/def-keymap cc/ctl-dot-lookup-map "C-." "lookup")
+(cc/def-keymap cc/f5-run-map "<f5>" "run")
 
 (which-key-add-key-based-replacements "C-c l" "<local>")
 
 ;; Global keybindings
 (map! "M-." #'+lookup/definition
       "M-," #'better-jumper-jump-backward
-      "C-s" #'consult-line)
+      "C-s" #'consult-line
+      ;; "C-x C-e" #'+eval/buffer-or-region
+      )
+
+;; F5 prefix
+(map! :map cc/f5-run-map
+      :desc "Eval buffer or region" "e" #'+eval/buffer-or-region
+      :desc "Eval line" "l" #'+eval/line-or-region
+      :desc "Send to REPL" "s" #'+eval/send-region-to-repl
+      :desc "Open REPL" "r" #'+eval/open-repl-other-window)
 
 ;; C-. prefix
 (map! :map cc/ctl-dot-lookup-map

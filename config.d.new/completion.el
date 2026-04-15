@@ -7,15 +7,18 @@
       "C-o" #'+vertico/embark-preview
       "C-l" #'vertico-directory-delete-word)
 
-
 (map! :map corfu-map
       "C-c C-l" #'+corfu/move-to-minibuffer
       "C-SPC" #'corfu-insert-separator
-      "M-RET" #'corfu-quick-comple
+      "M-SPC" #'corfu-insert-separator
+      "<tab>" #'corfu-quick-complete
       "C-h" #'corfu-popupinfo-toggle
       :map corfu-popupinfo-map
       "C-M-p" #'corfu-popupinfo-scroll-down
-      "C-M-n" #'corfu-popupinfo-scroll-up.)
+      "C-M-n" #'corfu-popupinfo-scroll-up)
+
+(after! corfu
+  (setopt corfu-preselect 'directory))
 
 ;; copilot
 (use-package! copilot
@@ -27,9 +30,8 @@
   (setopt copilot-indent-offset-warning-disable t)
   (map! :desc "Copilot mode" "C-c t o" #'copilot-mode
         (:map copilot-completion-map
-              "<tab>" #'copilot-accept-completion
+              "M-RET" #'copilot-accept-completion
               "<right>" #'copilot-accept-completion
-              "C-<tab>" #'copilot-accept-completion-by-word
               "M-<right>" #'copilot-accept-completion-by-word
               "C-l" #'copilot-accept-completion-by-line
               "<end>" #'copilot-accept-completion-by-line

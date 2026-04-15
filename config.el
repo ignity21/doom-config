@@ -22,6 +22,7 @@
   (load! (concat "config.d.new/" name) doom-user-dir t))
 (cc/load-config "keybindings.el")
 (cc/load-config "completion.el")
+(cc/load-config "langs/elisp.el")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
