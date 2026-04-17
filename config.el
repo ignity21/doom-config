@@ -20,9 +20,14 @@
 
 (defun cc/load-config (name)
   (load! (concat "config.d.new/" name) doom-user-dir t))
+
+(defun cc/load-lang-config (lang)
+  (cc/load-config (concat "langs/" lang ".el")))
+
 (cc/load-config "keybindings.el")
 (cc/load-config "completion.el")
-(cc/load-config "langs/elisp.el")
+(cc/load-lang-config "elisp")
+(cc/load-lang-config "python")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.

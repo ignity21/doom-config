@@ -10,8 +10,6 @@
   (set-fontset-font t 'emoji (font-spec :family cc/emoji-font) nil 'prepend))
 
 
-(if (string-equal (getenv "XDG_SESSION_DESKTOP") "gnome")
-    (set-theme-based-on-sys-style)
-  (set-theme-based-on-time))
+(set-theme-based-on-sys-style)
 
 (map! "<f12>" #'cc/switch-light-dark-theme)

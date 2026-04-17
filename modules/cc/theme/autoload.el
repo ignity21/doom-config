@@ -28,12 +28,24 @@
 
 ;;;###autoload
 (defun set-theme-based-on-sys-style ()
-  "Set theme based on system style"
-  (let ((gnome-style (shell-command-to-string
-                      "gsettings get org.gnome.desktop.interface gtk-theme")))
-    (if (string-match-p "dark" gnome-style)
-        (switch-to-dark-theme)
-      (switch-to-light-theme))))
+  "Set theme based on system style, supporting GNOME and KDE."
+  (let ((desktop (getenv "XDG_SESSION_DESKTOP")))
+    (cond
+     ((string-equal desktop "gnome")
+      (let ((gnome-style (shell-command-to-string
+                          "gsettings get org.gnome.desktop.interface gtk-theme")))
+        (if (string-match-p "dark" gnome-style)
+            (switch-to-dark-theme)
+          (switch-to-light-theme))))
+     ((string-equal desktop "KDE")
+      (let ((kde-scheme (string-trim
+                         (shell-command-to-string
+                          "kreadconfig5 --file kdeglobals --group General --key ColorScheme"))))
+        (if (string-match-p "[Dd]ark" kde-scheme)
+            (switch-to-dark-theme)
+          (switch-to-light-theme))))
+     (t
+      (set-theme-based-on-time)))))
 
 ;;;###autoload
 (defun cc/switch-light-dark-theme ()

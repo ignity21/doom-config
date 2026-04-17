@@ -1,50 +1,41 @@
 ;; -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;; cc-langs/python/config.el
 (when (modulep! :lang python)
-  (defvar cc/python-indent-offset 4
-    "The number of spaces to indent inside python blocks.")
+  ;; (defvar cc/python-indent-offset 4
+  ;;   "The number of spaces to indent inside python blocks.")
 
-  (after! pyvenv
-    (setopt pyvenv-activate ".venv")
-    (add-hook! 'python-base-mode-hook #'pyvenv-tracking-mode))
+  ;; ;; (after! pyvenv
+  ;; ;;   (setopt pyvenv-activate ".venv")
+  ;; ;;   (add-hook! 'python-base-mode-hook #'pyvenv-tracking-mode))
 
-  (setq-hook! 'python-base-mode-hook
-    python-indent-offset cc/python-indent-offset)
+  ;; (setq-hook! 'python-base-mode-hook
+  ;;   python-indent-offset cc/python-indent-offset)
 
-  (add-hook! 'python-base-mode-hook
-             #'cc/python-set-default-capf
-             #'whole-line-or-region-local-mode)
-  (add-hook! 'lsp-completion-mode-hook #'cc/python-set-lsp-capf)
+  ;; (add-hook! 'python-base-mode-hook
+  ;;            #'cc/python-set-default-capf
+  ;;            #'whole-line-or-region-local-mode)
+  ;; (add-hook! 'lsp-completion-mode-hook #'cc/python-set-lsp-capf)
 
   ;; set default python interpreter
-  (setopt python-shell-interpreter "python3"
-          doom-modeline-env-enable-python nil)
+  ;; (setopt python-shell-interpreter "python3"
+  ;;         doom-modeline-env-enable-python nil)
 
-  (when (modulep! :ui indent-guides)
-    (add-hook! 'python-base-mode-hook
-      (defun configure-indent-guides ()
-        (setq-local indent-bars-treesit-support t
-                    indent-bars-treesit-wrap
-                    '((python argument_list parameters
-                       list list_comprehension
-                       dictionary dictionary_comprehension
-                       parenthesized_expression subscript)
-                      (python list_comprehension))
-                    indent-bars-treesit-ignore-blank-lines-types '("module")))))
-
-  (map! :map python-base-mode-map
-        "C-c <TAB> a" nil ; python-add-import
-        "C-c <TAB> s" nil
-        "C-c <TAB> f" nil
-        "C-c <TAB> r" nil
-        :desc "Disassemble region/buffer" "C-c c d"
-        #'cc/python-dis-region-or-buffer)
-
+  ;; (when (modulep! :ui indent-guides)
+  ;;   (add-hook! 'python-base-mode-hook
+  ;;     (defun configure-indent-guides ()
+  ;;       (setq-local indent-bars-treesit-support t
+  ;;                   indent-bars-treesit-wrap
+  ;;                   '((python argument_list parameters
+  ;;                      list list_comprehension
+  ;;                      dictionary dictionary_comprehension
+  ;;                      parenthesized_expression subscript)
+  ;;                     (python list_comprehension))
+  ;;                   indent-bars-treesit-ignore-blank-lines-types '("module")))))
   (use-package! sphinx-doc
     :hook (python-mode . sphinx-doc-mode)
     :config
     (setopt sphinx-doc-include-types nil
-            sphinx-doc-python-indent cc/python-indent-offset)
+            sphinx-doc-python-indent python-indent-offset)
     (map! :map sphinx-doc-mode-map
           :desc "Insert docstring" "C-c i d"
           #'sphinx-doc))
@@ -65,25 +56,19 @@
   ;;              ))
   )
 
-(when (modulep! :lang python +poetry)
-  (setopt poetry-tracking-strategy 'projectile)
-  (map! :map python-base-mode-map
-        :desc "poetry" "C-c l p" #'poetry))
-
 (when (modulep! :lang python +lsp)
-  (after! lsp-ruff
-    (setopt lsp-ruff-advertize-fix-all t
-            lsp-ruff-log-level "warn"
-            lsp-ruff-advertize-organize-imports t
-            ))
-  (setopt lsp-pyright-langserver-command "basedpyright")
-  (after! lsp-pyright
-    (setopt lsp-pyright-disable-organize-imports t
-            lsp-pyright-type-checking-mode "standard"
-            lsp-pyright-auto-import-completions t
-            lsp-pyright-multi-root nil
-            lsp-pyright-basedpyright-inlay-hints-generic-types t
-            ))
+  ;; (after! lsp-ruff
+  ;;   (setopt lsp-ruff-advertize-fix-all t
+  ;;           lsp-ruff-log-level "warn"
+  ;;           lsp-ruff-advertize-organize-imports t
+  ;;           ))
+  ;; (after! lsp-pyright
+  ;;   (setopt lsp-pyright-disable-organize-imports t
+  ;;           lsp-pyright-type-checking-mode "recommended"
+  ;;           lsp-pyright-auto-import-completions t
+  ;;           lsp-pyright-multi-root nil
+  ;;           lsp-pyright-basedpyright-inlay-hints-generic-types t
+  ;;           ))
   (map! :map lsp-mode-map
         :desc "Organize imports" "C-c c o"
         #'lsp-organize-imports)
