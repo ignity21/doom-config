@@ -24,7 +24,7 @@
 (use-package! copilot
   :init
   (add-hook!
-    (prog-mode emacs-lisp-mode yaml-pro-ts-mode conf-mode)
+    (prog-mode emacs-lisp-mode yaml-ts-mode-hook conf-mode)
     #'copilot-mode) ; #'copilot-nes-mode
   :config
   (setopt copilot-indent-offset-warning-disable t)
@@ -40,7 +40,7 @@
               "M-p" #'copilot-previous-completion)
         (:map copilot-mode-map
          :desc "Copilot Chat" "C-c o o" #'copilot-chat
-         (:prefix ("C-c l o" . "<copilot>")
+         (:prefix ("C-c c o" . "<copilot>")
           :desc "Send to copilot" "o" #'copilot-chat-send
           :desc "Send region" "r" #'copilot-chat-send-region
           :desc "Stop" "k" #'copilot-chat-stop

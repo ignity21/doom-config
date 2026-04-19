@@ -75,7 +75,7 @@
  (eval +overlay)     ; run code, run (also, repls)
  ;; TODO: following not confirmed
  ansible
- direnv
+ ;; direnv
  (debugger +lsp)
  (docker +lsp)
  editorconfig        ; let someone else argue about tabs vs spaces

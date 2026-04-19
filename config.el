@@ -26,6 +26,7 @@
 
 (cc/load-config "keybindings.el")
 (cc/load-config "completion.el")
+(cc/load-config "lsp.el")
 (cc/load-lang-config "elisp")
 (cc/load-lang-config "python")
 
