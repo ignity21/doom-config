@@ -38,10 +38,12 @@
               "C-c C-e" #'copilot-panel-complete
               "M-n" #'copilot-next-completion
               "M-p" #'copilot-previous-completion)
-        (:map copilot-mode-map
-         :desc "Copilot Chat" "C-c o o" #'copilot-chat
-         (:prefix ("C-c c o" . "<copilot>")
-          :desc "Send to copilot" "o" #'copilot-chat-send
-          :desc "Send region" "r" #'copilot-chat-send-region
-          :desc "Stop" "k" #'copilot-chat-stop
-          :desc "Reset" "R" #'copilot-chat-reset))))
+        ;; (:map copilot-mode-map
+        ;;  :desc "Copilot Chat" "C-c o o" #'copilot-chat
+        ;;  (:prefix ("C-c c o" . "<copilot>")
+        ;;   :desc "Send to copilot" "o" #'copilot-chat-send
+        ;;   :desc "Send region" "r" #'copilot-chat-send-region
+        ;;   :desc "Stop" "k" #'copilot-chat-stop
+        ;;   :desc "Reset" "R" #'copilot-chat-reset))
+        ;; )
+        )
