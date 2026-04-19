@@ -46,4 +46,4 @@
         ;;   :desc "Stop" "k" #'copilot-chat-stop
         ;;   :desc "Reset" "R" #'copilot-chat-reset))
         ;; )
-        )
+        ))
