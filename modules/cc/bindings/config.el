@@ -81,37 +81,6 @@
       (:prefix
        ("a" . "<ai>"))
 
-      ;; C-c c -- code
-      (:prefix-map
-       ("c" . "<code>")
-       :desc "Compile" "c" #'+default/compile
-       :desc "Format buffer/region" "f" #'+format/region-or-buffer
-       (:when (and (modulep! :tools lsp)
-                   (not (modulep! :tools lsp +eglot)))
-         :map lsp-mode-map
-         :desc "Action" "a" #'lsp-execute-code-action
-         :desc "Rename" "r" #'lsp-rename
-         :desc "Inlay Hints Mode" "I" #'lsp-inlay-hints-mode
-         (:prefix ("s". "<lsp-session>")
-          :desc "List sessions" "l" #'lsp-describe-session
-          :desc "Disconnect" "q" #'lsp-disconnect
-          :desc "Restart" "r" #'lsp-workspace-restart
-          :desc "Shutdown" "d" #'lsp-workspace-shutdown
-          :desc "Add folder" "a" #'lsp-workspace-folders-add
-          :desc "Remove folder" "k" #'lsp-workspace-folders-remove
-          :desc "Remove all folders" "K" #'lsp-workspace-remove-all-folders
-          :desc "Unblock folders" "b" #'lsp-workspace-blocklist-remove
-          :desc "Switch client" "s" #'+lsp/switch-client)
-         (:when (modulep! :ui treemacs +lsp)
-           :desc "Errors List" "e" #'lsp-treemacs-errors-list
-           (:prefix ("t" . "<treemacs-lsp>")
-            :desc "Incoming call hierarchy" "i" #'lsp-treemacs-call-hierarchy
-            ;; :desc "Outgoing call hierarchy" "o" (cmd!! #'lsp-treemacs-call-hierarchy t)
-            :desc "Type hierarchy" "t" #'lsp-treemacs-type-hierarchy)
-           )
-         )
-       )
-
       ;; C-c d -- debug
       (:prefix-map
        ("d". "<debug>")
@@ -265,22 +234,10 @@
       ;; C-c t -- toggle
       (:prefix-map
        ("t" . "<toggle>")
-       :desc "Line numbers mode" "l" #'doom/toggle-line-numbers
-       (:when (modulep! :ui minimap)
-         :desc "Minimap" "m" #'minimap-mode)
-       (:when (modulep! :ui treemacs)
-         :desc "Treemacs" "t" #'+treemacs/toggle)
-       (:when (modulep! :ui zen)
-         :desc "zen-mode" "z" #'+zen/toggle)
-       (:when (modulep! :ui indent-guides)
-         :desc "Indent guides" "<TAB>" #'indent-bars-mode)
        (:when (modulep! :editor word-wrap)
          :desc "Visual line mode" "v" #'+word-wrap-mode)
        (:when (modulep! :checkers spell)
          :desc "Spelling check" "s" #'spell-fu-mode)
-       (:when (and (modulep! :checkers syntax)
-                   (not (modulep! :checkers syntax +flymake)))
-         :desc "Flycheck" "f" #'flycheck-mode)
        (:when (modulep! :lang org +present)
          :map org-mode-map
          :desc "Org presentation" "p" #'org-tree-slide-mode)

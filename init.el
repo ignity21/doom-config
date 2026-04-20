@@ -70,8 +70,8 @@
  syntax   ; tasing you for every semicolon you forget
 
  :tools
- ;; lsp
- (lsp +eglot) ; +booster
+ (lsp +lsp)
+ ;; (lsp +eglot +booster) ; wait until eglot supports multiple servers per buffer
  (eval +overlay)     ; run code, run (also, repls)
  ;; TODO: following not confirmed
  ansible
@@ -88,13 +88,12 @@
  pdf                 ; pdf enhancements
  ;; tmux
  ;;terraform         ; May try it: infrastructure as code, try it when using multiple cloud services
- ;;tree-sitter       ; TODO may use the built-in in Emacs29+ instead later on, if highlight is supported
+ tree-sitter
  upload            ; map local to remote projects via ssh/ftp
 
  :lang
  emacs-lisp          ; drown in parentheses
  (python +lsp +pyright +uv +tree-sitter)
-
  (cc +lsp) ; C > C++ == 1
  ;;common-lisp       ; if you've seen one lisp, you've seen them all
  ;;data              ; config/data formats

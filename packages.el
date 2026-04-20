@@ -75,6 +75,7 @@
 (package! djvu)
 
 ;; python
-(disable-packages! pipenv)
+(when (modulep! :tools lsp +eglot)
+  (package! ruff-format))
 
 ;; Development

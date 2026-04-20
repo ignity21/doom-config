@@ -1,5 +1,6 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;; config.d.new/langs/python.el
+;; TODO: Try ty + ruff
 
 (defun cc/python-dis-region-or-buffer ()
   "Disassemble the Python code in the current region or buffer and show it in a temp buffer."
@@ -26,18 +27,22 @@
       (when (file-exists-p temp-file)
         (delete-file temp-file)))))
 
+(when (modulep! :tools lsp +lsp)
+  (add-hook! python-base-mode
+    (advice-add 'lsp-format-buffer :before #'lsp-organize-imports)))
+
 (after! lsp-mode
   (setopt lsp-pyright-langserver-command "basedpyright"))
 
-(after! python
-  (setopt python-shell-interpreter "python3"
-          python-indent-offset 4))
+;; (after! python
+;;   (setopt python-shell-interpreter "python3"
+;;           python-indent-offset 4))
 
-(map! :map python-base-mode-map
-      "C-c <TAB> a" nil ; python-add-import
-      "C-c <TAB> s" nil
-      "C-c <TAB> f" nil
-      "C-c <TAB> r" nil
-      :desc "Disassemble region/buffer" "C-c c d"
-      #'cc/python-dis-region-or-buffer
-      )
+;; (map! :map python-base-mode-map
+;;       "C-c <TAB> a" nil ; python-add-import
+;;       "C-c <TAB> s" nil
+;;       "C-c <TAB> f" nil
+;;       "C-c <TAB> r" nil
+;;       :desc "Disassemble region/buffer" "C-c c d"
+;;       #'cc/python-dis-region-or-buffer
+;;       )
