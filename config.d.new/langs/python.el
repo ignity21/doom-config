@@ -6,33 +6,40 @@
   "Disassemble the Python code in the current region or buffer and show it in a temp buffer."
   (interactive)
   (let* ((start (if (region-active-p) (region-beginning) (point-min)))
-         (end   (if (region-active-p) (region-end)       (point-max)))
-         (code      (buffer-substring-no-properties start end))
-         (temp-file (make-temp-file "python-dis-" nil ".py"))
-         (buffer    (get-buffer-create "*Python Disassembly*")))
+          (end   (if (region-active-p) (region-end)       (point-max)))
+          (code      (buffer-substring-no-properties start end))
+          (temp-file (make-temp-file "python-dis-" nil ".py"))
+          (buffer    (get-buffer-create "*Python Disassembly*")))
     (unwind-protect
-        (progn
-          (with-temp-file temp-file
-            (insert code))
-          (with-current-buffer buffer
-            (erase-buffer)
-            (call-process "python3" nil buffer nil "-m" "dis" temp-file)
-            (goto-char (point-min))
-            (let ((map (make-sparse-keymap)))
-              (keymap-set map "q" (lambda ()
-                                    (interactive)
-                                    (quit-window t)))
-              (use-local-map map)))
-          (+popup-buffer buffer '((side . right) (window-width . 0.4))))
+      (progn
+        (with-temp-file temp-file
+          (insert code))
+        (with-current-buffer buffer
+          (erase-buffer)
+          (call-process "python3" nil buffer nil "-m" "dis" temp-file)
+          (goto-char (point-min))
+          (let ((map (make-sparse-keymap)))
+            (keymap-set map "q" (lambda ()
+                                  (interactive)
+                                  (quit-window t)))
+            (use-local-map map)))
+        (+popup-buffer buffer '((side . right) (window-width . 0.4))))
       (when (file-exists-p temp-file)
         (delete-file temp-file)))))
 
 (when (modulep! :tools lsp +lsp)
+  ;; enable basedpyright+ruff by default
+  (setq-hook! python-base-mode
+    lsp-enabled-clients '(pyright ruff))
+
+  (setopt lsp-pyright-langserver-command "basedpyright"
+    lsp-pyright-disable-organize-imports t
+    lsp-ruff-advertize-fix-all nil
+    )
   (add-hook! python-base-mode
     (advice-add 'lsp-format-buffer :before #'lsp-organize-imports)))
 
-(after! lsp-mode
-  (setopt lsp-pyright-langserver-command "basedpyright"))
+
 
 ;; (after! python
 ;;   (setopt python-shell-interpreter "python3"
