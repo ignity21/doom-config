@@ -71,7 +71,7 @@
 
  :tools
  (lsp +lsp)
- ;; (lsp +eglot +booster) ; wait until eglot supports multiple servers per buffer
+ ;; (lsp +eglot +booster)
  (eval +overlay)     ; run code, run (also, repls)
  ;; TODO: following not confirmed
  ansible

@@ -75,7 +75,7 @@
 (package! djvu)
 
 ;; python
-(when (modulep! :tools lsp +eglot)
-  (package! ruff-format))
+;; (when (modulep! :tools lsp +eglot)
+;;   (package! ruff-format))
 
 ;; Development

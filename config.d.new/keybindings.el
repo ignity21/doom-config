@@ -117,8 +117,7 @@
          :desc "Switch client" "s" #'+lsp/switch-client)
         )
       (:when (modulep! :tools lsp +eglot)
-        (:prefix ("A" . "<action>")
-         :desc "Quickfix" "q" #'eglot-code-action-quickfix
+        (:prefix ("r" . "<refactor>")
          :desc "Refactor inline" "r" #'eglot-code-action-inline
          :desc "Refactor extract" "e" #'eglot-code-action-extract
          :desc "Refactor rewrite" "w" #'eglot-code-action-rewrite
