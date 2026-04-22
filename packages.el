@@ -59,14 +59,14 @@
 
 (package! copilot
   :recipe (:host github
-           :repo "copilot-emacs/copilot.el"
-           :files ("*.el"))
+            :repo "copilot-emacs/copilot.el"
+            :files ("*.el"))
   :pin "ab5c58bc969f52f6d75e972658f2c3381c70b4fa")
 
 (package! auto-dark)
 
 (disable-packages! vimish-fold
-                   evil-vimish-fold)
+  evil-vimish-fold)
 
 ;; TODO Org
 
@@ -79,3 +79,4 @@
 ;;   (package! ruff-format))
 
 ;; Development
+(package! apheleia :pin "7a2136052f4174c178b28da1a2c632904bf08176")

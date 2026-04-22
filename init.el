@@ -22,122 +22,122 @@
 ;; (require 'cc-autoloads)
 
 (doom!
- :completion
- (vertico +icons)    ; Vertico, Consult, Embark, Marginalia, Orderless
- (corfu +orderless +icons +dabbrev)
+  :completion
+  (vertico +icons)    ; Vertico, Consult, Embark, Marginalia, Orderless
+  (corfu +orderless +icons +dabbrev)
 
- :ui
- doom              ; what makes DOOM look the way it does 😖😕
- doom-dashboard    ; a nifty splash screen for Emacs
- hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW/BUG/XXX
- indent-guides     ; highlighted indent columns
- modeline         ; snazzy, Atom-inspired modeline, plus API
- nav-flash         ; blink cursor line after big motions
+  :ui
+  doom              ; what makes DOOM look the way it does 😖😕
+  doom-dashboard    ; a nifty splash screen for Emacs
+  hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW/BUG/XXX
+  indent-guides     ; highlighted indent columns
+  modeline         ; snazzy, Atom-inspired modeline, plus API
+  nav-flash         ; blink cursor line after big motions
 
- ophints           ; highlight the region an operation acts on
- (popup +defaults)   ; Not all windows are created equally.
- ;; (treemacs +lsp)   ; a project drawer, like neotree but cooler
- unicode           ; extended unicode support for various languages
- vc-gutter         ; vcs diff in the fringe
- (window-select +numbers)     ; visually switch windows
- workspaces        ; tab emulation, persistence & separate workspaces
- ;; zen               ; distraction-free coding or writing:
+  ophints           ; highlight the region an operation acts on
+  (popup +defaults)   ; Not all windows are created equally.
+  ;; (treemacs +lsp)   ; a project drawer, like neotree but cooler
+  unicode           ; extended unicode support for various languages
+  vc-gutter         ; vcs diff in the fringe
+  (window-select +numbers)     ; visually switch windows
+  workspaces        ; tab emulation, persistence & separate workspaces
+  ;; zen               ; distraction-free coding or writing:
 
- :editor
- file-templates    ; auto-snippets for empty files
- fold              ; (nigh) universal code folding
- (format +lsp +onsave)       ; automated prettiness +format/buffer will use lsp if available
- multiple-cursors ; editing in many places at once, demo: https://emacsrocks.com/e13.html
- snippets             ; my elves. They type so I don't have to
- word-wrap            ; soft wrapping with language-aware indent
+  :editor
+  file-templates    ; auto-snippets for empty files
+  fold              ; (nigh) universal code folding
+  (format +lsp +onsave)       ; automated prettiness +format/buffer will use lsp if available
+  multiple-cursors ; editing in many places at once, demo: https://emacsrocks.com/e13.html
+  snippets             ; my elves. They type so I don't have to
+  word-wrap            ; soft wrapping with language-aware indent
 
- :emacs
- ;; electric
- (dired +icons)    ; making dired pretty [functional]
- (ibuffer +icons)  ; interactive buffer management
- (undo +tree)      ; persistent, smarter undo for your inevitable mistakes (undo-fu)
- vc                ; version-control and Emacs, sitting in a tree (gitignore, gitconfig)
+  :emacs
+  ;; electric
+  (dired +icons)    ; making dired pretty [functional]
+  (ibuffer +icons)  ; interactive buffer management
+  (undo +tree)      ; persistent, smarter undo for your inevitable mistakes (undo-fu)
+  vc                ; version-control and Emacs, sitting in a tree (gitignore, gitconfig)
 
- :email
- ;; (mu4e +gmail +org) ; TODO Should give it a try
+  :email
+  ;; (mu4e +gmail +org) ; TODO Should give it a try
 
- :term
- vterm             ; the best terminal emulation in Emacs
+  :term
+  vterm             ; the best terminal emulation in Emacs
 
- :checkers
- grammar           ; aid your writing by combining lang-tool and writegood-mode
- (spell +aspell)   ; tasing you for misspelling mispelling (+everywhere disabled)
- syntax   ; tasing you for every semicolon you forget
+  :checkers
+  grammar           ; aid your writing by combining lang-tool and writegood-mode
+  (spell +aspell)   ; tasing you for misspelling mispelling (+everywhere disabled)
+  syntax   ; tasing you for every semicolon you forget
 
- :tools
- (lsp +lsp)
- ;; (lsp +eglot +booster)
- (eval +overlay)     ; run code, run (also, repls)
- ;; TODO: following not confirmed
- ansible
- ;; direnv
- (debugger +lsp)
- (docker +lsp)
- editorconfig        ; let someone else argue about tabs vs spaces
- ;; ein                 ; TODO try Jupyter notebooks with emacs
- (lookup +dictionary)    ; navigate your code and its documentation
+  :tools
+  ;; (lsp +lsp)
+  (lsp +eglot +booster)
+  (eval +overlay)     ; run code, run (also, repls)
+  ;; TODO: following not confirmed
+  ansible
+  ;; direnv
+  (debugger +lsp)
+  (docker +lsp)
+  editorconfig        ; let someone else argue about tabs vs spaces
+  ;; ein                 ; TODO try Jupyter notebooks with emacs
+  (lookup +dictionary)    ; navigate your code and its documentation
 
- magit               ; a git porcelain for Emacs
- make                ; run make tasks from Emacs
- ;; pass             ; password manager for nerds
- pdf                 ; pdf enhancements
- ;; tmux
- ;;terraform         ; May try it: infrastructure as code, try it when using multiple cloud services
- tree-sitter
- upload            ; map local to remote projects via ssh/ftp
+  magit               ; a git porcelain for Emacs
+  make                ; run make tasks from Emacs
+  ;; pass             ; password manager for nerds
+  pdf                 ; pdf enhancements
+  ;; tmux
+  ;;terraform         ; May try it: infrastructure as code, try it when using multiple cloud services
+  tree-sitter
+  upload            ; map local to remote projects via ssh/ftp
 
- :lang
- emacs-lisp          ; drown in parentheses
- (python +lsp +pyright +uv +tree-sitter)
- (cc +lsp) ; C > C++ == 1
- ;;common-lisp       ; if you've seen one lisp, you've seen them all
- ;;data              ; config/data formats
- ;;ess               ; emacs speaks statistics
- graphviz            ; language for visualizing graphs
- ;;(graphql +lsp)    ; Give queries a REST
- (json +lsp)       ; At least it ain't XML
- ;;(java +lsp)       ; the poster child for carpal tunnel syndrome
- ;;(javascript +lsp) ; all(hope(abandon(ye(who(enter(here))))))
- (latex +cdlatex)      ; NOTE may try +lsp
- ;;lua               ; one-based indices? one-based indices
- markdown            ; writing docs for people to ignore
- (org +roam +present) ; TODO +noter
- plantuml            ; diagrams for confusing people more
- ;; qt                  ; the 'cutest' gui framework ever
- rst                 ; ReST in peace
- ;; (rest + jq)      ; TODO Emacs as a REST client +jq Enable support for reading and processing REST responses with jq
- (sh +lsp)
- (web +lsp)   ; support for various web languages, including HTML5, CSS, SASS/SCSS, as well as Django
- (yaml +lsp)        ; JSON, but readable
+  :lang
+  emacs-lisp          ; drown in parentheses
+  (python +lsp +pyright +uv +tree-sitter)
+  (cc +lsp) ; C > C++ == 1
+  ;;common-lisp       ; if you've seen one lisp, you've seen them all
+  ;;data              ; config/data formats
+  ;;ess               ; emacs speaks statistics
+  graphviz            ; language for visualizing graphs
+  ;;(graphql +lsp)    ; Give queries a REST
+  (json +lsp)       ; At least it ain't XML
+  ;;(java +lsp)       ; the poster child for carpal tunnel syndrome
+  ;;(javascript +lsp) ; all(hope(abandon(ye(who(enter(here))))))
+  (latex +cdlatex)      ; NOTE may try +lsp
+  ;;lua               ; one-based indices? one-based indices
+  markdown            ; writing docs for people to ignore
+  (org +roam +present) ; TODO +noter
+  plantuml            ; diagrams for confusing people more
+  ;; qt                  ; the 'cutest' gui framework ever
+  rst                 ; ReST in peace
+  ;; (rest + jq)      ; TODO Emacs as a REST client +jq Enable support for reading and processing REST responses with jq
+  (sh +lsp)
+  (web +lsp)   ; support for various web languages, including HTML5, CSS, SASS/SCSS, as well as Django
+  (yaml +lsp)        ; JSON, but readable
 
- :app
- calendar
- ;;everywhere        ; *leave* Emacs!? You must be joking
- ;;(rss +org)          ; emacs as an RSS reader
+  :app
+  calendar
+  ;;everywhere        ; *leave* Emacs!? You must be joking
+  ;;(rss +org)          ; emacs as an RSS reader
 
- :config
- (default +smartparens) ;; +bindings
+  :config
+  (default +smartparens) ;; +bindings
 
- :cc
- theme
- defaults
- bindings
- dev
- notes
- agenda
- ai
+  :cc
+  theme
+  defaults
+  bindings
+  dev
+  notes
+  agenda
+  ai
 
- :cc-langs
- cpp
- python
- web
- yaml
- )
+  :cc-langs
+  cpp
+  python
+  web
+  yaml
+  )
 
 ;; Using "mycustom" instead of "custom" to keep the custom file clean
 ;; TODO should move to at the end of config.el
