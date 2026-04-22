@@ -14,6 +14,8 @@
 (cc/def-keymap cc/code-lookup-keymap cc/code-lookup-map-prefix "C-c ." "lookup(code)")
 (cc/def-keymap cc/code-keymap cc/code-map-prefix "C-c c" "code")
 (cc/def-keymap cc/run-eval-keymap cc/run-map-prefix "<f5>" "run")
+(cc/def-keymap cc/local-mode-keymap cc/local-mode-map-prefix "C-c m" "local-mode")
+(cc/def-keymap cc/ai-keymap cc/ai-map-prefix "C-c A" "ai")
 
 ;; Global keybindings
 (map! "M-." #'+lookup/definition

@@ -22,8 +22,8 @@
 
 * Keybindings
 ** Prefix Keys:
-- *C-c g*: global prefix key
-- *C-c l*: local prefix key
+- *C-c m*: local prefix key
+- *C-c A*: AI prefix key
 - *C-c c*: code prefix key
 
 Most important prefix keys:
