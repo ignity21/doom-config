@@ -45,10 +45,12 @@
   (:when (modulep! :tools lsp)
     :desc "Consult symbol in project" "p" #'consult-lsp-symbols)
   (:when (modulep! :tools lsp +eglot)
-    :desc "Consult symbol in project" "p" #'consult-eglot-symbols)
+    :desc "Consult symbol in project" "p" #'consult-eglot-symbols
+    :desc "Call hierarchy" "c" #'eglot-show-call-hierarchy
+    :desc "Type hierarchy" "T" #'eglot-show-type-hierarchy)
   :desc "Consult symbol in File" "f" #'+vertico/search-symbol-at-point
   :desc "Find references" "r" #'+lookup/references
-  :desc "Find implementations" "i" #'+lookup/implementation
+  :desc "Find implementations" "i" #'+lookup/implementations
   :desc "Find type definition" "t" #'+lookup/type-definition
   :desc "Find documentation" "d" #'+lookup/documentation)
 

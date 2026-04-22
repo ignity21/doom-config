@@ -24,9 +24,22 @@
     )
   )
 
-(after! eglot
-  (setopt eglot-send-changes-idle-time 0.5
-    eglot-autoshutdown t))
+;; TODO
+;; (after! eglot
+;;   (setopt eglot-send-changes-idle-time 0.5
+;;     eglot-autoshutdown t)
+
+;;   ;; move use-package! eglot :config to here
+;;   (set-popup-rule! "^\\*eglot-help" :size 0.3 :quit t :select t)
+;;   (set-lookup-handlers! 'eglot--managed-mode
+;;     :definition      #'xref-find-definitions
+;;     :references      #'xref-find-references
+;;     :implementations #'eglot-find-implementation
+;;     :type-definition #'eglot-find-typeDefinition
+;;     :documentation   #'+eglot-lookup-documentation)
+;;   (cl-callf plist-put eglot-events-buffer-config :size 0)
+;;   (set-debug-variable! 'eglot-events-buffer-config '(:size 2000000 :format full))
+;;   )
 
 (when (modulep! :tools lsp -eglot +booster)
   ;; emacs-lsp-booster configuration for lsp-mode

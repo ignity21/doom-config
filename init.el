@@ -21,6 +21,11 @@
 ;; (require 'cc-funcs)
 ;; (require 'cc-autoloads)
 
+(advice-add 'require :before
+  (lambda (feature &rest _)
+    (when (eq feature 'eglot)
+      (with-current-buffer (get-buffer-create "*eglot-load-trace*")
+        (insert (format "%s\n" (backtrace-frames)))))))
 (doom!
   :completion
   (vertico +icons)    ; Vertico, Consult, Embark, Marginalia, Orderless
@@ -74,7 +79,7 @@
   ;; (lsp)
   ;; (debugger +lsp)
 
-  (lsp +eglot +booster)
+  (lsp +eglot);; +booster)
 
   (eval +overlay)     ; run code, run (also, repls)
   ;; TODO: following not confirmed

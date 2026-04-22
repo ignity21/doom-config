@@ -46,6 +46,8 @@
 
 
 (with-eval-after-load 'eglot
+  (setopt eglot-extend-to-xref t
+    )
   (add-to-list 'eglot-server-programs
     '(python-base-mode . ("basedpyright-langserver" "--stdio"))))
 
