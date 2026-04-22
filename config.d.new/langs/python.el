@@ -26,6 +26,8 @@
       (when (file-exists-p temp-file)
         (delete-file temp-file)))))
 
+(setq-hook! 'python-base-mode-hook +format-with '(ruff-isort ruff))
+
 (after! lsp-mode;; when (modulep! :tools lsp +lsp)
   ;; enable basedpyright+ruff by default
   ;; lsp client choices: pyright, ruff, ty-ls
@@ -41,16 +43,11 @@
   (add-hook! python-base-mode
     (advice-add 'lsp-format-buffer :before #'lsp-organize-imports)))
 
+
+
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs
     '(python-base-mode . ("basedpyright-langserver" "--stdio"))))
-;; (if (modulep! :tools lsp +booster)
-;;     (add-to-list 'eglot-server-programs
-;;                  '(python-base-mode .
-;;                    ("emacs-lsp-booster" "basedpyright-langserver" "--stdio")))
-;;   (add-to-list 'eglot-server-programs
-;;                '(python-base-mode . ("basedpyright-langserver" "--stdio")))))
-
 
 ;; (after! python
 ;;   (setopt python-shell-interpreter "python3"
