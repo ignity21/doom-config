@@ -28,7 +28,7 @@
   (setopt eglot-send-changes-idle-time 0.5
     eglot-autoshutdown t))
 
-(when (modulep! :tools lsp +lsp +booster)
+(when (modulep! :tools lsp -eglot +booster)
   ;; emacs-lsp-booster configuration for lsp-mode
   (defun lsp-booster--advice-json-parse (old-fn &rest args)
     "Try to parse bytecode instead of json."

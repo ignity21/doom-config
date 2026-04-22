@@ -15,7 +15,7 @@
     :defer t
     :init
     (add-hook! '(yaml-mode-hook yaml-ts-mode-hook)
-               #'yaml-pro-ts-mode)
+      #'yaml-pro-ts-mode)
     :config
-    (when (modulep! +lsp)
+    (when (modulep! :lang yaml +lsp)
       (add-hook 'yaml-ts-mode-local-vars-hook #'lsp! 'append))))

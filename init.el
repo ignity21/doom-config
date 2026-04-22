@@ -70,13 +70,16 @@
   syntax   ; tasing you for every semicolon you forget
 
   :tools
-  ;; (lsp +lsp)
+  ;; use "lsp with debugger" or "eglot"
+  ;; (lsp)
+  ;; (debugger +lsp)
+
   (lsp +eglot +booster)
+
   (eval +overlay)     ; run code, run (also, repls)
   ;; TODO: following not confirmed
   ansible
   ;; direnv
-  (debugger +lsp)
   (docker +lsp)
   editorconfig        ; let someone else argue about tabs vs spaces
   ;; ein                 ; TODO try Jupyter notebooks with emacs

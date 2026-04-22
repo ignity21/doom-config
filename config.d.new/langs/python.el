@@ -28,7 +28,7 @@
 
 (setq-hook! 'python-base-mode-hook +format-with '(ruff-isort ruff))
 
-(after! lsp-mode;; when (modulep! :tools lsp +lsp)
+(after! lsp-mode
   ;; enable basedpyright+ruff by default
   ;; lsp client choices: pyright, ruff, ty-ls
   (setq-hook! python-base-mode lsp-enabled-clients '(pyright ruff))

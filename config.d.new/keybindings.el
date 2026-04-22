@@ -40,7 +40,7 @@
 
 ;; C-c . prefix
 (map! :prefix cc/code-lookup-map-prefix
-  (:when (modulep! :tools lsp +lsp)
+  (:when (modulep! :tools lsp)
     :desc "Consult symbol in project" "p" #'consult-lsp-symbols)
   (:when (modulep! :tools lsp +eglot)
     :desc "Consult symbol in project" "p" #'consult-eglot-symbols)
@@ -98,14 +98,13 @@
     (:when (modulep! :ui indent-guides)
       :desc "Indent guides" "i" #'indent-bars-mode)
     )
-  (:when (modulep! :tools lsp +lsp)
+  (:when (modulep! :tools lsp)
     :map lsp-mode-map
     :desc "Code actions" "a" #'lsp-execute-code-action
     :desc "Rename symbol" "r" #'lsp-rename
     :desc "imenu" "i" #'lsp-ui-imenu
     (:prefix ("m" . "<minor-mode>")
       :desc "Inlay hints" "i" #'lsp-inlay-hints-mode
-      :desc "Line Numbers" "l" #'doom/toggle-line-numbers
       )
     (:prefix ("s" . "<lsp-session>")
       :desc "List sessions" "l" #'lsp-describe-session
@@ -119,10 +118,11 @@
       :desc "Switch client" "s" #'+lsp/switch-client)
     )
   (:when (modulep! :tools lsp +eglot)
-    (:prefix ("r" . "<refactor>")
+    (:prefix ("R" . "<refactor>")
       :desc "Refactor inline" "r" #'eglot-code-action-inline
       :desc "Refactor extract" "e" #'eglot-code-action-extract
       :desc "Refactor rewrite" "w" #'eglot-code-action-rewrite
       )
+    :desc "Rename symbol" "r" #'eglot-rename
     :desc "Code actions" "a" #'eglot-code-action-quickfix)
   )
