@@ -24,6 +24,8 @@
 
 ;; F5 prefix
 (map! :prefix cc/run-map-prefix
+      :desc "Quick run shell" "<f5>" #'quickrun-shell
+      :desc "Quick run" "q" #'quickrun
       :desc "Eval buffer or region" "e" #'+eval/buffer-or-region
       :desc "Eval line" "l" #'+eval/line-or-region
       :desc "Send to REPL" "s" #'+eval/send-region-to-repl
