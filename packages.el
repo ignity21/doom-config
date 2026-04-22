@@ -65,7 +65,8 @@
 
 (package! auto-dark)
 
-(disable-packages! vimish-fold
+(disable-packages!
+  vimish-fold
   evil-vimish-fold)
 
 ;; TODO Org
@@ -79,4 +80,6 @@
 ;;   (package! ruff-format))
 
 ;; Development
+(disable-packages!
+  flymake)
 (package! apheleia :pin "7a2136052f4174c178b28da1a2c632904bf08176")

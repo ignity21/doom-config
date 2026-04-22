@@ -43,11 +43,7 @@
   (add-hook! python-base-mode
     (advice-add 'lsp-format-buffer :before #'lsp-organize-imports)))
 
-
-
-(with-eval-after-load 'eglot
-  (setopt eglot-extend-to-xref t
-    )
+(after! 'eglot
   (add-to-list 'eglot-server-programs
     '(python-base-mode . ("basedpyright-langserver" "--stdio"))))
 
