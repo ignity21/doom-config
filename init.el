@@ -69,7 +69,7 @@
   ;; (lsp)
   ;; (debugger +lsp)
 
-  (lsp +eglot +booster)
+  (lsp +eglot) ; +booster) maybe enable for big projects
 
   (eval +overlay)     ; run code, run (also, repls)
   ;; TODO: following not confirmed
