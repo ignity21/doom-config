@@ -127,6 +127,9 @@
       :desc "Refactor extract" "e" #'eglot-code-action-extract
       :desc "Refactor rewrite" "w" #'eglot-code-action-rewrite
       )
+    (:prefix ("s" . "<eglot-session>")
+      :desc "Shutdown" "d" #'eglot-shutdown
+      :desc "Reconnect" "r" #'eglot-reconnect)
     :desc "Rename symbol" "r" #'eglot-rename
     :desc "Code actions" "a" #'eglot-code-action-quickfix)
   )
