@@ -6,7 +6,7 @@
   "C-M-n" #'vertico-next-group
   "C-M-p" #'vertico-previous-group
   "C-o" #'+vertico/embark-preview
-  "C-l" #'vertico-directory-delete-word)
+  "C-l" #'vertico-directory-delete-char)
 
 (map!
   :map corfu-map
