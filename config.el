@@ -24,6 +24,7 @@
 (defun cc/load-lang-config (lang)
   (cc/load-config (concat "langs/" lang ".el")))
 
+(cc/load-config "theme.el")
 (cc/load-config "keybindings.el")
 (cc/load-config "completion.el")
 (cc/load-config "lsp.el")

@@ -4,54 +4,54 @@
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
 (setopt user-full-name "Name"
-        user-mail-address "name@example.com")
+  user-mail-address "name@example.com")
 
 ;; cc-ui
 (setopt cc/mono-font "Hack"
-        cc/unicode-font "Source Han Sans CN"
-        cc/emoji-font "Noto Color Emoji"
-        cc/font-size 24
-        ;; recommended: doom-one-light, doom-acario-light(cold), doom-oksolar-light(warm)
-        cc/light-theme 'doom-one-light
-        ;; recommended: doom-one, doom-peacock, doom-tomorrow-night, doom-opera
-        cc/dark-theme 'doom-tomorrow-night)
+  cc/unicode-font "Source Han Sans CN"
+  cc/emoji-font "Noto Color Emoji"
+  cc/font-size 24
+  ;; recommended: ef-cyprus, ef-melissa-light, ef-summer
+  cc/light-ef-theme 'ef-cyprus
+  ;; recommended: ef-owl, ef-dream, ef-autumn
+  cc/dark-ef-theme 'ef-owl)
 
 ;; cc-config
 (setopt cc/personal-aspell-en-dict "~/dicts/spell-fu/en.pws")
 
 ;; cc-note
 (setopt cc/default-org-dir "~/org/"
-        cc/org-id-locations "~/org/.orgids"
-        cc/notes-base-dir "~/org/notes/"
-        cc/org-agenda-dir "~/org/todos/")
+  cc/org-id-locations "~/org/.orgids"
+  cc/notes-base-dir "~/org/notes/"
+  cc/org-agenda-dir "~/org/todos/")
 
 ;; cc-dev
 (setopt cc/cpp-default-tab-width 2)
 
 ;; cc-ai
 (setopt cc/openai-key ""
-        cc/anthropic-key ""
-        cc/gemini-key ""
-        cc/deepseek-key "")
+  cc/anthropic-key ""
+  cc/gemini-key ""
+  cc/deepseek-key "")
 
 ;; ai-tools
 (setopt
- ;; aidermacs
- ;; models:
- ;; deepseek-reasoner
- ;; deepseek/deepseek-chat
- ;; claude-sonnet-4-20250514
- ;; gemini-2.5-pro-preview-05-06
- aidermacs-default-model "claude-sonnet-4-20250514"
- aidermacs-weak-model "claude-3-5-haiku-latest"
- aidermacs-architect-model "gemini-2.5-pro-preview-05-06"
- ;; for code generation
- aidermacs-editor-model "claude-sonnet-4-20250514"
- aidermacs-auto-commits nil
- ;; aidermacs-config-file "~/.aider.conf.yml"
+  ;; aidermacs
+  ;; models:
+  ;; deepseek-reasoner
+  ;; deepseek/deepseek-chat
+  ;; claude-sonnet-4-20250514
+  ;; gemini-2.5-pro-preview-05-06
+  aidermacs-default-model "claude-sonnet-4-20250514"
+  aidermacs-weak-model "claude-3-5-haiku-latest"
+  aidermacs-architect-model "gemini-2.5-pro-preview-05-06"
+  ;; for code generation
+  aidermacs-editor-model "claude-sonnet-4-20250514"
+  aidermacs-auto-commits nil
+  ;; aidermacs-config-file "~/.aider.conf.yml"
 
- ;; gptel
- gptel-model 'claude-3-5-haiku-latest
- gptel-temperature 0.8
- gptel-max-tokens 4096
- )
+  ;; gptel
+  gptel-model 'claude-3-5-haiku-latest
+  gptel-temperature 0.8
+  gptel-max-tokens 4096
+  )
