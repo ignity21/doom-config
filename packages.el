@@ -63,8 +63,6 @@
             :files ("*.el"))
   :pin "ab5c58bc969f52f6d75e972658f2c3381c70b4fa")
 
-(package! auto-dark)
-
 (disable-packages!
   vimish-fold
   evil-vimish-fold)
