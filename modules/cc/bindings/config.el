@@ -140,10 +140,10 @@
       :desc "Insert snippet" "s" #'yas-insert-snippet)
     )
 
-  ;; C-c n --- note
+  ;; C-c n --- notes
   (:prefix-map
     ("n" . "<note>")
-    (:when (modulep! :lang org +roam2)
+    (:when (modulep! :lang org +roam)
       :desc "Fleet note" "j" #'org-roam-dailies-find-today
       :desc "Choose roam dir" "n" #'cc/org-roam-choose-dir
       :desc "Find note" "f" #'org-roam-node-find

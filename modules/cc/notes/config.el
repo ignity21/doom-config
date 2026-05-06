@@ -48,7 +48,7 @@
     :desc "Insert link" "l" #'org-insert-link
     :desc "Insert footnote" "f" #'org-footnote-new)
 
-  ;; local prefix l
+  ;; local prefix m
   (:prefix
     "C-c m"
     (:prefix ("r" . "<roam>")
@@ -119,7 +119,7 @@
     anki-editor-use-math-jax t)
   :init
   (map! :map org-mode-map
-    :prefix ("C-c l a" . "<anki>")
+    :prefix ("C-c m a" . "<anki>")
     :desc "Push cards" "p" #'anki-editor-push-notes
     :desc "Cloze dwim" "c" #'anki-editor-cloze-dwim
     :desc "Cloze region" "r" #'anki-editor-cloze-region
@@ -133,7 +133,7 @@
               org-download-rename-at-point)
   :init
   (map! :map org-mode-map
-    :prefix ("C-c l d" . "<org-download>")
+    :prefix ("C-c m d" . "<org-download>")
     :desc "Insert screenshot" "i" #'org-download-screenshot
     :desc "Insert from clipboard" "y" #'org-download-clipboard
     :desc "Rename at point" "r" #'org-download-rename-at-point
@@ -143,4 +143,4 @@
     org-download-heading-lvl 1
     org-download-annotate-function (lambda (_link) "")))
 
-(load! "roam")
+;; (load! "roam")

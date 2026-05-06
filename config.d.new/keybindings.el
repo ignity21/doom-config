@@ -79,8 +79,6 @@
   :desc "Find file""f" #'find-file
   :desc "Sudo find file" "F" #'doom/sudo-find-file
   :desc "Copy file path" "y" #'+default/yank-buffer-path
-  ;; (:when (modulep! :lang org +roam2)
-  ;;   :desc "Find roam note" "n" #'org-roam-node-find)
   (:when (modulep! :tools upload)
     (:prefix ("u" . "<upload>")
       :desc "Upload" "u" #'ssh-deploy-upload-handler
