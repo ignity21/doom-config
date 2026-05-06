@@ -14,7 +14,6 @@
 (load! "config.d/ui.el")
 (load! "config.d/editor.el")
 (load! "config.d/emacs.el")
-(load! "config.d/checkers.el")
 (load! "config.d/tools.el")
 (load! "config.d/langs.el")
 
@@ -27,6 +26,7 @@
 (cc/load-config "theme.el")
 (cc/load-config "keybindings.el")
 (cc/load-config "completion.el")
+(cc/load-config "checkers.el")
 (cc/load-config "lsp.el")
 (cc/load-lang-config "elisp")
 (cc/load-lang-config "python")

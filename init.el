@@ -61,7 +61,7 @@
 
   :checkers
   grammar           ; aid your writing by combining lang-tool and writegood-mode
-  (spell +aspell)   ; tasing you for misspelling mispelling (+everywhere disabled)
+  (spell +aspell) ; +everywhere) ; +everywhere for coding comments
   syntax   ; tasing you for every semicolon you forget
 
   :tools
