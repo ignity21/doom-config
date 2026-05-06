@@ -111,7 +111,7 @@
   ;; (rest + jq)      ; TODO Emacs as a REST client +jq Enable support for reading and processing REST responses with jq
   (sh +lsp)
   (web +lsp)   ; support for various web languages, including HTML5, CSS, SASS/SCSS, as well as Django
-  (yaml +lsp)        ; JSON, but readable
+  (yaml +lsp +tree-sitter) ; JSON, but readable
 
   :app
   calendar
@@ -134,7 +134,6 @@
   cpp
   python
   web
-  yaml
   )
 
 ;; Using "mycustom" instead of "custom" to keep the custom file clean

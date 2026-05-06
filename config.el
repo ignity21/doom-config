@@ -29,6 +29,7 @@
 (cc/load-config "checkers.el")
 (cc/load-config "lsp.el")
 (cc/load-lang-config "elisp")
+(cc/load-lang-config "yaml")
 (cc/load-lang-config "python")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
