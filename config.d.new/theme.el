@@ -39,21 +39,19 @@
 (use-package! ef-themes
   :demand t
   :init
-  (setopt doom-theme nil)
+  (setopt
+    doom-theme nil
+    modus-themes-mixed-fonts t
+    modus-themes-italic-constructs t
+    modus-themes-bold-constructs t)
   (ef-themes-take-over-modus-themes-mode 1)
   (map!
     "<f12>" #'ef-themes-toggle
     "S-<f12>" #'ef-themes-load-random-light)
-  :config
-  (setopt
-    modus-themes-mixed-fonts t
-    modus-themes-italic-constructs t
-    modus-themes-bold-constructs t
-    ef-themes-to-toggle `(,cc/light-ef-theme ,cc/dark-ef-theme)
-    )
   (add-hook! 'after-init-hook
     (ef-themes-load-theme cc/light-ef-theme))
-  )
+  :config
+  (setopt ef-themes-to-toggle `(,cc/light-ef-theme ,cc/dark-ef-theme)))
 
 (if (daemonp)
   (add-hook! 'after-make-frame-functions
