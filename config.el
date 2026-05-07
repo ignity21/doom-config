@@ -23,6 +23,7 @@
 (defun cc/load-lang-config (lang)
   (cc/load-config (concat "langs/" lang ".el")))
 
+(cc/load-config "defaults.el")
 (cc/load-config "theme.el")
 (cc/load-config "keybindings.el")
 (cc/load-config "completion.el")
@@ -32,10 +33,8 @@
 (cc/load-lang-config "yaml")
 (cc/load-lang-config "python")
 
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setopt display-line-numbers-type t) ; absolute line numbers
-
+(add-hook! 'doom-init-ui-hook
+  (warn "记得解锁 pacman IgnorePkg 里的 emacs-wayland。等上游修复 python-ts-mode query bug 后再升级！当前版本 30.2-1"))
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
