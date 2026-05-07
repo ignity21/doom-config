@@ -31,7 +31,7 @@
       (when (file-exists-p temp-file)
         (delete-file temp-file)))))
 
-(add-hook 'python-ts-mode-hook
+(add-hook 'python-base-mode-hook
   (defun cc/python-setup-lsp-clients ()
     (setq-local +format-with '(ruff-isort ruff))
     (setq-local lsp-enabled-clients (if cc/python-use-ty-p
@@ -41,7 +41,7 @@
 (after! lsp-mode
   ;; enable basedpyright+ruff by default
   ;; lsp client choices: pyright, ruff, ty-ls
-  ;; add ((python-ts-mode . ((lsp-enabled-clients . (ty-ls ruff))))) in .dir-locals.el
+  ;; add ((python-base-mode . ((lsp-enabled-clients . (ty-ls ruff))))) in .dir-locals.el
   ;; to change the default lsp clients
 
   (setopt lsp-pyright-langserver-command "basedpyright"
@@ -49,18 +49,18 @@
     lsp-ruff-advertize-fix-all nil
     )
 
-  (add-hook! python-ts-mode
+  (add-hook! python-base-mode
     (advice-add 'lsp-format-buffer :before #'lsp-organize-imports)))
 
 (after! 'eglot
   (add-to-list 'eglot-server-programs
-    '(python-ts-mode . ("basedpyright-langserver" "--stdio"))))
+    '(python-base-mode . ("basedpyright-langserver" "--stdio"))))
 
 ;; (after! python
 ;;   (setopt python-shell-interpreter "python3"
 ;;           python-indent-offset 4))
 
-;; (map! :map python-ts-mode-map
+;; (map! :map python-base-mode-map
 ;;       "C-c <TAB> a" nil ; python-add-import
 ;;       "C-c <TAB> s" nil
 ;;       "C-c <TAB> f" nil

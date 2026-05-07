@@ -30,6 +30,7 @@
   :desc "Quick run" "q" #'quickrun
   :desc "Eval buffer or region" "b" #'+eval/buffer-or-region
   :desc "Eval line" "e" #'+eval/line-or-region
+  :desc "Eval print" "p" #'eval-print-last-sexp
   :desc "Send to REPL" "s" #'+eval/send-region-to-repl
   :desc "Open REPL" "r" #'+eval/open-repl-other-window)
 
@@ -94,6 +95,7 @@
 (map! :prefix cc/code-map-prefix
   :desc "Compile" "c" #'+default/compile
   :desc "Format buffer or region" "f" #'+format/region-or-buffer
+  :desc "Treesit install" "t" #'treesit-install-language-grammar
   (:prefix ("m" . "<minor-mode>")
     :desc "Flycheck" "f" #'flycheck-mode
     :desc "Line Numbers" "l" #'doom/toggle-line-numbers
