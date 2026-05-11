@@ -26,7 +26,8 @@
 (use-package! copilot
   :init
   (add-hook!
-    (prog-mode emacs-lisp-mode yaml-ts-mode conf-mode)
+    (prog-mode emacs-lisp-mode yaml-ts-mode
+      conf-mode)
     #'copilot-mode) ; #'copilot-nes-mode
   :config
   (setopt copilot-indent-offset-warning-disable t)

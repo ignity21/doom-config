@@ -34,7 +34,7 @@
 (cc/load-lang-config "python")
 
 (add-hook! 'doom-init-ui-hook
-  (warn "记得解锁 pacman IgnorePkg 里的 emacs-wayland。等上游修复 python-ts-mode query bug 后再升级！当前版本 30.2-1"))
+  (warn "记得解锁 pacman IgnorePkg 里的 emacs-wayland。等上游修复 python-ts-mode query bug 后再升级！当前版本 30.2-1 tree-sitter 0.25.10-3"))
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
