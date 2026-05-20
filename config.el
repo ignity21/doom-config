@@ -33,9 +33,6 @@
 (cc/load-lang-config "yaml")
 (cc/load-lang-config "python")
 
-(add-hook! 'doom-init-ui-hook
-  (warn "记得取消 /etc/pacman.conf IgnorePkg 里的 emacs-wayland。等它升级到 30.2-3"))
-
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
