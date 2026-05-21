@@ -28,10 +28,14 @@
   (add-hook!
     (prog-mode emacs-lisp-mode yaml-ts-mode
       conf-mode)
-    #'copilot-mode) ; #'copilot-nes-mode
+    #'copilot-mode #'copilot-nes-mode)
   :config
-  (setopt copilot-indent-offset-warning-disable t)
-  (map! :desc "Copilot mode" "C-c t o" #'copilot-mode
+  (setopt
+    copilot-indent-offset-warning-disable t
+    copilot-nes-idle-delay 0.5)
+  (map!
+    :desc "Copilot mode" "C-c t o" #'copilot-mode
+    :desc "Copilot NES mode" "C-c t n" #'copilot-nes-mode
     (:map copilot-completion-map
       "M-RET" #'copilot-accept-completion
       "<right>" #'copilot-accept-completion
