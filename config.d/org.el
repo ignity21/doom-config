@@ -6,7 +6,7 @@
 (when (boundp 'cc/default-org-dir)
   (setq org-directory cc/default-org-dir))
 
-(when (boundp 'cc/notes-base-dir)
-  (setopt cc/roam-notes-dir (concat cc/notes-base-dir "roamnotes/")
-          cc/org-pdf-notes-dir (concat cc/notes-base-dir "pdfnotes/")
-          cc/roam-journals-dir (concat cc/notes-base-dir "journals/")))
+(when (boundp 'cc/notes-root-dir)
+  (setopt cc/roam-notes-dir (concat cc/notes-root-dir "roamnotes/")
+    cc/org-pdf-notes-dir (concat cc/notes-root-dir "pdfnotes/")
+    cc/roam-dailies-dir (concat cc/notes-root-dir "dailies/")))

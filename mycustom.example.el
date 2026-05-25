@@ -20,10 +20,10 @@
 (setopt cc/personal-aspell-en-dict "~/dicts/spell-fu/en.pws")
 
 ;; cc-note
-(setopt cc/default-org-dir "~/org/"
-  cc/org-id-locations "~/org/.orgids"
-  cc/notes-base-dir "~/org/notes/"
-  cc/org-agenda-dir "~/org/todos/")
+(setopt
+  org-directory "~/org/"
+  cc/org-agenda-dir "~/org/todos/"
+  cc/notes-root-dir "~/org/notes/")
 
 ;; cc-dev
 (setopt cc/cpp-default-tab-width 2)

@@ -26,6 +26,13 @@
 
 (after! org (require 'org-indent))
 
+(setq-hook! 'org-mode-hook
+  completion-at-point-functions
+  `(cape-file
+     ,(cape-capf-super #'pcomplete-completions-at-point #'yasnippet-capf)
+     cape-dabbrev
+     t))
+
 (map! :after org
   :map org-mode-map
   ;; non prefix
@@ -61,10 +68,12 @@
       :desc "Plot table" "" #'org-plot/gnuplot))
   )
 
+
+
+
 (after! org
   (remove-hook 'org-mode-hook #'org-indent-mode)
   (setopt org-startup-indented nil
-    ;; TODO org-id-locations cc/org-id-locations
     org-ellipsis " ▼"
     org-appear-autoemphasis nil
     ;; pretty latex preview
@@ -143,4 +152,4 @@
     org-download-heading-lvl 1
     org-download-annotate-function (lambda (_link) "")))
 
-;; (load! "roam")
+(load! "roam")
