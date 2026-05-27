@@ -6,6 +6,8 @@
 (when (modulep! :cc ui)
   (cc/set-doom-ui-appearance))
 
+(load! "custom-vars.el")
+
 ;; load config files
 (load! "config.d/defaults.el")
 (load! "config.d/org.el")

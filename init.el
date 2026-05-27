@@ -137,5 +137,4 @@
   )
 
 ;; Using "mycustom" instead of "custom" to keep the custom file clean
-;; TODO should move to at the end of config.el
 (load! "mycustom")
