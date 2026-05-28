@@ -89,10 +89,11 @@ Most important prefix keys:
 | M-e / M-i  | insert precise note |
 | <tab>      | insert selection    |
 
-* Debuging
+* Debugging
 - ~emacs --debug-init~
 - ~C-h d d~: ~doom-debug-mode~
   - ~M-x toggle-debug-on-error~
+- ~(debug-on-variable-change 'some-variable)~
 
 ** Backtrace from ~bin/doom~
 #+begin_src sh
