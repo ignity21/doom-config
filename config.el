@@ -29,6 +29,7 @@
 (cc/load-config "completion.el")
 (cc/load-config "checkers.el")
 (cc/load-config "lsp.el")
+(cc/load-config "patch.el")
 (cc/load-lang-config "elisp")
 (cc/load-lang-config "yaml")
 (cc/load-lang-config "python")
