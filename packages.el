@@ -81,6 +81,8 @@
   flymake)
 (package! apheleia :pin "7a2136052f4174c178b28da1a2c632904bf08176")
 
+(package! ghostel)
+
 ;; python
 ;; (when (modulep! :tools lsp +eglot)
 ;;   (package! ruff-format))

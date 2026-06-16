@@ -21,12 +21,12 @@
 ;;   :group 'cc-ai
 ;;   :type 'string)
 
-(defcustom cc/use-mcp-p t
-  "Use mcp-hub."
-  :group 'cc-mcp
-  :type 'boolean)
+;; (defcustom cc/use-mcp-p t
+;;   "Use mcp-hub."
+;;   :group 'cc-mcp
+;;   :type 'boolean)
 
-(defcustom cc/mcp-fs-directory "~/repos/"
-  "Directory for mcp-hub filesystem server."
-  :group 'cc-mcp
-  :type 'string)
+;; (defcustom cc/mcp-fs-directory "~/repos/"
+;;   "Directory for mcp-hub filesystem server."
+;;   :group 'cc-mcp
+;;   :type 'string)

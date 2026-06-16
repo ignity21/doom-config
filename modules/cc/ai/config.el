@@ -2,14 +2,18 @@
 ;;; cc/ai/config.el
 
 ;; ai-code-interface
-;; (use-package! ai-code
-;;   :init
-;;   (map! :desc "ai-code" "C-c a" #'ai-code-menu)
-;;   :commands (ai-code-menu)
-;;   :config
-;;   (ai-code-set-backend 'aider)
-;;   )
-
+(use-package! ai-code
+  :init
+  (map! :desc "ai-code" "C-c a" #'ai-code-menu)
+  (setopt
+    ai-code-backends-infra-terminal-backend 'ghostel
+    ai-code-auto-test-type 'ask-me)
+  :commands (ai-code-menu)
+  :config
+  (ai-code-set-backend 'codex)
+  (with-eval-after-load 'magit
+    (ai-code-magit-setup-transients))
+  )
 
 ;; ;; aider
 ;; (use-package! aider
@@ -20,19 +24,19 @@
 ;;          :desc "Aider send region" "C-c C-e" #'aider-send-line-or-region
 ;;          :desc "Switch to aider" "C-c C-b" #'aider-switch-to-buffer)))
 
-;; aidermacs
-(use-package! aidermacs
-  :commands aidermacs-transient-menu
-  :init
-  (map! :desc "Aidermacs menu" "C-c a" #'aidermacs-transient-menu)
-  :config
-  (setopt aidermacs-program '("aider-ce" "aider")
-    aidermacs-default-model "gemini"
-    aidermacs-weak-model "flash"
-    aidermacs-auto-commits nil
-    ;; May modify aidermacs-common-prompts
-    )
-  )
+;; ;; aidermacs
+;; (use-package! aidermacs
+;;   :commands aidermacs-transient-menu
+;;   :init
+;;   (map! :desc "Aidermacs menu" "C-c a" #'aidermacs-transient-menu)
+;;   :config
+;;   (setopt aidermacs-program '("aider-ce" "aider")
+;;     aidermacs-default-model "gemini"
+;;     aidermacs-weak-model "flash"
+;;     aidermacs-auto-commits nil
+;;     ;; May modify aidermacs-common-prompts
+;;     )
+;;   )
 
 ;; gptel
 (use-package! gptel
@@ -47,8 +51,8 @@
           :desc "gptel menu" "m" #'gptel-menu
           :desc "gptel send" "s" #'gptel-send
           :desc "gptel rewrite" "r" #'gptel-rewrite
-          :desc "gptel mcp add" "+" #'gptel-mcp-connect
-          :desc "gptel mcp rm" "-" #'gptel-mcp-disconnect
+          ;; :desc "gptel mcp add" "+" #'gptel-mcp-connect
+          ;; :desc "gptel mcp rm" "-" #'gptel-mcp-disconnect
           ))
   :config
   (setopt gptel-default-mode 'org-mode
@@ -58,7 +62,7 @@
     ;; gptel-rewrite-default-action 'ediff
     ;; gptel-temperature 0.8
     ;; gptel-max-tokens 2048
-    gptel-model 'claude-sonnet-4.5
+    gptel-model 'claude-sonnet-4.6
     gptel-backend (gptel-make-gh-copilot "Copilot"))
   (gptel-make-anthropic "Claude" :stream t)
   (gptel-make-gemini "Gemini" :stream t)
@@ -72,28 +76,28 @@
   )
 
 ;; mcp servers
-(use-package! mcp
-  :after gptel
-  :init
-  (setopt mcp-hub-servers
-    ;; support multiple directories
-    `(
-       ;; NOTE filesystem server
-       ("filesystem" .
-         (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem" ,cc/mcp-fs-directory)))
+;; (use-package! mcp
+;;   :after gptel
+;;   :init
+;;   (setopt mcp-hub-servers
+;;     ;; support multiple directories
+;;     `(
+;;        ;; NOTE filesystem server
+;;        ("filesystem" .
+;;          (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem" ,cc/mcp-fs-directory)))
 
-       ;; NOTE mcp-server-fetch server
-       ;; ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
+;;        ;; NOTE mcp-server-fetch server
+;;        ;; ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
 
-       ;; NOTE git server
-       ;; ("git" . (:command "uvx" :args ("mcp-server-git" "--git-dir" ,cc/mcp-git-directory)))
-       )
-    )
-  :config
-  (require 'mcp-hub)
-  (require 'gptel-integrations)
-  ;; :hook (after-init . mcp-hub-start-all-server)
-  )
+;;        ;; NOTE git server
+;;        ;; ("git" . (:command "uvx" :args ("mcp-server-git" "--git-dir" ,cc/mcp-git-directory)))
+;;        )
+;;     )
+;;   :config
+;;   (require 'mcp-hub)
+;;   (require 'gptel-integrations)
+;;   ;; :hook (after-init . mcp-hub-start-all-server)
+;;   )
 
 ;; use `mcp-make-text-tool` to create a gptel tool
 ;; (use-package! mcp-hub

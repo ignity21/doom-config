@@ -6,19 +6,20 @@
 
 
 
-;; (package! ai-code
-;;   :recipe (:host github
-;;            :repo "tninja/ai-code-interface.el"
-;;            :files ("*.el")))
-
-(package! aidermacs
+(package! ai-code
   :recipe (:host github
-           :repo "MatthewZMD/aidermacs"
-           :files ("*.el")))
+            :repo "tninja/ai-code-interface.el"
+            :files ("*.el"))
+  :pin "589307b8496ac8530d6de06cd7189d827b72e4b0")
+
+;; (package! aidermacs
+;;   :recipe (:host github
+;;             :repo "MatthewZMD/aidermacs"
+;;             :files ("*.el")))
 
 (package! gptel :recipe (:nonrecursive t))
 
-(package! mcp
-  :recipe (:host github
-           :repo "lizqwerscott/mcp.el"
-           :files ("*.el")))
+;; (package! mcp
+;;   :recipe (:host github
+;;             :repo "lizqwerscott/mcp.el"
+;;             :files ("*.el")))

@@ -57,9 +57,13 @@
   (add-hook! 'after-make-frame-functions
     (lambda (frame)
       (with-selected-frame frame
-        (set-fontset-font t 'emoji (font-spec :family cc/emoji-font) nil 'prepend))))
+        (set-fontset-font t 'emoji (font-spec :family cc/emoji-font) nil 'prepend)
+        (set-fontset-font t 'han (font-spec :family cc/unicode-font) nil 'prepend)
+        (set-fontset-font t 'cjk-misc (font-spec :family cc/unicode-font) nil 'prepend))))
   (add-hook! 'after-init-hook
-    (set-fontset-font t 'emoji (font-spec :family cc/emoji-font) nil 'prepend))
+    (set-fontset-font t 'emoji (font-spec :family cc/emoji-font) nil 'prepend)
+    (set-fontset-font t 'han (font-spec :family cc/unicode-font) nil 'prepend)
+    (set-fontset-font t 'cjk-misc (font-spec :family cc/unicode-font) nil 'prepend))
   )
 
 (setopt doom-font (font-spec :family cc/mono-font :size cc/font-size)

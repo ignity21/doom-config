@@ -176,22 +176,17 @@
       ))
 
   ;; C-c o --- open
-  (:prefix-map
-    ("o" . "<open>")
-    :desc "New frame" "f" #'make-frame
-    :desc "Color list" "C" #'list-colors-display
-    (:when (modulep! :term vterm)
-      :desc "vterm" "t" #'+vterm/toggle)
-    (:when (modulep! :tools docker)
-      :desc "Docker" "d" #'docker)
-    (:when (modulep! :app calendar)
-      :desc "Calendar" "c" #'+calendar/open-calendar)
-    (:when (modulep! :tools ein)
-      (:prefix-map ("j" . "<jupyter>")
-        :desc "Jupyter run" "r" #'ein:run
-        :desc "Jupyter login" "l" #'ein:login
-        :desc "Jupyter stop" "s" #'ein:stop))
-    )
+  ;; (:prefix-map
+  ;;   ("o" . "<open>")
+  ;;   :desc "Color list" "C" #'list-colors-display
+  ;;   (:when (modulep! :term vterm)
+  ;;     :desc "vterm" "t" #'+vterm/toggle)
+  ;;   (:when (modulep! :tools ein)
+  ;;     (:prefix-map ("j" . "<jupyter>")
+  ;;       :desc "Jupyter run" "r" #'ein:run
+  ;;       :desc "Jupyter login" "l" #'ein:login
+  ;;       :desc "Jupyter stop" "s" #'ein:stop))
+  ;;   )
 
   ;; C-c p --- project
   (:prefix-map ("p" . "<project>")

@@ -16,6 +16,7 @@
 (cc/def-keymap cc/run-eval-keymap cc/run-map-prefix "<f5>" "run")
 (cc/def-keymap cc/local-mode-keymap cc/local-mode-map-prefix "C-c m" "local-mode")
 (cc/def-keymap cc/ai-keymap cc/ai-map-prefix "C-c A" "ai")
+(cc/def-keymap cc/open-keymap cc/open-map-prefix "C-c o" "open")
 
 ;; Global keybindings
 (map! "M-." #'+lookup/definition
@@ -132,4 +133,13 @@
       :desc "Reconnect" "r" #'eglot-reconnect)
     :desc "Rename symbol" "r" #'eglot-rename
     :desc "Code actions" "a" #'eglot-code-action-quickfix)
+  )
+
+(map! :prefix cc/open-map-prefix
+  :desc "New frame" "f" #'make-frame
+  :desc "Terminal" "t" #'ghostel
+  (:when (modulep! :tools docker)
+    :desc "Docker" "d" #'docker)
+  (:when (modulep! :app calendar)
+    :desc "Calendar" "c" #'+calendar/open-calendar)
   )
