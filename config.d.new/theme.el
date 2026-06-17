@@ -15,6 +15,13 @@
   :type 'string
   :group 'cc-ui)
 
+(defcustom cc/sc-font
+  (string-trim-right
+    (font-get-system-normal-font) " [0-9]+$")
+  "The default monospace font for the system."
+  :type 'string
+  :group 'cc-ui)
+
 (defcustom cc/emoji-font
   "Noto Color Emoji"
   "The default emoji font for the system."
@@ -58,14 +65,15 @@
     (lambda (frame)
       (with-selected-frame frame
         (set-fontset-font t 'emoji (font-spec :family cc/emoji-font) nil 'prepend)
-        (set-fontset-font t 'han (font-spec :family cc/unicode-font) nil 'prepend)
-        (set-fontset-font t 'cjk-misc (font-spec :family cc/unicode-font) nil 'prepend))))
+        (set-fontset-font t 'han (font-spec :family cc/sc-font :weight 'medium) nil 'prepend)
+        (set-fontset-font t 'cjk-misc (font-spec :family cc/sc-font:weight 'medium) nil 'prepend))))
   (add-hook! 'after-init-hook
     (set-fontset-font t 'emoji (font-spec :family cc/emoji-font) nil 'prepend)
-    (set-fontset-font t 'han (font-spec :family cc/unicode-font) nil 'prepend)
-    (set-fontset-font t 'cjk-misc (font-spec :family cc/unicode-font) nil 'prepend))
-  )
+    (set-fontset-font t 'han (font-spec :family cc/sc-font :weight 'medium) nil 'prepend)
+    (set-fontset-font t 'cjk-misc (font-spec :family cc/sc-font :weight 'medium) nil 'prepend)
+    ))
 
-(setopt doom-font (font-spec :family cc/mono-font :size cc/font-size)
+(setopt
+  doom-font (font-spec :family cc/mono-font :size cc/font-size)
   doom-symbol-font (font-spec :family cc/unicode-font :size cc/font-size :weight 'medium)
   doom-big-font-increment (+ cc/font-size (/ cc/font-size 3)))

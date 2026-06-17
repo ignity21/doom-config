@@ -61,7 +61,7 @@
   :recipe (:host github
             :repo "copilot-emacs/copilot.el"
             :files ("*.el"))
-  :pin "ab5c58bc969f52f6d75e972658f2c3381c70b4fa")
+  :pin "4f901d5b269dc73d27406a92d7a0a70052fb323f")
 
 ;; (package! modus-themes)
 (package! ef-themes)
