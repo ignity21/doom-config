@@ -1,36 +1,28 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;; config.d.new/ui.el
 
-(defcustom cc/mono-font
-  (string-trim-right
-    (font-get-system-font) " [0-9]+$")
-  "The default monospace font for the system."
-  :type 'string
-  :group 'cc-ui)
-
-(defcustom cc/variable-pitch-font
-  (string-trim-right
-    (font-get-system-normal-font) " [0-9]+$")
-  "The default unicode font for the system."
-  :type 'string
-  :group 'cc-ui)
-
-(defcustom cc/chinese-font
-  (string-trim-right
-    (font-get-system-normal-font) " [0-9]+$")
-  "The default monospace font for the system."
-  :type 'string
-  :group 'cc-ui)
-
-(defcustom cc/emoji-font
-  "Noto Color Emoji"
-  "The default emoji font for the system."
-  :type 'string
-  :group 'cc-ui)
 
 (defcustom cc/font-size 16
   "The default monospace font size."
   :type 'integer
+  :group 'cc-ui)
+
+(defcustom cc/chinese-font
+  (font-spec :family "LXGW WenKai" :size cc/font-size)
+  "Chinese font, Must be a `font-spec'"
+  :type 'sexp
+  :group 'cc-ui)
+
+(defcustom cc/japanese-font
+  (font-spec :family "Sarasa Gothic J" :size cc/font-size)
+  "Japanese font, Must be a `font-spec'"
+  :type 'sexp
+  :group 'cc-ui)
+
+(defcustom cc/emoji-font
+  (font-spec :family "Noto Color Emoji" :size cc/font-size)
+  "Emoji font, Must be a `font-spec'"
+  :type 'sexp
   :group 'cc-ui)
 
 (defcustom cc/light-ef-theme 'ef-cyprus
@@ -60,20 +52,8 @@
   :config
   (setopt ef-themes-to-toggle `(,cc/light-ef-theme ,cc/dark-ef-theme)))
 
-;; (if (daemonp)
-;;   (add-hook! 'after-make-frame-functions
-;;     (lambda (frame)
-;;       (with-selected-frame frame
-;;         (set-fontset-font t 'emoji (font-spec :family cc/emoji-font) nil 'prepend)
-;;         (set-fontset-font t 'han (font-spec :family cc/sc-font :weight 'medium) nil 'prepend)
-;;         (set-fontset-font t 'cjk-misc (font-spec :family cc/sc-font:weight 'medium) nil 'prepend))))
-;;   (add-hook! 'after-init-hook
-;;     (set-fontset-font t 'emoji (font-spec :family cc/emoji-font) nil 'prepend)
-;;     (set-fontset-font t 'han (font-spec :family cc/sc-font :weight 'medium) nil 'prepend)
-;;     (set-fontset-font t 'cjk-misc (font-spec :family cc/sc-font :weight 'medium) nil 'prepend)
-;;     ))
-
-;; (setopt
-;;   doom-font (font-spec :family cc/mono-font :size cc/font-size)
-;;   doom-symbol-font (font-spec :family cc/unicode-font :size cc/font-size)
-;;   doom-big-font-increment (+ cc/font-size (/ cc/font-size 3)))
+(add-hook! 'after-setting-font-hook
+  (defun cc/set-fontset-font ()
+    (set-fontset-font t 'han cc/chinese-font)
+    (set-fontset-font t 'japanese-jisx0208 cc/japanese-font)
+    (set-fontset-font t 'emoji cc/emoji-font)))

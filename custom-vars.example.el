@@ -7,10 +7,12 @@
 
 ;; Fonts
 (setopt
-  font-size 18
-  doom-font (font-spec :family "Hack Nerd Font Mono" :size font-size)
-  doom-symbol-font (font-spec :family "LXGW WenKai Mono" :size font-size :weight 'medium)
-  doom-emoji-font (font-spec :family "Noto Color Emoji" :size font-size)
+  cc/font-size 16
+  cc/chinese-font (font-spec :family "LXGW WenKai" :weight 'medium :size cc/font-size)
+  cc/japanese-font (font-spec :family "Sarasa Gothic J" :size cc/font-size)
+  cc/emoji-font (font-spec :family "Noto Color Emoji" :size cc/font-size)
+  doom-font (font-spec :family "Hack Nerd Font Mono" :size cc/font-size)
+  doom-symbol-font (font-spec :family "Sarasa Mono SC" :size cc/font-size)
   doom-big-font-increment 2)
 
 ;; Themes
