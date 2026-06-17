@@ -152,4 +152,7 @@
     org-download-heading-lvl 1
     org-download-annotate-function (lambda (_link) "")))
 
+(use-package! valign
+  :hook (org-mode . valign-mode))
+
 (load! "roam")

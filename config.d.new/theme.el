@@ -8,14 +8,14 @@
   :type 'string
   :group 'cc-ui)
 
-(defcustom cc/unicode-font
+(defcustom cc/variable-pitch-font
   (string-trim-right
     (font-get-system-normal-font) " [0-9]+$")
   "The default unicode font for the system."
   :type 'string
   :group 'cc-ui)
 
-(defcustom cc/sc-font
+(defcustom cc/chinese-font
   (string-trim-right
     (font-get-system-normal-font) " [0-9]+$")
   "The default monospace font for the system."
@@ -60,20 +60,20 @@
   :config
   (setopt ef-themes-to-toggle `(,cc/light-ef-theme ,cc/dark-ef-theme)))
 
-(if (daemonp)
-  (add-hook! 'after-make-frame-functions
-    (lambda (frame)
-      (with-selected-frame frame
-        (set-fontset-font t 'emoji (font-spec :family cc/emoji-font) nil 'prepend)
-        (set-fontset-font t 'han (font-spec :family cc/sc-font :weight 'medium) nil 'prepend)
-        (set-fontset-font t 'cjk-misc (font-spec :family cc/sc-font:weight 'medium) nil 'prepend))))
-  (add-hook! 'after-init-hook
-    (set-fontset-font t 'emoji (font-spec :family cc/emoji-font) nil 'prepend)
-    (set-fontset-font t 'han (font-spec :family cc/sc-font :weight 'medium) nil 'prepend)
-    (set-fontset-font t 'cjk-misc (font-spec :family cc/sc-font :weight 'medium) nil 'prepend)
-    ))
+;; (if (daemonp)
+;;   (add-hook! 'after-make-frame-functions
+;;     (lambda (frame)
+;;       (with-selected-frame frame
+;;         (set-fontset-font t 'emoji (font-spec :family cc/emoji-font) nil 'prepend)
+;;         (set-fontset-font t 'han (font-spec :family cc/sc-font :weight 'medium) nil 'prepend)
+;;         (set-fontset-font t 'cjk-misc (font-spec :family cc/sc-font:weight 'medium) nil 'prepend))))
+;;   (add-hook! 'after-init-hook
+;;     (set-fontset-font t 'emoji (font-spec :family cc/emoji-font) nil 'prepend)
+;;     (set-fontset-font t 'han (font-spec :family cc/sc-font :weight 'medium) nil 'prepend)
+;;     (set-fontset-font t 'cjk-misc (font-spec :family cc/sc-font :weight 'medium) nil 'prepend)
+;;     ))
 
-(setopt
-  doom-font (font-spec :family cc/mono-font :size cc/font-size)
-  doom-symbol-font (font-spec :family cc/unicode-font :size cc/font-size :weight 'medium)
-  doom-big-font-increment (+ cc/font-size (/ cc/font-size 3)))
+;; (setopt
+;;   doom-font (font-spec :family cc/mono-font :size cc/font-size)
+;;   doom-symbol-font (font-spec :family cc/unicode-font :size cc/font-size)
+;;   doom-big-font-increment (+ cc/font-size (/ cc/font-size 3)))

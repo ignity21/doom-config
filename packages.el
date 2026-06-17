@@ -70,7 +70,8 @@
   vimish-fold
   evil-vimish-fold)
 
-;; TODO Org
+;; Pixel-based alignment (for org-mode table)
+(package! valign)
 
 ;; org-noter
 (package! nov)
