@@ -135,6 +135,7 @@
     (:when (modulep! :completion corfu)
       :desc "From dict" "d" #'cape-dict
       :desc "Emoji" "e" #'cape-emoji
+      :desc "Nerd font" "n" #'nerd-icons-insert
       :desc "dabbrev" "a" #'cape-dabbrev)
     (:when (modulep! :editor snippets)
       :desc "Insert snippet" "s" #'yas-insert-snippet)

@@ -12,10 +12,10 @@
             :files ("*.el"))
   :pin "589307b8496ac8530d6de06cd7189d827b72e4b0")
 
-;; (package! aidermacs
-;;   :recipe (:host github
-;;             :repo "MatthewZMD/aidermacs"
-;;             :files ("*.el")))
+(package! aidermacs
+  :recipe (:host github
+            :repo "MatthewZMD/aidermacs"
+            :files ("*.el")))
 
 (package! gptel :recipe (:nonrecursive t))
 
