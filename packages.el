@@ -70,9 +70,6 @@
   vimish-fold
   evil-vimish-fold)
 
-;; Pixel-based alignment (for org-mode table)
-(package! valign)
-
 ;; org-noter
 (package! nov)
 (package! djvu)
