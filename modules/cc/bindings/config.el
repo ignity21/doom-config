@@ -125,7 +125,9 @@
       ("w" . "<writing>")
       (:when (modulep! :checkers grammar)
         (:desc "Grammar check" "c" #'langtool-check
-          :desc "Grammar correct" "e" #'langtool-correct-buffer)))
+          :desc "Grammar correct" "e" #'langtool-correct-buffer
+          :desc "Grade level" "l" #'writegood-grade-level
+          :desc "Reading ease" "r" #'writegood-reading-ease)))
     )
 
   ;; C-c i -- insert

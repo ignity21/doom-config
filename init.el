@@ -51,7 +51,7 @@
   vc                ; version-control and Emacs, sitting in a tree (gitignore, gitconfig)
 
   :checkers
-  grammar           ; aid your writing by combining lang-tool and writegood-mode
+  grammar          ; aid your writing by combining lang-tool and writegood-mode
   (spell +aspell)  ; +everywhere for coding comments
   syntax   ; tasing you for every semicolon you forget
 
