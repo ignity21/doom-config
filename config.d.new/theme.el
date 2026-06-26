@@ -7,15 +7,9 @@
   :type 'integer
   :group 'cc-ui)
 
-(defcustom cc/chinese-font
-  (font-spec :family "LXGW WenKai" :size cc/font-size)
+(defcustom cc/han-font
+  (font-spec :family "Noto Sans CJK SC" :size cc/font-size)
   "Chinese font, Must be a `font-spec'"
-  :type 'sexp
-  :group 'cc-ui)
-
-(defcustom cc/japanese-font
-  (font-spec :family "Sarasa Gothic J" :size cc/font-size)
-  "Japanese font, Must be a `font-spec'"
   :type 'sexp
   :group 'cc-ui)
 
@@ -54,6 +48,5 @@
 
 (add-hook! 'after-setting-font-hook
   (defun cc/set-fontset-font ()
-    (set-fontset-font t 'han cc/chinese-font)
-    (set-fontset-font t 'japanese-jisx0208 cc/japanese-font)
+    (set-fontset-font t 'han cc/han-font)
     (set-fontset-font t 'emoji cc/emoji-font)))
