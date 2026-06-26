@@ -31,18 +31,15 @@
 
   ophints           ; highlight the region an operation acts on
   (popup +defaults)   ; Not all windows are created equally.
-  ;; (treemacs +lsp)   ; a project drawer, like neotree but cooler
   unicode           ; extended unicode support for various languages
   vc-gutter         ; vcs diff in the fringe
   (window-select +numbers)     ; visually switch windows
   workspaces        ; tab emulation, persistence & separate workspaces
-  ;; zen               ; distraction-free coding or writing:
 
   :editor
   file-templates    ; auto-snippets for empty files
   fold              ; (nigh) universal code folding
   (format +lsp +onsave)       ; automated prettiness +format/buffer will use lsp if available
-  multiple-cursors ; editing in many places at once, demo: https://emacsrocks.com/e13.html
   snippets             ; my elves. They type so I don't have to
   word-wrap            ; soft wrapping with language-aware indent
 
@@ -53,15 +50,9 @@
   (undo +tree)      ; persistent, smarter undo for your inevitable mistakes (undo-fu)
   vc                ; version-control and Emacs, sitting in a tree (gitignore, gitconfig)
 
-  :email
-  ;; (mu4e +gmail +org) ; TODO Should give it a try
-
-  :term
-  vterm             ; the best terminal emulation in Emacs
-
   :checkers
   grammar           ; aid your writing by combining lang-tool and writegood-mode
-  (spell +aspell) ; +everywhere) ; +everywhere for coding comments
+  (spell +aspell)  ; +everywhere for coding comments
   syntax   ; tasing you for every semicolon you forget
 
   :tools
