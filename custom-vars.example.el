@@ -12,6 +12,7 @@
   cc/emoji-font (font-spec :family "Noto Color Emoji" :size cc/font-size)
   doom-font (font-spec :family "Hack Nerd Font Mono" :size cc/font-size)
   doom-symbol-font (font-spec :family "Sarasa Mono SC" :size cc/font-size)
+  doom-variable-pitch-font (font-spec :family "LXGW WenKai" :size cc/font-size)
   doom-big-font-increment (+ cc/font-size (/ cc/font-size 4)) ; increase by 25%
   )
 

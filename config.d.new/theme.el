@@ -7,12 +7,6 @@
   :type 'integer
   :group 'cc-ui)
 
-(defcustom cc/han-font
-  (font-spec :family "Noto Sans CJK SC" :size cc/font-size)
-  "Chinese font, Must be a `font-spec'"
-  :type 'sexp
-  :group 'cc-ui)
-
 (defcustom cc/emoji-font
   (font-spec :family "Noto Color Emoji" :size cc/font-size)
   "Emoji font, Must be a `font-spec'"
@@ -48,5 +42,4 @@
 
 (add-hook! 'after-setting-font-hook
   (defun cc/set-fontset-font ()
-    (set-fontset-font t 'han cc/han-font)
     (set-fontset-font t 'emoji cc/emoji-font)))
