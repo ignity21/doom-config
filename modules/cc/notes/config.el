@@ -73,7 +73,6 @@
 
 (after! org
   (remove-hook 'org-mode-hook #'org-indent-mode)
-  (add-hook! 'org-mode-hook #'writegood-mode)
   (setopt org-startup-indented nil
     org-ellipsis " ▼"
     org-appear-autoemphasis nil
