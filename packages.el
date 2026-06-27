@@ -79,6 +79,10 @@
   flymake)
 (package! apheleia :pin "7a2136052f4174c178b28da1a2c632904bf08176")
 
+;; LLM
+(package! gptel :recipe (:nonrecursive t))
+
+;; Terminal
 (package! ghostel)
 
 ;; python

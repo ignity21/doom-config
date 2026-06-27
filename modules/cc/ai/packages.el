@@ -4,8 +4,6 @@
 ;; (package! aider
 ;;   :recipe (:host github :repo "tninja/aider.el" ))
 
-
-
 (package! ai-code
   :recipe (:host github
             :repo "tninja/ai-code-interface.el"
@@ -16,8 +14,6 @@
   :recipe (:host github
             :repo "MatthewZMD/aidermacs"
             :files ("*.el")))
-
-(package! gptel :recipe (:nonrecursive t))
 
 ;; (package! mcp
 ;;   :recipe (:host github
