@@ -49,6 +49,8 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;;(unpin! t)
 
+(defvar use-minuet-p nil "If non-nil, use Minuet as copilot else use Github Copilot.")
+
 (package! transient
   :pin "1f7039ef8d548d6fe858084fcbeae7588eba4190"
   ) ; 0.12.0
@@ -57,11 +59,6 @@
   :pin "c800f79c2061621fde847f6a53129eca0e8da728"
   ) ; 4.5.0
 
-(package! copilot
-  :recipe (:host github
-            :repo "copilot-emacs/copilot.el"
-            :files ("*.el"))
-  :pin "4f901d5b269dc73d27406a92d7a0a70052fb323f")
 
 ;; (package! modus-themes)
 (package! ef-themes)
@@ -75,9 +72,19 @@
 (package! djvu)
 
 ;; Development
-(disable-packages!
-  flymake)
+(disable-packages! flymake)
 (package! apheleia :pin "7a2136052f4174c178b28da1a2c632904bf08176")
+
+;; Code copilot
+(package! minuet :recipe
+  (:host github :repo "milanglacier/minuet-ai.el" :files ("*.el")))
+(package! copilot
+  :recipe (:host github
+            :repo "copilot-emacs/copilot.el"
+            :files ("*.el")))
+(if use-minuet-p
+  (disable-packages! copilot)
+  (disable-packages! minuet))
 
 ;; LLM
 (package! gptel :recipe (:nonrecursive t))

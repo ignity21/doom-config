@@ -6,6 +6,9 @@
 (when (modulep! :cc ui)
   (cc/set-doom-ui-appearance))
 
+(eval-when-compile (require 'ring))
+(require 'ring)
+
 (load! "custom-vars.el")
 
 ;; load config files

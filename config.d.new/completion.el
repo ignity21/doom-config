@@ -1,6 +1,19 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;; config.d.new/completion.el
 
+(defun cc/minuet--use-deepseek ()
+  (setopt
+    minuet-provider 'openai-fim-compatible
+    minuet-auto-suggestion-throttle-delay 1.5 ; Increase to reduce costs
+    minuet-auto-suggestion-debounce-delay 0.6 ; Increase to reduce costs
+    minuet-request-timeout 20)
+  (plist-put minuet-openai-fim-compatible-options :end-point "https://api.deepseek.com/beta/completions")
+  (plist-put minuet-openai-fim-compatible-options :api-key (lambda () cc/deepseek-api-key))
+  (plist-put minuet-openai-fim-compatible-options :model "deepseek-v4-flash")
+  (minuet-set-optional-options minuet-openai-fim-compatible-options :max_tokens 150)
+  (minuet-set-optional-options minuet-openai-fim-compatible-options :top_p 0.85)
+  )
+
 (map!
   :map vertico-map
   "C-M-n" #'vertico-next-group
@@ -44,13 +57,20 @@
       "<end>" #'copilot-accept-completion-by-line
       "C-c C-e" #'copilot-panel-complete
       "M-n" #'copilot-next-completion
-      "M-p" #'copilot-previous-completion)
-    ;; (:map copilot-mode-map
-    ;;  :desc "Copilot Chat" "C-c o o" #'copilot-chat
-    ;;  (:prefix ("C-c c o" . "<copilot>")
-    ;;   :desc "Send to copilot" "o" #'copilot-chat-send
-    ;;   :desc "Send region" "r" #'copilot-chat-send-region
-    ;;   :desc "Stop" "k" #'copilot-chat-stop
-    ;;   :desc "Reset" "R" #'copilot-chat-reset))
-    ;; )
-    ))
+      "M-p" #'copilot-previous-completion)))
+
+(use-package! minuet
+  :init
+  (add-hook! (prog-mode yaml-mode conf-mode) #'minuet-auto-suggestion-mode)
+  :config
+  (map! :map minuet-active-mode-map
+    "M-RET" #'minuet-accept-suggestion
+    "<right>" #'minuet-accept-suggestion
+    "M-l" #'minuet-accept-suggestion-line
+    "<end>" #'minuet-accept-suggestion-line
+    "M-i" #'minuet-show-suggestion
+    "M-n" #'minuet-next-suggestion
+    "M-p" #'minuet-previous-suggestion
+    "C-g" #'minuet-dismiss-suggestion)
+  (cc/minuet--use-deepseek)
+  )
