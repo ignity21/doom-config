@@ -62,7 +62,7 @@
     ;; gptel-rewrite-default-action 'ediff
     ;; gptel-temperature 0.8
     ;; gptel-max-tokens 2048
-    gptel-model 'claude-sonnet-4.6
+    gptel-model 'claude-sonnet-4.5
     gptel-backend (gptel-make-gh-copilot "Copilot"))
   (gptel-make-anthropic "Claude" :stream t)
   (gptel-make-gemini "Gemini" :stream t)

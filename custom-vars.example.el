@@ -20,6 +20,21 @@
 (setopt
   cc/light-ef-theme 'ef-cyprus)
 
+;; llm
+(setopt
+  cc/openai-api-key ""
+  cc/anthropic-api-key ""
+  cc/deepseek-api-key ""
+  cc/gemini-api-key ""
+
+  ;; gptel
+  gptel-default-mode 'org-mode
+  gptel-include-reasoning t
+  cc/gptel-enable-copilot t
+  cc/gptel-default-backend 'copilot
+  gptel-model 'claude-sonnet-4.5
+  )
+
 ;; checkers
 (setopt
   ispell-dictionary "en_US"

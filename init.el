@@ -57,10 +57,10 @@
 
   :tools
   ;; use "lsp with debugger" or "eglot"
-  (lsp)
+  lsp
   ;; (debugger +lsp)
-
   ;; (lsp +eglot) ; +booster) maybe enable for big projects
+  llm
 
   (eval +overlay)     ; run code, run (also, repls)
   ;; TODO: following not confirmed

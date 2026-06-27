@@ -142,4 +142,19 @@
     :desc "Docker" "d" #'docker)
   (:when (modulep! :app calendar)
     :desc "Calendar" "c" #'+calendar/open-calendar)
+  (:when (modulep! :tools llm)
+    (:prefix ("l" . "<gptel>")
+      :desc "Open chat" "l" #'gptel
+      :desc "Menu" "m" #'gptel-menu
+      :desc "Send region(or before)" "s" #'gptel-send
+      :desc "Rewrite" "r" #'gptel-rewrite
+      :desc "Add text to ctx" "a" #'gptel-add
+      :desc "Add file to ctx" "f" #'gptel-add-file
+      :desc "Quick explain" "e" #'gptel-quick
+      ;; org-mode
+      :desc "Limit ctx to Heading" "o" #'gptel-org-set-topic
+      :desc "Set org property" "O" #'gptel-org-set-properties
+      )
+    :desc "gptel" "l l" #'gptel
+    :desc "gptel menu" "L" #'gptel-menu)
   )
