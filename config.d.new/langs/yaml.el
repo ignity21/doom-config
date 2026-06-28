@@ -6,9 +6,6 @@
   :type 'integer
   :group 'cc)
 
-(after! yaml
-  (setopt yaml-indent-offset cc/yaml-indent-offset))
-
 (setq-hook! 'yaml-ts-mode-hook
   standard-indent cc/yaml-indent-offset)
 (add-hook! 'yaml-ts-mode-hook

@@ -24,7 +24,7 @@
     )
   )
 
-(after! 'eglot
+(after! eglot
   (setopt eglot-send-changes-idle-time 0.5
     eglot-extend-to-xref t
     eglot-autoshutdown t))

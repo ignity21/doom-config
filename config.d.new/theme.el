@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
-;;; config.d.new/ui.el
+;;; config.d.new/theme.el
 
 
 (defcustom cc/font-size 16
@@ -31,13 +31,13 @@
     modus-themes-mixed-fonts t
     modus-themes-italic-constructs t
     modus-themes-bold-constructs t)
-  (ef-themes-take-over-modus-themes-mode 1)
   (map!
     "<f12>" #'ef-themes-toggle
     "S-<f12>" #'ef-themes-load-random-light)
   (add-hook! 'after-init-hook
     (ef-themes-load-theme cc/light-ef-theme))
   :config
+  (ef-themes-take-over-modus-themes-mode 1)
   (setopt ef-themes-to-toggle `(,cc/light-ef-theme ,cc/dark-ef-theme)))
 
 (add-hook! 'after-setting-font-hook

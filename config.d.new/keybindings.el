@@ -4,10 +4,11 @@
 (defmacro cc/def-keymap (keymap-name key-prefix-name key desc)
   "Defines a keymap and binds it to a global key with a description for which-key."
   `(progn
-     (defvar ,key-prefix-name ,key)
-     (defvar ,keymap-name (make-sparse-keymap))
+     (setq ,key-prefix-name ,key)
+     (setq ,keymap-name (make-sparse-keymap))
      (keymap-set global-map ,key (cons ,desc ,keymap-name))
      ))
+
 (cc/def-keymap cc/file-keymap cc/file-map-prefix "C-c f" "file")
 (cc/def-keymap cc/search-keymap cc/search-map-prefix "C-c s" "search")
 (cc/def-keymap cc/lookup-map cc/lookup-map-prefix "C-c l" "lookup")
@@ -15,7 +16,7 @@
 (cc/def-keymap cc/code-keymap cc/code-map-prefix "C-c c" "code")
 (cc/def-keymap cc/run-eval-keymap cc/run-map-prefix "<f5>" "run")
 (cc/def-keymap cc/local-mode-keymap cc/local-mode-map-prefix "C-c m" "local-mode")
-(cc/def-keymap cc/ai-keymap cc/ai-map-prefix "C-c A" "ai")
+(cc/def-keymap cc/ai-keymap cc/ai-map-prefix "C-c a" "ai")
 (cc/def-keymap cc/open-keymap cc/open-map-prefix "C-c o" "open")
 
 ;; Global keybindings
@@ -154,7 +155,5 @@
       ;; org-mode
       :desc "Limit ctx to Heading" "o" #'gptel-org-set-topic
       :desc "Set org property" "O" #'gptel-org-set-properties
-      )
-    :desc "gptel" "l l" #'gptel
-    :desc "gptel menu" "L" #'gptel-menu)
+      ))
   )

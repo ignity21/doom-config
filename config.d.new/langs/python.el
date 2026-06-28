@@ -19,14 +19,11 @@
         (with-temp-file temp-file
           (insert code))
         (with-current-buffer buffer
-          (erase-buffer)
-          (call-process "python3" nil buffer nil "-m" "dis" temp-file)
-          (goto-char (point-min))
-          (let ((map (make-sparse-keymap)))
-            (keymap-set map "q" (lambda ()
-                                  (interactive)
-                                  (quit-window t)))
-            (use-local-map map)))
+          (special-mode)
+          (let ((inhibit-read-only t))
+            (erase-buffer)
+            (call-process "python3" nil buffer nil "-m" "dis" temp-file)
+            (goto-char (point-min))))
         (+popup-buffer buffer '((side . right) (window-width . 0.4))))
       (when (file-exists-p temp-file)
         (delete-file temp-file)))))
@@ -48,11 +45,10 @@
     lsp-pyright-disable-organize-imports t
     lsp-ruff-advertize-fix-all nil
     )
+  ;; (advice-add 'lsp-format-buffer :before #'lsp-organize-imports)
+  )
 
-  (add-hook! python-base-mode
-    (advice-add 'lsp-format-buffer :before #'lsp-organize-imports)))
-
-(after! 'eglot
+(after! eglot
   (add-to-list 'eglot-server-programs
     '(python-base-mode . ("basedpyright-langserver" "--stdio"))))
 
