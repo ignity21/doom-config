@@ -11,6 +11,7 @@
   (plist-put minuet-openai-fim-compatible-options :api-key (lambda () cc/deepseek-api-key))
   (plist-put minuet-openai-fim-compatible-options :model "deepseek-v4-flash")
   (minuet-set-optional-options minuet-openai-fim-compatible-options :max_tokens 64)
+  (minuet-set-optional-options minuet-openai-compatible-options :thinking '(:type "disabled"))
   (minuet-set-optional-options minuet-openai-fim-compatible-options :top_p 0.9)
   (minuet-set-optional-options minuet-openai-fim-compatible-options :temperature 0.15)
   )
