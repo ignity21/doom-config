@@ -49,7 +49,7 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;;(unpin! t)
 
-(defvar use-minuet-p nil "If non-nil, use Minuet as copilot else use Github Copilot.")
+(defvar use-minuet-p t "If non-nil, use Minuet as copilot else use Github Copilot.")
 
 (package! transient
   :pin "1f7039ef8d548d6fe858084fcbeae7588eba4190"

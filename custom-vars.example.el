@@ -33,6 +33,8 @@
   cc/gptel-enable-copilot t
   cc/gptel-default-backend 'copilot
   gptel-model 'claude-sonnet-4.5
+  ;; gptel-temperature 0.8
+  ;; gptel-max-tokens 4096
   )
 
 ;; checkers

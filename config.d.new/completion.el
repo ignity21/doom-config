@@ -1,17 +1,18 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;; config.d.new/completion.el
-
 (defun cc/minuet--use-deepseek ()
   (setopt
     minuet-provider 'openai-fim-compatible
     minuet-auto-suggestion-throttle-delay 1.5 ; Increase to reduce costs
     minuet-auto-suggestion-debounce-delay 0.6 ; Increase to reduce costs
-    minuet-request-timeout 20)
+    minuet-request-timeout 20
+    minuet-context-window 2048)
   (plist-put minuet-openai-fim-compatible-options :end-point "https://api.deepseek.com/beta/completions")
   (plist-put minuet-openai-fim-compatible-options :api-key (lambda () cc/deepseek-api-key))
   (plist-put minuet-openai-fim-compatible-options :model "deepseek-v4-flash")
-  (minuet-set-optional-options minuet-openai-fim-compatible-options :max_tokens 150)
-  (minuet-set-optional-options minuet-openai-fim-compatible-options :top_p 0.85)
+  (minuet-set-optional-options minuet-openai-fim-compatible-options :max_tokens 64)
+  (minuet-set-optional-options minuet-openai-fim-compatible-options :top_p 0.9)
+  (minuet-set-optional-options minuet-openai-fim-compatible-options :temperature 0.15)
   )
 
 (map!
