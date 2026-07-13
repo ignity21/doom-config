@@ -6,16 +6,6 @@
 (setopt user-full-name "Name"
   user-mail-address "name@example.com")
 
-;; cc-ui
-(setopt cc/mono-font "Hack"
-  cc/unicode-font "Source Han Sans CN"
-  cc/emoji-font "Noto Color Emoji"
-  cc/font-size 24
-  ;; recommended: ef-cyprus, ef-melissa-light, ef-summer
-  cc/light-ef-theme 'ef-cyprus
-  ;; recommended: ef-owl, ef-dream, ef-autumn
-  cc/dark-ef-theme 'ef-owl)
-
 ;; cc-config
 (setopt cc/personal-aspell-en-dict "~/dicts/spell-fu/en.pws")
 
@@ -49,9 +39,4 @@
   aidermacs-editor-model "claude-sonnet-4-20250514"
   aidermacs-auto-commits nil
   ;; aidermacs-config-file "~/.aider.conf.yml"
-
-  ;; gptel
-  gptel-model 'claude-3-5-haiku-latest
-  gptel-temperature 0.8
-  gptel-max-tokens 4096
   )

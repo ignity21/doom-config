@@ -22,8 +22,9 @@
 ;; (add-hook! 'doom-first-buffer-hook
 ;;            :append
 ;;            #'which-key-mode)
-(setopt doom-leader-key nil
-  doom-localleader-key nil
+(setopt
+  doom-leader-key "C-c M-;"
+  doom-localleader-key "C-c M-l"
   doom-leader-alt-key "C-c M-;"
   doom-localleader-alt-key "C-c M-l")
 
@@ -124,10 +125,10 @@
     (:prefix
       ("w" . "<writing>")
       (:when (modulep! :checkers grammar)
-        (:desc "Grammar check" "c" #'langtool-check
-          :desc "Grammar correct" "e" #'langtool-correct-buffer
-          :desc "Grade level" "l" #'writegood-grade-level
-          :desc "Reading ease" "r" #'writegood-reading-ease)))
+        :desc "Grammar check" "c" #'langtool-check
+        :desc "Grammar correct" "e" #'langtool-correct-buffer
+        :desc "Grade level" "l" #'writegood-grade-level
+        :desc "Reading ease" "r" #'writegood-reading-ease))
     )
 
   ;; C-c i -- insert
