@@ -175,10 +175,10 @@ provides local syntax parsing and structural editing.  They are complementary.
    only when its key is non-empty.  If the configured default is unavailable,
    gptel selects a deterministic available fallback; if none exists, Emacs
    shows a warning instead of opening a broken chat buffer.
-2. Open a chat with ~C-c o l l~.  In a source or text buffer, select text when
-   appropriate and use ~C-c o l s~ to send it.
-3. Use ~C-c o l a/f~ to add text or a file to the chat context, ~C-c o l r~ to
-   rewrite, and ~C-c o l e~ for a quick explanation.  In Org, ~C-c o l o/O~
+2. Open a chat with ~C-c g c~.  In a source or text buffer, select text when
+   appropriate and use ~C-c g s~ to send it.
+3. Use ~C-c g a/f~ to add text or a file to the chat context, ~C-c g r~ to
+   rewrite, and ~C-c g e~ for a quick explanation.  In Org, ~C-c g o/O~
    limits context to the heading or sets gptel Org properties.
 4. In a Magit commit-message buffer, run ~M-x gptel-magit-generate-message~.
    Generated Conventional Commit subjects target 60 characters, use the Git
@@ -208,9 +208,9 @@ check its prefix owner and update this table in the same change.
 | ~C-c c~      | Code, format, LSP                  | =config.d.new=        |
 | ~F5~         | Run and evaluation                 | =config.d.new=        |
 | ~C-c m~      | Major-mode-local commands          | shared local prefix   |
-| ~C-c o~      | Open tools and gptel               | =config.d.new=        |
+| ~C-c o~      | Open tools and resources            | =config.d.new=        |
+| ~C-c g~      | gptel chat and context commands     | =config.d.new=        |
 | ~C-c 1~      | Diagnostics                         | =config.d.new=        |
-| ~C-c A~      | Legacy gptel prefix                | =modules/cc/ai=       |
 | ~C-c a~      | Open =ai-code-menu=                 | =modules/cc/ai=       |
 
 ~C-c a~ is a direct command, not a prefix.  Keep it reserved for
@@ -228,7 +228,7 @@ check its prefix owner and update this table in the same change.
 | ~C-c c a / r~          | LSP code action / rename                  | LSP buffer            |
 | ~C-c 1 n / p / l~      | Next / previous / list diagnostics        | Flycheck buffer       |
 | ~F5 b / e / s / r / q~ | Eval / line / REPL send / open / Quickrun | Global                |
-| ~C-c o l l / s / r~    | gptel chat / send / rewrite               | gptel enabled         |
+| ~C-c g c / s / r~      | gptel chat / send / rewrite               | gptel enabled         |
 | ~C-c o t / c / d~      | Ghostel / Calendar / Docker               | Respective module     |
 | ~F12 / S-F12~          | Toggle themes / random light theme        | Global                |
 | ~C-c C-l~              | Collect current Vertico candidates        | Vertico               |

@@ -31,35 +31,10 @@
               gptel-menu
               gptel-rewrite
               gptel-tools)
-  :init
-  (map! (:prefix "C-c A"
-          :desc "gptel chat" "c" #'gptel
-          :desc "gptel menu" "m" #'gptel-menu
-          :desc "gptel send" "s" #'gptel-send
-          :desc "gptel rewrite" "r" #'gptel-rewrite
-          ;; :desc "gptel mcp add" "+" #'gptel-mcp-connect
-          ;; :desc "gptel mcp rm" "-" #'gptel-mcp-disconnect
-          ))
   :config
-  (setopt gptel-default-mode 'org-mode
-    gptel-log-level 'info
-    gptel-use-tools t
-    gptel-include-reasoning t
-    ;; gptel-rewrite-default-action 'ediff
-    ;; gptel-temperature 0.8
-    ;; gptel-max-tokens 2048
-    gptel-model 'claude-sonnet-4.5
-    gptel-backend (gptel-make-gh-copilot "Copilot"))
-  (gptel-make-anthropic "Claude" :stream t)
-  (gptel-make-gemini "Gemini" :stream t)
-  (gptel-make-deepseek "DeepSeek" :stream t)
-  ;; (setopt gptel-api-key cc/openai-key)
-  ;; (gptel-make-ollama "Ollama"
-  ;;   :host "localhost:11434"
-  ;;   :stream t
-  ;;   :models '(qwen2.5-coder:latest
-  ;;             gemma3:12b))
-  )
+  ;; Provider, model, and credential setup lives in config.d.new/ai.el.
+  (setopt gptel-log-level 'info
+    gptel-use-tools t))
 
 ;; mcp servers
 ;; (use-package! mcp

@@ -17,6 +17,8 @@
   :doc "Prefix keymap for major-mode-local commands.")
 (defvar-keymap cc/open-keymap
   :doc "Prefix keymap for opening tools and resources.")
+(defvar-keymap cc/gptel-keymap
+  :doc "Prefix keymap for gptel commands.")
 
 (defconst cc/file-map-prefix "C-c f")
 (defconst cc/search-map-prefix "C-c s")
@@ -26,6 +28,7 @@
 (defconst cc/run-map-prefix "<f5>")
 (defconst cc/local-mode-map-prefix "C-c m")
 (defconst cc/open-map-prefix "C-c o")
+(defconst cc/gptel-map-prefix "C-c g")
 
 (keymap-global-set cc/file-map-prefix cc/file-keymap)
 (keymap-global-set cc/search-map-prefix cc/search-keymap)
@@ -35,17 +38,19 @@
 (keymap-global-set cc/run-map-prefix cc/run-eval-keymap)
 (keymap-global-set cc/local-mode-map-prefix cc/local-mode-keymap)
 (keymap-global-set cc/open-map-prefix cc/open-keymap)
+(keymap-global-set cc/gptel-map-prefix cc/gptel-keymap)
 
 (after! which-key
   (which-key-add-key-based-replacements
-    cc/file-map-prefix "file"
-    cc/search-map-prefix "search"
-    cc/lookup-map-prefix "lookup"
-    cc/code-lookup-map-prefix "lookup(code)"
-    cc/code-map-prefix "code"
-    cc/run-map-prefix "run"
-    cc/local-mode-map-prefix "local-mode"
-    cc/open-map-prefix "open"))
+    cc/file-map-prefix "<file>"
+    cc/search-map-prefix "<search>"
+    cc/lookup-map-prefix "<lookup>"
+    cc/code-lookup-map-prefix "<lookup(code)>"
+    cc/code-map-prefix "<code>"
+    cc/run-map-prefix "<run>"
+    cc/local-mode-map-prefix "<local-mode>"
+    cc/open-map-prefix "<open>"
+    cc/gptel-map-prefix "<gptel>"))
 
 ;; Global keybindings
 (map! "M-." #'+lookup/definition
@@ -171,18 +176,17 @@
   (:when (modulep! :tools docker)
     :desc "Docker" "d" #'docker)
   (:when (modulep! :app calendar)
-    :desc "Calendar" "c" #'+calendar/open-calendar)
+    :desc "Calendar" "c" #'+calendar/open-calendar))
+
+(map! :prefix cc/gptel-map-prefix
   (:when (modulep! :tools llm)
-    (:prefix ("l" . "<gptel>")
-      :desc "Open chat" "l" #'gptel
-      :desc "Menu" "m" #'gptel-menu
-      :desc "Send region(or before)" "s" #'gptel-send
-      :desc "Rewrite" "r" #'gptel-rewrite
-      :desc "Add text to ctx" "a" #'gptel-add
-      :desc "Add file to ctx" "f" #'gptel-add-file
-      :desc "Quick explain" "e" #'gptel-quick
-      ;; org-mode
-      :desc "Limit ctx to Heading" "o" #'gptel-org-set-topic
-      :desc "Set org property" "O" #'gptel-org-set-properties
-      ))
-  )
+    :desc "Open chat" "c" #'gptel
+    :desc "Menu" "m" #'gptel-menu
+    :desc "Send region(or before)" "s" #'gptel-send
+    :desc "Rewrite" "r" #'gptel-rewrite
+    :desc "Add text to ctx" "a" #'gptel-add
+    :desc "Add file to ctx" "f" #'gptel-add-file
+    :desc "Quick explain" "e" #'gptel-quick
+    ;; org-mode
+    :desc "Limit ctx to Heading" "o" #'gptel-org-set-topic
+    :desc "Set org property" "O" #'gptel-org-set-properties))

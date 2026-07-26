@@ -81,8 +81,8 @@
   lsp
   ;; (debugger +lsp)
   ;; (lsp +eglot) ; +booster) maybe enable for big projects
-  llm
 
+  llm
   (eval +overlay)     ; run code, run (also, repls)
   ;; TODO: following not confirmed
   ansible             ; Playbooks, Jinja templates, Vault, and ansible-doc
