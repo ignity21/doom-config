@@ -31,6 +31,9 @@ from =config.d.new/=.
 - =config.d.new/ai.el= owns gptel provider and credential configuration.
   =modules/cc/ai= owns the separate =ai-code= package and its direct
   ~C-c a~ entry point.  Aidermacs is retired and no longer declared.
+- LSP configuration now has one source: =config.d.new/lsp.el=.  Doom's
+  =:editor format +onsave= owns format-on-save; lsp-mode's own save formatter
+  is intentionally disabled.
 
 ** Search, inspect, and navigate code
 1. Use ~C-s~ for the current buffer, or ~C-c s d~ for a ripgrep search.
@@ -41,8 +44,8 @@ from =config.d.new/=.
 4. Use ~C-c s i/I~ for the current buffer's imenu or a multi-buffer imenu.
 
 ** Edit, evaluate, and run code
-- ~C-c c f~ formats the current region or buffer; LSP formatting is also
-  enabled on save.
+- ~C-c c f~ formats the current region or buffer.  On save, Doom's formatter
+  runs once and uses LSP when appropriate.
 - The =F5= prefix is for running and evaluation: =F5 b= evaluates a buffer or
   region, =F5 e= evaluates a line or region, =F5 s= sends a region to a REPL,
   and =F5 r= opens a REPL.  =F5 q= runs Quickrun; press =F5 F5= for Quickrun's
@@ -79,13 +82,18 @@ from =config.d.new/=.
 ** Ask an LLM with gptel
 1. Put only the provider keys you use in the ignored =custom-vars.el=; copy
    =custom-vars.example.el= as the starting point.  A backend is registered
-   only when its key is non-empty; set ~cc/gptel-default-backend~ to an
-   available provider.
+   only when its key is non-empty.  If the configured default is unavailable,
+   gptel selects a deterministic available fallback; if none exists, Emacs
+   shows a warning instead of opening a broken chat buffer.
 2. Open a chat with ~C-c o l l~.  In a source or text buffer, select text when
    appropriate and use ~C-c o l s~ to send it.
 3. Use ~C-c o l a/f~ to add text or a file to the chat context, ~C-c o l r~ to
    rewrite, and ~C-c o l e~ for a quick explanation.  In Org, ~C-c o l o/O~
    limits context to the heading or sets gptel Org properties.
+4. In a Magit commit-message buffer, run ~M-x gptel-magit-generate-message~.
+   Generated Conventional Commit subjects target 60 characters, use the Git
+   summary limit (currently 72) as their hard cap, and remain on one line; use
+   the optional body for details.
 
 ** Files, projects, and tools
 - ~C-c f r~ opens recent files; ~C-c f p/P~ finds or browses this Doom

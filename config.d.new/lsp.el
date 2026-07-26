@@ -6,9 +6,14 @@
     lsp-inlay-hint-enable t
     lsp-log-io nil
     lsp-keymap-prefix "C-c ;"
-    lsp-format-buffer-on-save t
+    ;; Doom's :editor format +onsave owns formatting on save.  Do not invoke a
+    ;; second formatter from lsp-mode.
+    lsp-format-buffer-on-save nil
     lsp-auto-guess-root t
     lsp-keep-workspace-alive nil
+    lsp-idle-delay 0.8
+    lsp-copilot-enabled nil
+    lsp-enable-snippet nil
 
     ;; UI settings
     lsp-lens-enable t
@@ -16,13 +21,38 @@
     lsp-ui-doc-enable nil
     lsp-ui-sideline-enable t
     lsp-ui-sideline-delay 1.5
+    lsp-ui-sideline-show-diagnostics t
     lsp-ui-sideline-show-code-actions nil
+    lsp-ui-sideline-show-symbol nil
     lsp-modeline-diagnostics-enable t
     lsp-enable-on-type-formatting nil
     lsp-ui-doc-show-with-mouse t
     lsp-signature-render-documentation t
+    lsp-ui-imenu-buffer-position 'left
+    lsp-ui-imenu-auto-refresh t
+    lsp-imenu-detailed-outline nil
+    lsp-imenu-index-symbol-kinds '(Namespace Class Constructor Method Property Function)
+    lsp-inline-completion-enable nil
     )
   )
+
+(when (modulep! :tools lsp)
+  (add-hook! 'lsp-mode-hook #'lsp-enable-which-key-integration)
+  (when (modulep! :editor snippets)
+    (add-hook! 'lsp-mode-hook #'yas-minor-mode-on))
+  (map! :map lsp-ui-imenu-mode-map
+    :desc "Next line" "n" #'next-line
+    :desc "Previous line" "p" #'previous-line
+    :desc "Next kind" "M-n" #'lsp-ui-imenu--next-kind
+    :desc "Previous kind" "M-p" #'lsp-ui-imenu--prev-kind
+    :desc "Refresh imenu" "g" #'lsp-ui-imenu--refresh)
+  (map! :after lsp-inline-completion
+    :map lsp-inline-completion-active-map
+    "M-<return>" #'lsp-inline-completion-accept
+    "C-n" nil
+    "C-p" nil
+    "M-n" #'lsp-inline-completion-next
+    "M-p" #'lsp-inline-completion-prev))
 
 (after! eglot
   (setopt eglot-send-changes-idle-time 0.5

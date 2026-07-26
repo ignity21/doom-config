@@ -41,7 +41,22 @@
   (make-hash-table :test #'eq)
   "Registry of gptel backends.")
 
+(defconst cc/gptel-backend-fallback-order
+  '(deepseek openai anthropic gemini copilot)
+  "Backend preference order when the configured default is unavailable.")
+
+(defun cc/gptel-select-backend ()
+  "Return the configured gptel backend or a deterministic available fallback."
+  (or (gethash cc/gptel-default-backend cc/gptel-backends)
+      (catch 'backend
+        (dolist (name cc/gptel-backend-fallback-order)
+          (when-let ((backend (gethash name cc/gptel-backends)))
+            (throw 'backend backend))))))
+
 (after! gptel
+  ;; Rebuilding the registry makes `doom/reload' reflect credential changes.
+  (clrhash cc/gptel-backends)
+
   ;; Copilot
   (when cc/gptel-enable-copilot
     (puthash 'copilot
@@ -90,39 +105,59 @@
         :key cc/gemini-api-key)
       cc/gptel-backends))
 
-  ;; select default backend
-  (setq gptel-backend
-    (gethash cc/gptel-default-backend cc/gptel-backends)))
+  ;; Select the requested backend, or a known available fallback.
+  (if-let ((backend (cc/gptel-select-backend)))
+      (setq gptel-backend backend)
+    (setq gptel-backend nil)
+    (display-warning
+     'cc-ai
+     "No gptel backend is configured; set a provider key or enable GitHub Copilot."
+     :warning)))
 
 (after! gptel-magit
   (setopt
     git-commit-summary-max-length 72
     gptel-magit-commit-prompt
     (concat
-      "You are an expert at writing Git commits. Your job is to write a "
-      "short, clear commit message that summarizes the changes.\n\n"
+      "Write a Conventional Commit message for the staged diff.\n\n"
+      "Return exactly this plain-text shape:\n\n"
+      "<type>(<optional scope>): <imperative subject>\n"
+      "\n"
+      "<optional body>\n\n"
+      "Subject rules:\n"
+      "- Choose exactly one type: build, chore, ci, docs, feat, fix, perf, "
+      "refactor, style, or test. Use feat only for a user-visible feature and "
+      "fix only for a bug fix.\n"
+      "- Include a scope only when it makes the subject clearer.\n"
+      "- Start the description with an imperative verb; capitalize it; do not "
+      "end it with punctuation.\n"
+      "- The entire first line, including type and scope, should target 60 "
+      "characters and MUST NOT exceed 72 characters.\n"
+      "- Before responding, count the first line. If it is too long, rewrite it "
+      "shorter; never wrap it or continue it on a second line.\n"
+      "- Summarize the primary change only. Move secondary details to the body.\n\n"
+      "Body rules:\n"
+      "- Omit the body unless it explains a non-obvious why, compatibility "
+      "impact, or important secondary change.\n"
+      "- When present, begin after exactly one blank line and wrap each body "
+      "line at 72 characters or fewer.\n\n"
+      (format "The hard subject limit is %d characters; output only the commit message, without Markdown, quotes, explanations, or code fences."
+              git-commit-summary-max-length)))
 
-      "The commit message should be structured as follows:\n\n"
-      "    <type>(<optional scope>): <description>\n\n"
-      "    [optional body]\n\n"
+  (defun cc/gptel-magit--truncate-subject (subject)
+    "Return SUBJECT within `git-commit-summary-max-length' at a word boundary."
+    (if (<= (length subject) git-commit-summary-max-length)
+        subject
+      (let ((prefix (substring subject 0 git-commit-summary-max-length)))
+        (string-trim-right
+         (if (string-match "\\`\\(.*\\)[[:space:]]+[^[:space:]]*\\'" prefix)
+             (match-string 1 prefix)
+           prefix)))))
 
-      "- Each commit MUST begin with one of the following types: "
-      "build, chore, ci, docs, feat, fix, perf, refactor, style, test\n"
-      "- The type feat MUST be used when a commit adds a new feature\n"
-      "- The type fix MUST be used when a commit represents a bug fix\n"
-      "- An optional scope MAY follow the type, e.g., fix(parser):\n"
-      "- A description MUST immediately follow the type or type/scope prefix\n"
-      (format
-        "- Keep the subject on a single line and within %d characters\n"
-        git-commit-summary-max-length)
-      "- If necessary, shorten or rephrase the subject instead of wrapping it\n"
-      "- Focus the subject on the primary change. Put secondary changes in the body\n"
-      "- Capitalize the subject line\n"
-      "- Do not end the subject line with any punctuation\n"
-      "- A commit body MAY be provided after the short description. "
-      "The body MUST begin after exactly one blank line\n"
-      "- Use the imperative mood in the subject line\n"
-      "- Keep the body short and concise (omit it entirely if not useful)\n\n"
-
-      "Output only the commit message. Do not include explanations, "
-      "Markdown formatting, or code fences.")))
+  (define-advice gptel-magit--format-commit-message
+      (:around (original-fn message) cc/prevent-subject-wrap)
+    "Keep an overlong generated subject on one line before formatting it."
+    (let* ((lines (split-string message "\n" nil))
+           (subject (cc/gptel-magit--truncate-subject (or (car lines) "")))
+           (normalized-message (string-join (cons subject (cdr lines)) "\n")))
+      (funcall original-fn normalized-message))))

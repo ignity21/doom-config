@@ -66,7 +66,7 @@
   (minuet-set-optional-options minuet-openai-fim-compatible-options :temperature 0.15)
   )
 
-(defvar cc/minuet--last-trigger-tick nil
+(defvar-local cc/minuet--last-trigger-tick nil
   "Buffer modification tick at last minuet trigger.")
 
 (defun cc/minuet-only-on-change-p ()
