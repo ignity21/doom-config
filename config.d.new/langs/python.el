@@ -37,6 +37,10 @@
 
 (add-hook 'python-base-mode-hook #'cc/python-setup-lsp-clients)
 
+(map! :map python-base-mode-map
+  :desc "Disassemble region/buffer" "C-c c d"
+  #'cc/python-dis-region-or-buffer)
+
 (after! lsp-mode
   ;; enable basedpyright+ruff by default
   ;; lsp client choices: pyright, ruff, ty-ls
@@ -57,12 +61,3 @@
 ;; (after! python
 ;;   (setopt python-shell-interpreter "python3"
 ;;           python-indent-offset 4))
-
-;; (map! :map python-base-mode-map
-;;       "C-c <TAB> a" nil ; python-add-import
-;;       "C-c <TAB> s" nil
-;;       "C-c <TAB> f" nil
-;;       "C-c <TAB> r" nil
-;;       :desc "Disassemble region/buffer" "C-c c d"
-;;       #'cc/python-dis-region-or-buffer
-;;       )

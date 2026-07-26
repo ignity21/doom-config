@@ -20,54 +20,122 @@
 ** Icon Fonts
 ~M-x nerd-icons-install-fonts~
 
+* Workflows
+This section is the day-to-day memory for the configuration currently loaded
+from =config.d.new/=.
+
+** Migration memory
+- The startup currently loads the legacy =config.d/= first and then
+  =config.d.new/=.  A migrated behavior must have one source only; remove its
+  old implementation when its replacement is verified.
+- =config.d.new/ai.el= owns gptel provider and credential configuration.
+  =modules/cc/ai= owns the separate =ai-code= package and its direct
+  ~C-c a~ entry point.  Aidermacs is retired and no longer declared.
+
+** Search, inspect, and navigate code
+1. Use ~C-s~ for the current buffer, or ~C-c s d~ for a ripgrep search.
+2. Use ~M-.~ to jump to a definition and ~M-,~ to return.
+3. Use ~C-c . f~ for symbols in the current file; in an LSP project,
+   ~C-c . p~ searches project symbols and ~C-c . r/i/t/d~ finds references,
+   implementations, type definitions, and documentation.
+4. Use ~C-c s i/I~ for the current buffer's imenu or a multi-buffer imenu.
+
+** Edit, evaluate, and run code
+- ~C-c c f~ formats the current region or buffer; LSP formatting is also
+  enabled on save.
+- The =F5= prefix is for running and evaluation: =F5 b= evaluates a buffer or
+  region, =F5 e= evaluates a line or region, =F5 s= sends a region to a REPL,
+  and =F5 r= opens a REPL.  =F5 q= runs Quickrun; press =F5 F5= for Quickrun's
+  shell runner.
+- In Emacs Lisp buffers, use ~C-c c c~ to byte-compile, ~C-c c d~ to
+  disassemble, and ~C-c c ]~ to check parentheses.
+
+** Review diagnostics and fix code
+- In a Flycheck-enabled buffer, use ~C-c 1 n/p/a~ for next, previous, and
+  first error; ~C-c 1 l~ opens the error list and ~C-c 1 s~ verifies checker
+  setup.
+- Use ~C-c c a~ for code actions and ~C-c c r~ to rename an LSP symbol.
+  ~C-c c m i~ toggles LSP inlay hints; ~C-c c s r~ restarts the LSP workspace.
+- Python buffers use =basedpyright= and =ruff= by default.  Set
+  ~cc/python-use-ty-p~ to use =ty-ls= plus =ruff= globally, or add the
+  documented ~lsp-enabled-clients~ value to a project's =.dir-locals.el=.
+- Use ~C-c c d~ in a Python buffer to disassemble the current region, or the
+  whole buffer when no region is active.
+
+** Complete and write
+- In Vertico, ~C-o~ previews the candidate, ~C-l~ edits a directory path, and
+  ~C-M-n/p~ moves between groups.
+- In Corfu, ~C-c C-l~ moves completion to the minibuffer, ~C-SPC~ inserts a
+  separator, ~<tab>~ quick-completes, and ~C-h~ toggles popup information.
+- Minuet is the default inline completion provider (=use-minuet-p= in
+  =packages.el=).  It is active in programming, YAML, and configuration
+  buffers, and only requests a suggestion after buffer changes.  When a
+  suggestion is visible: ~M-RET~ or ~<right>~ accepts it, ~M-l~ accepts one
+  line, ~M-i~ requests one, ~M-n/p~ cycles, and ~C-g~ dismisses it.
+- Copilot is the alternative provider.  Switch the package choice in
+  =packages.el=, run ~doom sync~, and restart Emacs; then ~C-c t o~ toggles
+  Copilot and ~C-c t n~ toggles NES mode.
+
+** Ask an LLM with gptel
+1. Put only the provider keys you use in the ignored =custom-vars.el=; copy
+   =custom-vars.example.el= as the starting point.  A backend is registered
+   only when its key is non-empty; set ~cc/gptel-default-backend~ to an
+   available provider.
+2. Open a chat with ~C-c o l l~.  In a source or text buffer, select text when
+   appropriate and use ~C-c o l s~ to send it.
+3. Use ~C-c o l a/f~ to add text or a file to the chat context, ~C-c o l r~ to
+   rewrite, and ~C-c o l e~ for a quick explanation.  In Org, ~C-c o l o/O~
+   limits context to the heading or sets gptel Org properties.
+
+** Files, projects, and tools
+- ~C-c f r~ opens recent files; ~C-c f p/P~ finds or browses this Doom
+  configuration; ~C-c f e/E~ does the same for Doom itself.  ~C-c f y~ copies
+  the current file path.
+- ~C-c o t~ opens Ghostel, ~C-c o d~ opens Docker when enabled, and ~C-c o c~
+  opens Calendar.
+- ~F12~ toggles the configured light/dark ef themes; ~S-F12~ picks a random
+  light theme.
+
 * Keybindings
-** Prefix Keys:
-- *C-c m*: local prefix key
-- *C-c A*: AI prefix key
-- *C-c c*: code prefix key
+** Prefix ownership
+Treat this table as the keybinding namespace registry.  Before adding a key,
+check its prefix owner and update this table in the same change.
 
-Most important prefix keys:
-- ~C-c~: global prefix key
-- ~C-c c~: ~+code~
-- ~C-c C-l~: embark-collect the current candidate list
+| Prefix       | Owner / purpose                    | Source                |
+|--------------+------------------------------------+-----------------------|
+| ~C-c f~      | File operations                    | =config.d.new=        |
+| ~C-c s~      | Search and navigation              | =config.d.new=        |
+| ~C-c l~      | Lookup                             | =config.d.new=        |
+| ~C-c .~      | Code lookup                        | =config.d.new=        |
+| ~C-c c~      | Code, format, LSP                  | =config.d.new=        |
+| ~F5~         | Run and evaluation                 | =config.d.new=        |
+| ~C-c m~      | Major-mode-local commands          | shared local prefix   |
+| ~C-c o~      | Open tools and gptel               | =config.d.new=        |
+| ~C-c 1~      | Diagnostics                         | =config.d.new=        |
+| ~C-c A~      | Legacy gptel prefix                | =modules/cc/ai=       |
+| ~C-c a~      | Open =ai-code-menu=                 | =modules/cc/ai=       |
 
-** Common Keys
-- ~C-c 1~: check
-- ~C-c y~: yasnippet
+~C-c a~ is a direct command, not a prefix.  Keep it reserved for
+=ai-code-menu= unless the AI module is intentionally redesigned.
 
-** F<key>
-- ~C-c t t~: *treemacs*
-- ~C-c c i~: *lsp-imenu/imenu*
-- ~F10~: menu popup
-- ~F11~: fullscreen
-- ~F12~: switch light/dark theme
-
-** Useful Keybindings
-| keybinding         | Command          |
-|--------------------+------------------|
-| ~C-c o c~          | Open calendar    |
-| ~C-c o t/T~        | Open vterm       |
-| ~C-c t t~          | Open treemacs    |
-| ~C-c !~            | <checkers>       |
-| ~C-c e w~          | Writing commands |
-| ~C-c e s~          | Spell commands   |
-| ~C-c <TAB>~        | <fold>           |
-| ~C-c w~            | <workspace>      |
-| ~C-c j~            | Ace jump         |
-| ~M-.~ or ~C-c s w~ | Dictionary       |
-| ~C-c t z~          | Zen mode         |
-| ~C-c l r~          | <run/eval>       |
-| ~F1~ or ~C-c t t~  | Treemacs         |
-
-** Packages to Try
-- code action ~C-c a~
-- grammar check ~C-c 1 g~
-- calendar ~C-c o c~
-  - ~C-c C-p p~ treemacs project
-- outline-all ~C-c C-f~
-
-** Packages may Try
-- docker
+** Quick reference
+| Key                    | Command / result                         | Context               |
+|------------------------+------------------------------------------+-----------------------|
+| ~C-s~                  | Search current buffer                    | Global                |
+| ~M-. / M-,~            | Go to definition / jump back             | Global                |
+| ~C-c s d / p~          | Ripgrep / Doom project search            | Global                |
+| ~C-c f r / y~          | Recent file / copy current path           | Global                |
+| ~C-c c c / f~          | Compile / format region or buffer         | Global                |
+| ~C-c c d~              | Disassemble region or buffer               | Python buffer         |
+| ~C-c c a / r~          | LSP code action / rename                  | LSP buffer            |
+| ~C-c 1 n / p / l~      | Next / previous / list diagnostics        | Flycheck buffer       |
+| ~F5 b / e / s / r / q~ | Eval / line / REPL send / open / Quickrun | Global                |
+| ~C-c o l l / s / r~    | gptel chat / send / rewrite               | gptel enabled         |
+| ~C-c o t / c / d~      | Ghostel / Calendar / Docker               | Respective module     |
+| ~F12 / S-F12~          | Toggle themes / random light theme        | Global                |
+| ~C-c C-l~              | Collect current Vertico candidates        | Vertico               |
+| ~C-o / C-M-n / C-M-p~  | Preview / next group / previous group     | Vertico               |
+| ~M-RET / M-l / C-g~    | Accept / accept line / dismiss suggestion | Active Minuet         |
 
 * Directories
 - ~doom-cache-dir~

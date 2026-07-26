@@ -10,11 +10,6 @@
             :files ("*.el"))
   :pin "589307b8496ac8530d6de06cd7189d827b72e4b0")
 
-(package! aidermacs
-  :recipe (:host github
-            :repo "MatthewZMD/aidermacs"
-            :files ("*.el")))
-
 ;; (package! mcp
 ;;   :recipe (:host github
 ;;             :repo "lizqwerscott/mcp.el"
