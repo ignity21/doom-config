@@ -85,9 +85,9 @@
 
   (eval +overlay)     ; run code, run (also, repls)
   ;; TODO: following not confirmed
-  ansible
+  ansible             ; Playbooks, Jinja templates, Vault, and ansible-doc
   ;; direnv
-  (docker +lsp)
+  (docker +lsp +tree-sitter) ; Docker UI, Dockerfile LSP, and syntax trees
   editorconfig        ; let someone else argue about tabs vs spaces
   ;; ein                 ; TODO try Jupyter notebooks with emacs
   (lookup +dictionary)    ; navigate your code and its documentation
