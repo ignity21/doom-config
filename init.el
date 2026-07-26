@@ -148,5 +148,3 @@
   web
   )
 
-;; Using "mycustom" instead of "custom" to keep the custom file clean
-(load! "mycustom")
