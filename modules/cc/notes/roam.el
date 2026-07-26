@@ -1,20 +1,25 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; ---
 ;;; cc/notes/roam.el
 (when (modulep! :lang org +roam)
-  (advice-add 'org-roam-node-find :before #'cc/org-roam-choose-dir-if-not-set)
-  (advice-add 'org-roam-capture :before #'cc/org-roam-choose-dir-if-not-set)
-  (advice-add 'org-roam-node-insert :before #'cc/org-roam-choose-dir-if-not-set)
   (setopt org-roam-completion-functions nil)
 
 
   (after! org-roam
     (setopt
       org-roam-completion-everywhere nil
-      org-roam-dailies-directory cc/roam-dailies-dir
+      ;; One fixed root and one database make all categories linkable.
+      ;; Use an absolute path: org-roam-ui compares directory-filter values
+      ;; against the absolute file names stored in org-roam's database.
+      org-roam-directory (expand-file-name cc/roam-notes-dir)
+      org-roam-db-location (expand-file-name ".cache/org-roam.db"
+                                             cc/roam-notes-dir)
+      org-roam-dailies-directory "dailies/"
       org-roam-capture-templates
-      '(("d" "default" plain "%?"
-          :if-new (file+head "${slug}-%<%Y%m%d>.org"
-                    "#+title: ${title}\n")
+      `(("d" "default" plain "%?"
+          :if-new (file+head
+                   ,(concat cc/org-roam-default-category
+                            "/${slug}-%<%Y%m%d>.org")
+                   "#+title: ${title}\n")
           :unnarrowed t)))
 
     ;; To export roam note correctly

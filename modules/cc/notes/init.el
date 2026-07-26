@@ -2,6 +2,6 @@
 ;;; cc/notes/init.el
 
 (defcustom cc/notes-root-dir "~/notes/"
-  "Org notes directory."
+  "Root directory of the org-roam library."
   :group 'cc-note
   :type 'directory)

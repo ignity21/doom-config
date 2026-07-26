@@ -149,8 +149,8 @@
     ("n" . "<note>")
     (:when (modulep! :lang org +roam)
       :desc "Fleet note" "j" #'org-roam-dailies-find-today
-      :desc "Choose roam dir" "n" #'cc/org-roam-choose-dir
-      :desc "Find note" "f" #'org-roam-node-find
+      :desc "Capture note by category" "n" #'cc/org-roam-capture-in-category
+      :desc "Find note (create in Inbox)" "f" #'cc/org-roam-node-find
       :desc "Find ref" "r" #'org-roam-ref-find
       :desc "Insert node" "i" #'org-roam-node-insert
       :desc "Capture" "c" #'org-roam-capture
@@ -158,6 +158,7 @@
       :desc "Show backlinks(dedicated)" "B" #'org-roam-buffer-display-dedicated
       :desc "Sync db" "s" #'org-roam-db-sync
       :desc "Refile node" "w" #'org-roam-refile
+      :desc "Move current node to category" "m" #'cc/org-roam-move-current-node
       (:prefix ("a" . "<alias>")
         :desc "Add alias" "a" #'org-roam-alias-add
         :desc "Remove alias" "r" #'org-roam-alias-remove)

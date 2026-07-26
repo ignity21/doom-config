@@ -2,3 +2,50 @@
 
 * TODO List
 - [ ] add org-project configuration to export to github.io
+
+* Org-roam layout
+
+- The directory configured in =cc/notes-root-dir= is one org-roam database.
+  Its subdirectories are categories,
+  not separate graphs, so links and backlinks work across every category.
+- A typical library has the following shape:
+  #+begin_example
+  roamnotes/
+  ├── Inbox/       # fast capture; classify later
+  ├── Python/      # category directories
+  ├── Trading/
+  ├── dailies/
+  ├── assets/
+  ├── logseq/
+  └── pages/
+  #+end_example
+- =assets/=, =pages/=, =logseq/=, =dailies/=, and =.cache/= are ignored by the
+  category prompt.  Customize =cc/org-roam-non-category-directories= if more
+  infrastructure directories are added.
+- Dailies live at =dailies/= under the library root.  Run =C-c n s= to index
+  them into the shared database.
+
+* Capture and classification workflow
+
+1. Use =C-c n f= for normal capture.  It searches every category and creates a
+   new, unmatched node in =Inbox/= when necessary.
+2. Use =C-c n n= when the category is already clear.  It prompts for a category
+   and accepts a new immediate directory name.
+3. Use =C-c n i= to create links.  It always searches the whole database;
+   category boundaries do not limit links or backlinks.
+4. Review =Inbox/= periodically.  In a roam note, use =C-c n m= to select the
+   permanent category and move its file there.  The file name and Org =:ID:=
+   remain unchanged, then the database is synchronized automatically.
+5. Use =#+filetags:= for cross-cutting topics.  Directories describe the primary
+   home of a note; tags describe additional subjects.
+
+* Graph and Logseq
+
+- org-roam-ui is the global graph view.  Its directory filters work on absolute
+  paths; this module configures =org-roam-directory= accordingly.
+- Use Logseq as an Org file-graph reader, not as the source of truth.  It can
+  follow Org ID links and show backlinks, but its Graph view does not draw
+  edges for =[[id:UUID][title]]= links.
+- In Logseq, use All pages, search, backlinks, tags, Favorites, and MOC/Contents
+  pages for navigation.  Keep org-roam IDs as the stable links rather than
+  changing them to title or file links only for Logseq's graph.
