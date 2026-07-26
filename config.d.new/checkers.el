@@ -1,7 +1,10 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;; config.d.new/checkers.el
-(defvar cc/personal-aspell-en-dict "~/spell-fu/en.pws"
-  "Path to the personal aspell dictionary for English.")
+(defcustom cc/personal-aspell-en-dict "~/spell-fu/en.pws"
+  "Path to the personal aspell dictionary for English."
+  :type 'file
+  :group 'cc
+  :safe #'stringp)
 
 (setopt
   spell-fu-global-mode nil

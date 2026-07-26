@@ -16,6 +16,27 @@
 
 (setq initial-frame-alist '((fullscreen . maximized)))
 
+;; Declare groups before Doom loads private module init files.
+(defgroup cc nil
+  "Personal Doom configuration."
+  :group 'applications
+  :prefix "cc/")
+(defgroup cc-ui nil
+  "User interface settings for the personal configuration."
+  :group 'cc)
+(defgroup cc-ai nil
+  "AI settings for the personal configuration."
+  :group 'cc)
+(defgroup cc-langs nil
+  "Language settings for the personal configuration."
+  :group 'cc)
+(defgroup cc-python nil
+  "Python settings for the personal configuration."
+  :group 'cc-langs)
+(defgroup cc-note nil
+  "Note-taking settings for the personal configuration."
+  :group 'cc)
+
 (doom!
   :completion
   (vertico +icons)    ; Vertico, Consult, Embark, Marginalia, Orderless

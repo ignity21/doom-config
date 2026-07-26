@@ -1,8 +1,9 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;; config.d.new/lsp.el
 
-(after! lsp-mode
-  (setopt
+(when (modulep! :tools lsp -eglot)
+  (after! lsp-mode
+    (setopt
     lsp-inlay-hint-enable t
     lsp-log-io nil
     lsp-keymap-prefix "C-c ;"
@@ -32,11 +33,9 @@
     lsp-ui-imenu-auto-refresh t
     lsp-imenu-detailed-outline nil
     lsp-imenu-index-symbol-kinds '(Namespace Class Constructor Method Property Function)
-    lsp-inline-completion-enable nil
-    )
-  )
+      lsp-inline-completion-enable nil)))
 
-(when (modulep! :tools lsp)
+(when (modulep! :tools lsp -eglot)
   (add-hook! 'lsp-mode-hook #'lsp-enable-which-key-integration)
   (when (modulep! :editor snippets)
     (add-hook! 'lsp-mode-hook #'yas-minor-mode-on))
@@ -61,36 +60,28 @@
 
 (when (modulep! :tools lsp -eglot +booster)
   ;; emacs-lsp-booster configuration for lsp-mode
-  (defun lsp-booster--advice-json-parse (old-fn &rest args)
-    "Try to parse bytecode instead of json."
-    (or
-      (when (equal (following-char) ?#)
-        (let ((bytecode (read (current-buffer))))
-          (when (byte-code-function-p bytecode)
-            (funcall bytecode))))
-      (apply old-fn args)))
-  (advice-add (if (progn (require 'json)
-                    (fboundp 'json-parse-buffer))
-                'json-parse-buffer
-                'json-read)
-    :around
-    #'lsp-booster--advice-json-parse)
+  (define-advice json-parse-buffer (:around (original-fn &rest args) cc/lsp-booster)
+    "Try to parse emacs-lsp-booster bytecode before JSON."
+    (or (when (equal (following-char) ?#)
+          (let ((bytecode (read (current-buffer))))
+            (when (byte-code-function-p bytecode)
+              (funcall bytecode))))
+        (apply original-fn args)))
 
-  (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
-    "Prepend emacs-lsp-booster command to lsp CMD."
-    (let ((orig-result (funcall old-fn cmd test?)))
-      (if (and (not test?)                             ;; for check lsp-server-present?
-            (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
-            lsp-use-plists
-            (not (functionp 'json-rpc-connection))  ;; native json-rpc
-            (executable-find "emacs-lsp-booster"))
-        (progn
-          (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
-            (setcar orig-result command-from-exec-path))
-          (message "Using emacs-lsp-booster for %s!" orig-result)
-          (cons "emacs-lsp-booster" orig-result))
-        orig-result)))
-  (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command))
+  (define-advice lsp-resolve-final-command
+      (:around (original-fn cmd &optional test?) cc/lsp-booster)
+    "Prepend emacs-lsp-booster to local LSP commands when supported."
+    (let ((result (funcall original-fn cmd test?)))
+      (if (and (not test?)
+               (not (file-remote-p default-directory))
+               lsp-use-plists
+               (not (functionp 'json-rpc-connection))
+               (executable-find "emacs-lsp-booster"))
+          (progn
+            (when-let ((command (executable-find (car result))))
+              (setcar result command))
+            (cons "emacs-lsp-booster" result))
+        result))))
 
 (when (modulep! :tools lsp +eglot +booster)
   (after! eglot-booster

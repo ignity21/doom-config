@@ -34,6 +34,8 @@ from =config.d.new/=.
 - LSP configuration now has one source: =config.d.new/lsp.el=.  Doom's
   =:editor format +onsave= owns format-on-save; lsp-mode's own save formatter
   is intentionally disabled.
+- =:tools lsp +eglot= means Eglot, not lsp-mode.  The two clients have
+  mutually exclusive configuration and mode-local keybindings.
 
 ** Search, inspect, and navigate code
 1. Use ~C-s~ for the current buffer, or ~C-c s d~ for a ripgrep search.
@@ -64,6 +66,8 @@ from =config.d.new/=.
   documented ~lsp-enabled-clients~ value to a project's =.dir-locals.el=.
 - Use ~C-c c d~ in a Python buffer to disassemble the current region, or the
   whole buffer when no region is active.
+- YAML files use ~yaml-ts-mode~ with a two-space indentation engine supplied
+  by =yaml-mode=; customize ~cc/yaml-indent-offset~ to change the width.
 
 ** Complete and write
 - In Vertico, ~C-o~ previews the candidate, ~C-l~ edits a directory path, and
@@ -214,7 +218,8 @@ DEBUG=1 doom update
 ** Modern Emacs Lisp
 *** Variables
 - Use ~defcustom~ for user-facing options.  Give it a docstring, ~:type~, and
-  an appropriate customization group.
+  an appropriate customization group.  Define the group before any module or
+  configuration declares options in it.
 - Set Customize options with ~setopt~.  It runs the option's setter and checks
   the value.  Use ~setq~ for ordinary state, ~setq-local~ for buffer-local
   state, and ~defvar-local~ for buffer-local variables.

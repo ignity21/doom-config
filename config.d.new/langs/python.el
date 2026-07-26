@@ -31,9 +31,10 @@
 (defun cc/python-setup-lsp-clients ()
   "Configure formatter and LSP clients for the current Python buffer."
   (setq-local +format-with '(ruff-isort ruff))
-  (setq-local lsp-enabled-clients (if cc/python-use-ty-p
-                                    '(ty-ls ruff)
-                                  '(pyright ruff))))
+  (when (modulep! :tools lsp -eglot)
+    (setq-local lsp-enabled-clients (if cc/python-use-ty-p
+                                      '(ty-ls ruff)
+                                    '(pyright ruff)))))
 
 (add-hook 'python-base-mode-hook #'cc/python-setup-lsp-clients)
 
@@ -41,18 +42,13 @@
   :desc "Disassemble region/buffer" "C-c c d"
   #'cc/python-dis-region-or-buffer)
 
-(after! lsp-mode
-  ;; enable basedpyright+ruff by default
-  ;; lsp client choices: pyright, ruff, ty-ls
-  ;; add ((python-base-mode . ((lsp-enabled-clients . (ty-ls ruff))))) in .dir-locals.el
-  ;; to change the default lsp clients
-
-  (setopt lsp-pyright-langserver-command "basedpyright"
-    lsp-pyright-disable-organize-imports t
-    lsp-ruff-advertize-fix-all nil
-    )
-  ;; (advice-add 'lsp-format-buffer :before #'lsp-organize-imports)
-  )
+(when (modulep! :tools lsp -eglot)
+  (after! lsp-mode
+    ;; lsp client choices: pyright, ruff, ty-ls.  Add a buffer-local
+    ;; `lsp-enabled-clients' value in .dir-locals.el to override this default.
+    (setopt lsp-pyright-langserver-command "basedpyright"
+      lsp-pyright-disable-organize-imports t
+      lsp-ruff-advertize-fix-all nil)))
 
 (after! eglot
   (add-to-list 'eglot-server-programs

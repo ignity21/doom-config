@@ -73,7 +73,7 @@
 
 ;; C-c . prefix
 (map! :prefix cc/code-lookup-map-prefix
-  (:when (modulep! :tools lsp)
+  (:when (modulep! :tools lsp -eglot)
     :desc "Consult symbol in project" "p" #'consult-lsp-symbols)
   (:when (modulep! :tools lsp +eglot)
     :desc "Consult symbol in project" "p" #'consult-eglot-symbols
@@ -107,7 +107,7 @@
   :desc "Find in emacsd" "e" #'doom/find-file-in-emacsd
   :desc "Browse in emacsd" "E" #'doom/browse-in-emacsd
   :desc "Sudo this file" "s" #'doom/sudo-this-file
-  :desc "Find file""f" #'find-file
+  :desc "Find file" "f" #'find-file
   :desc "Sudo find file" "F" #'doom/sudo-find-file
   :desc "Copy file path" "y" #'+default/yank-buffer-path
   (:when (modulep! :tools upload)
@@ -118,7 +118,7 @@
       :desc "Delete" "D" #'ssh-deploy-delete-handler
       :desc "Browse remote" "b" #'ssh-deploy-browse-remote-handler
       :desc "Remote changes" "e" #'ssh-deploy-remote-changes-handler
-      :desc "Open remote file" "f"#'ssh-deploy-open-remote-file-handler
+      :desc "Open remote file" "f" #'ssh-deploy-open-remote-file-handler
       :desc "Diff" "x" #'ssh-deploy-diff-handler))
   )
 
@@ -132,7 +132,7 @@
     (:when (modulep! :ui indent-guides)
       :desc "Indent guides" "i" #'indent-bars-mode)
     )
-  (:when (modulep! :tools lsp)
+  (:when (modulep! :tools lsp -eglot)
     :map lsp-mode-map
     :desc "Code actions" "a" #'lsp-execute-code-action
     :desc "Rename symbol" "r" #'lsp-rename
@@ -152,6 +152,7 @@
       :desc "Switch client" "s" #'+lsp/switch-client)
     )
   (:when (modulep! :tools lsp +eglot)
+    :map eglot-managed-mode-map
     (:prefix ("R" . "<refactor>")
       :desc "Refactor inline" "r" #'eglot-code-action-inline
       :desc "Refactor extract" "e" #'eglot-code-action-extract
