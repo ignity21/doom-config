@@ -230,7 +230,6 @@
     ("w" . "<workspace>")
     (:when (modulep! :ui workspaces)
       :desc "Make workspace" "m" #'+workspace/new-named
-      :desc "Save workspace" "s" #'+workspace/save
       :desc "Load workspace" "l" #'+workspace/load
       :desc "Remove workspace" "r" #'+workspace/delete
       :desc "Switch workspace" "o" #'+workspace/switch-to
