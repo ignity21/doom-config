@@ -28,12 +28,14 @@
       (when (file-exists-p temp-file)
         (delete-file temp-file)))))
 
-(add-hook 'python-base-mode-hook
-  (defun cc/python-setup-lsp-clients ()
-    (setq-local +format-with '(ruff-isort ruff))
-    (setq-local lsp-enabled-clients (if cc/python-use-ty-p
-                                      '(ty-ls ruff)
-                                      '(pyright ruff)))))
+(defun cc/python-setup-lsp-clients ()
+  "Configure formatter and LSP clients for the current Python buffer."
+  (setq-local +format-with '(ruff-isort ruff))
+  (setq-local lsp-enabled-clients (if cc/python-use-ty-p
+                                    '(ty-ls ruff)
+                                  '(pyright ruff))))
+
+(add-hook 'python-base-mode-hook #'cc/python-setup-lsp-clients)
 
 (after! lsp-mode
   ;; enable basedpyright+ruff by default

@@ -54,9 +54,12 @@
     minuet-auto-suggestion-debounce-delay 0.6 ; Increase to reduce costs
     minuet-request-timeout 20
     minuet-context-window 2048)
-  (plist-put minuet-openai-fim-compatible-options :end-point "https://api.deepseek.com/beta/completions")
-  (plist-put minuet-openai-fim-compatible-options :api-key (lambda () cc/deepseek-api-key))
-  (plist-put minuet-openai-fim-compatible-options :model "deepseek-v4-flash")
+  (setf (plist-get minuet-openai-fim-compatible-options :end-point)
+        "https://api.deepseek.com/beta/completions"
+        (plist-get minuet-openai-fim-compatible-options :api-key)
+        (lambda () cc/deepseek-api-key)
+        (plist-get minuet-openai-fim-compatible-options :model)
+        "deepseek-v4-flash")
   (minuet-set-optional-options minuet-openai-fim-compatible-options :max_tokens 64)
   (minuet-set-optional-options minuet-openai-compatible-options :thinking '(:type "disabled"))
   (minuet-set-optional-options minuet-openai-fim-compatible-options :top_p 0.9)

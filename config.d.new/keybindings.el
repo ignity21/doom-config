@@ -1,23 +1,56 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;; config.d.new/keybindings.el
 
-(defmacro cc/def-keymap (keymap-name key-prefix-name key desc)
-  "Defines a keymap and binds it to a global key with a description for which-key."
-  `(progn
-     (setq ,key-prefix-name ,key)
-     (setq ,keymap-name (make-sparse-keymap))
-     (keymap-set global-map ,key (cons ,desc ,keymap-name))
-     ))
+(defvar-keymap cc/file-keymap
+  :doc "Prefix keymap for file commands.")
+(defvar-keymap cc/search-keymap
+  :doc "Prefix keymap for search commands.")
+(defvar-keymap cc/lookup-keymap
+  :doc "Prefix keymap for lookup commands.")
+(defvar-keymap cc/code-lookup-keymap
+  :doc "Prefix keymap for code lookup commands.")
+(defvar-keymap cc/code-keymap
+  :doc "Prefix keymap for code commands.")
+(defvar-keymap cc/run-eval-keymap
+  :doc "Prefix keymap for run and evaluation commands.")
+(defvar-keymap cc/local-mode-keymap
+  :doc "Prefix keymap for major-mode-local commands.")
+(defvar-keymap cc/ai-keymap
+  :doc "Prefix keymap for AI commands.")
+(defvar-keymap cc/open-keymap
+  :doc "Prefix keymap for opening tools and resources.")
 
-(cc/def-keymap cc/file-keymap cc/file-map-prefix "C-c f" "file")
-(cc/def-keymap cc/search-keymap cc/search-map-prefix "C-c s" "search")
-(cc/def-keymap cc/lookup-map cc/lookup-map-prefix "C-c l" "lookup")
-(cc/def-keymap cc/code-lookup-keymap cc/code-lookup-map-prefix "C-c ." "lookup(code)")
-(cc/def-keymap cc/code-keymap cc/code-map-prefix "C-c c" "code")
-(cc/def-keymap cc/run-eval-keymap cc/run-map-prefix "<f5>" "run")
-(cc/def-keymap cc/local-mode-keymap cc/local-mode-map-prefix "C-c m" "local-mode")
-(cc/def-keymap cc/ai-keymap cc/ai-map-prefix "C-c a" "ai")
-(cc/def-keymap cc/open-keymap cc/open-map-prefix "C-c o" "open")
+(defconst cc/file-map-prefix "C-c f")
+(defconst cc/search-map-prefix "C-c s")
+(defconst cc/lookup-map-prefix "C-c l")
+(defconst cc/code-lookup-map-prefix "C-c .")
+(defconst cc/code-map-prefix "C-c c")
+(defconst cc/run-map-prefix "<f5>")
+(defconst cc/local-mode-map-prefix "C-c m")
+(defconst cc/ai-map-prefix "C-c a")
+(defconst cc/open-map-prefix "C-c o")
+
+(keymap-global-set cc/file-map-prefix cc/file-keymap)
+(keymap-global-set cc/search-map-prefix cc/search-keymap)
+(keymap-global-set cc/lookup-map-prefix cc/lookup-keymap)
+(keymap-global-set cc/code-lookup-map-prefix cc/code-lookup-keymap)
+(keymap-global-set cc/code-map-prefix cc/code-keymap)
+(keymap-global-set cc/run-map-prefix cc/run-eval-keymap)
+(keymap-global-set cc/local-mode-map-prefix cc/local-mode-keymap)
+(keymap-global-set cc/ai-map-prefix cc/ai-keymap)
+(keymap-global-set cc/open-map-prefix cc/open-keymap)
+
+(after! which-key
+  (which-key-add-key-based-replacements
+    cc/file-map-prefix "file"
+    cc/search-map-prefix "search"
+    cc/lookup-map-prefix "lookup"
+    cc/code-lookup-map-prefix "lookup(code)"
+    cc/code-map-prefix "code"
+    cc/run-map-prefix "run"
+    cc/local-mode-map-prefix "local-mode"
+    cc/ai-map-prefix "ai"
+    cc/open-map-prefix "open"))
 
 ;; Global keybindings
 (map! "M-." #'+lookup/definition

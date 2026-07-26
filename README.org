@@ -134,3 +134,33 @@ DEBUG=1 doom update
 - Global Variable
 
 ** Function Names
+
+** Modern Emacs Lisp
+*** Variables
+- Use ~defcustom~ for user-facing options.  Give it a docstring, ~:type~, and
+  an appropriate customization group.
+- Set Customize options with ~setopt~.  It runs the option's setter and checks
+  the value.  Use ~setq~ for ordinary state, ~setq-local~ for buffer-local
+  state, and ~defvar-local~ for buffer-local variables.
+- Use ~defconst~ for configuration constants such as shared key-prefix strings.
+
+*** Keymaps and bindings
+- Create a named keymap with ~defvar-keymap~ (or ~define-keymap~ for an
+  expression).  Do not introduce new uses of ~make-sparse-keymap~ plus ~setq~.
+- Bind native global, local, and explicit maps with ~keymap-global-set~,
+  ~keymap-local-set~, and ~keymap-set~.  Do not introduce new uses of
+  ~define-key~, ~global-set-key~, or ~local-set-key~.
+- Continue to use Doom's ~map!~ when its descriptions, conditional bindings,
+  mode-map targeting, or prefix DSL make the declaration clearer.  Give custom
+  prefixes a which-key description.
+
+*** Hooks, advice, and mutable data
+- Prefer named functions registered with ~add-hook~.  Use ~add-hook!~ only when
+  Doom's multi-mode or inline-function syntax is materially clearer; avoid
+  anonymous functions in global hooks.
+- Prefer hooks, variables, or key remapping over advice.  When advice is
+  necessary, use named ~define-advice~ or ~advice-add~ and document why it is
+  needed; do not use obsolete ~defadvice~.
+- Use ~setf~ for generalized places such as ~alist-get~ and ~plist-get~.  When
+  using ~plist-put~, always keep its returned plist so a newly added property
+  cannot be lost.
