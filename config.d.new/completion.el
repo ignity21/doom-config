@@ -79,7 +79,11 @@
 
 (use-package! minuet
   :init
-  (add-hook! (prog-mode yaml-mode conf-mode) #'minuet-auto-suggestion-mode)
+  (add-hook! (prog-mode yaml-mode conf-mode)
+    (defun cc/minuet-enable-auto-suggestion-on-change ()
+      "Enable Minuet auto suggestions without triggering on buffer entry."
+      (setq-local cc/minuet--last-trigger-tick (buffer-chars-modified-tick))
+      (minuet-auto-suggestion-mode 1)))
   :config
 
   (map! :map minuet-active-mode-map
