@@ -14,19 +14,6 @@
     (call-interactively 'find-file)))
 
 ;;;###autoload
-(defcustom cc/org-roam-non-category-directories
-  '(".cache" "assets" "dailies" "logseq" "pages")
-  "Directories under `cc/roam-notes-dir' that are not note categories."
-  :group 'cc-note
-  :type '(repeat string))
-
-;;;###autoload
-(defcustom cc/org-roam-default-category "Inbox"
-  "Category used when a node is created from `cc/org-roam-node-find'."
-  :group 'cc-note
-  :type 'string)
-
-;;;###autoload
 (defun cc/org-roam-default-category-directory ()
   "Create and return the default category directory."
   (let ((directory (expand-file-name cc/org-roam-default-category

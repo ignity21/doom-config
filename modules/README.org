@@ -25,6 +25,9 @@ file, besides =cli.el= that is loaded when the =bin/doom= starts up).
 Do:
 + Configure Emacs or perform setup/teardown operations that must be set early;
   before other modules are (or this module is) loaded.
++ Define the module's user options with ~defcustom~ here. Module variables may
+  be read by configuration or by another module before autoload files are
+  evaluated, so ~defcustom~ forms do not belong in =autoload.el=.
 + Reconfigure packages defined in Doom modules with ~use-package-hook!~ (as a
   last resort, when ~after!~ and hooks aren't enough).
 + Configure behavior of =bin/doom= in a way that must also apply in
