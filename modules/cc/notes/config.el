@@ -55,20 +55,14 @@
     :desc "Insert link" "l" #'org-insert-link
     :desc "Insert footnote" "f" #'org-footnote-new)
 
-  ;; local prefix m
   (:prefix
-    "C-c m"
-    (:prefix ("r" . "<roam>")
-      :desc "Update org-id-locations" "u" #'org-roam-update-org-id-locations)
-
+    "C-c n"
     ;; p -- preview/plot
     (:prefix ("p" . "<preview/plot>")
       :desc "Preview latex fragment" "l" #'org-latex-preview
       :desc "Preview image" "i" #'org-display-inline-images
-      :desc "Plot table" "" #'org-plot/gnuplot))
+      :desc "Plot table" "t" #'org-plot/gnuplot))
   )
-
-
 
 
 (after! org
@@ -91,7 +85,7 @@
 
 ;; TODO org-noter
 (when (modulep! :lang org +noter)
-  (map! :prefix ("C-c n p" . "<pdfnotes>")
+  (map! :prefix ("C-c n P" . "<pdfnotes>")
     :desc "Find note files" "f" #'cc/open-pdf-note-files
     :desc "Org noter" "o" #'org-noter)
   (after! org-noter
@@ -129,7 +123,7 @@
     anki-editor-use-math-jax t)
   :init
   (map! :map org-mode-map
-    :prefix ("C-c m a" . "<anki>")
+    :prefix ("C-c n k" . "<anki>")
     :desc "Push cards" "p" #'anki-editor-push-notes
     :desc "Cloze dwim" "c" #'anki-editor-cloze-dwim
     :desc "Cloze region" "r" #'anki-editor-cloze-region

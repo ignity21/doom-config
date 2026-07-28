@@ -12,14 +12,14 @@
       ;; against the absolute file names stored in org-roam's database.
       org-roam-directory (expand-file-name cc/roam-notes-dir)
       org-roam-db-location (expand-file-name ".cache/org-roam.db"
-                                             cc/roam-notes-dir)
+                             cc/roam-notes-dir)
       org-roam-dailies-directory "dailies/"
       org-roam-capture-templates
       `(("d" "default" plain "%?"
           :if-new (file+head
-                   ,(concat cc/org-roam-default-category
-                            "/${slug}-%<%Y%m%d>.org")
-                   "#+title: ${title}\n")
+                    ,(concat cc/org-roam-default-category
+                       "/${slug}-%<%Y%m%d>.org")
+                    "#+title: ${title}\n")
           :unnarrowed t)))
 
     ;; To export roam note correctly
@@ -36,10 +36,11 @@
       org-roam-ui-update-on-save t
       org-roam-ui-open-on-start t)
     :init
-    (map! :prefix ("C-c n u" . "<org-roam-ui>")
+    (map!
+      :map org-mode-map
+      :prefix ("C-c n u" . "<org-roam-ui>")
       :desc "Start roam UI" "u" #'org-roam-ui-mode
       :desc "Open new UI page" "o" #'org-roam-ui-open
       :desc "Sync UI theme" "s" #'org-roam-ui-sync-theme
-      :map org-mode-map
       :desc "Show ui node local" "g" #'org-roam-ui-node-local
       :desc "Zoom ui node" "z" #'org-roam-ui-node-zoom)))
