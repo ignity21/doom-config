@@ -142,6 +142,7 @@
     :desc "Code actions" "a" #'lsp-execute-code-action
     :desc "Rename symbol" "r" #'lsp-rename
     :desc "imenu" "i" #'lsp-ui-imenu
+    :desc "Flycheck" "e" #'lsp-ui-flycheck-list
     (:prefix ("m" . "<minor-mode>")
       :desc "Inlay hints" "i" #'lsp-inlay-hints-mode
       )
