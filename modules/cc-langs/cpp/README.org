@@ -18,6 +18,16 @@ CompileFlags:
 *** ~clangd~
 a file named =.clangd= in the source tree. (clangd searches in all parent directories of the active file).
 
+* Make targets
+For a project with a =Makefile=, use ~C-c c b m~ from a C++ buffer to select
+and run a project target.  Use ~C-c c b l~ to repeat the most recently selected
+target.  The same commands are available in any project as ~M-x +make/run~ and
+~M-x +make/run-last~; they prompt for a Makefile when more than one is found.
+
+Use these commands for named project targets such as =build=, =test=, or
+=lint=.  Keep ~C-c c c~ for a one-off single-file compile, and use the CMake
+commands under ~C-c c b~ for CMake-managed projects.
+
 * Debuggers
 - dap-cpptools :: ~M-x dap-cpptools-setup~
 - dap-gdb-lldb :: ~M-x dap-gdb-lldb-setup~

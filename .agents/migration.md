@@ -14,6 +14,28 @@
 - `:tools lsp +eglot` means Eglot, not lsp-mode. The two clients have
   mutually exclusive configuration and mode-local keybindings.
 
+## Doom module migration rules
+
+These rules apply to every Doom module migration, regardless of category.
+
+1. Treat the current upstream `doomemacs/modules` module directory and its
+   README as authoritative for module names, flags, packages, and supported
+   configuration. Use GitHub (`gh` when available) to inspect it.
+2. Before changing anything, trace the module through all legacy configuration
+   (`config.d/`) and private modules (`modules/`), including package
+   declarations and load entry points.
+3. Put replacement configuration in `config.d.new/` by default. When the
+   feature has a coherent reusable boundary, organize it as an appropriate
+   private module under `modules/` instead.
+4. Define the configuration and its intended workflow together. Document that
+   workflow in the relevant private module's `README.org`; if no private module
+   is created, agree where its user-facing workflow belongs before writing it.
+   Discuss choices with the user as they arise; do not enable or configure a
+   module until the user confirms its intended use.
+5. Keep legacy configuration intact while the replacement is being implemented
+   and verified. Only after the new configuration works, remove the matching
+   old implementation so one behavior has one owner.
+
 ## Module migration protocol
 
 The modules after `;; TODO: following not confirmed` in `init.el` are reviewed
@@ -36,16 +58,44 @@ For each module, follow this sequence:
 6. If declined, comment/remove the module from `init.el` and delete only its
    corresponding obsolete legacy configuration. Update this table.
 
+## Active :tools migration scope
+
+The user has selected these modules for review and possible migration, in this
+order unless changed during discussion:
+
+1. `ansible`
+2. `direnv`
+3. `docker`
+4. `editorconfig`
+5. `lookup`
+6. `magit`
+7. `make`
+8. `tree-sitter`
+9. `debugger`
+
+`lsp`, `llm`, and `eval` are already handled and are outside this review.
+
+## Session handoff
+
+This session completed the selected `:tools` reviews for `ansible`, `direnv`,
+`docker +lsp +tree-sitter`, `editorconfig`, `lookup +dictionary`, and `make`.
+`magit` has its workflow documented; its user-pinned `magit` and `transient`
+package versions remain intentionally untouched and can be reviewed later.
+
+Resume the migration with `tree-sitter`, then `debugger`.
+
 | Module | Upstream location | Decision | Migration state |
 |---|---|---|---|
 | `ansible` | `:tools/ansible` | keep | complete |
+| `direnv` | `:tools/direnv` | keep | complete |
 | `docker +lsp +tree-sitter` | `:tools/docker` | keep | complete |
-| `editorconfig` | `:tools/editorconfig` | pending | queued |
-| `lookup +dictionary` | `:tools/lookup` | pending | queued |
-| `magit` | `:tools/magit` | pending | queued |
-| `make` | `:tools/make` | pending | queued |
+| `editorconfig` | `:tools/editorconfig` | keep | complete |
+| `lookup +dictionary` | `:tools/lookup` | keep | complete |
+| `magit` | `:tools/magit` | keep | workflow documented; pin review pending |
+| `make` | `:tools/make` | keep | complete |
 | `pdf` | `:tools/pdf` | pending | queued |
 | `tree-sitter` | `:tools/tree-sitter` | pending | queued |
+| `debugger` | `:tools/debugger` | selected | queued |
 | `upload` | `:tools/upload` | pending | queued |
 | `emacs-lisp` | `:lang/emacs-lisp` | pending | queued |
 | `python` | `:lang/python` | pending | queued |

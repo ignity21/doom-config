@@ -49,6 +49,65 @@ arguments with ~SPC m h~, then run =ansible-lint= or
 settings should be project-local (for example via =.dir-locals.el=), never
 committed with a password.
 
+** Project environments with direnv
+The =:tools direnv= module imports the authorized project's =.envrc= into the
+Emacs buffers that belong to it.  This keeps per-project executables, virtual
+environments, and non-secret configuration available to terminals, tools, and
+language servers without modifying the global Emacs environment.
+
+Create =.envrc= at the project root, review it as executable shell code, then
+run =direnv allow=.  Repeat =direnv allow= after changing it; use =direnv deny=
+to revoke authorization.  Do not commit secrets in =.envrc=; instead keep them
+in an ignored file such as =.env.local= and load it only when needed.
+
+For a Python project managed by =uv=, first run =uv sync= to create =.venv=,
+then a minimal =.envrc= can be:
+#+begin_src sh
+watch_file pyproject.toml uv.lock
+source .venv/bin/activate
+dotenv_if_exists .env.local
+#+end_src
+
+When a file is visited, Emacs applies that environment before mode hooks run.
+Changing or re-authorizing the environment refreshes the affected buffers and
+restarts their associated LSP server automatically.
+
+** Project style with EditorConfig
+The =:tools editorconfig= module applies the nearest project =.editorconfig=
+when a file is visited.  Project rules take precedence over this configuration's
+language defaults, so use them for shared indentation, whitespace, and newline
+conventions rather than adding one-off Emacs settings.
+
+Use ~C-c p e~ to open the EditorConfig file that applies to the current buffer.
+Place a =root = true= file at a repository root when its rules must not inherit
+from parent directories.  The native =editorconfig= executable is installed and
+used when available; Emacs has an elisp fallback for projects and machines
+without it.
+
+** Look up code and documentation
+Use ~M-.~ to find a definition and ~M-,~ to return.  Under ~C-c .~, use ~r~,
+~i~, ~t~, and ~d~ for references, implementations, type definitions, and
+documentation.  These commands prefer language-server and xref results, then
+fall back to project search when necessary.
+
+Use ~C-c l f~ to open a file named at point, ~C-c l o~ for an online search,
+~C-c l d~ for an online dictionary definition, and ~C-c l D~ for synonyms.
+The configured =+dictionary= flag uses online services; offline wordnet and
+Dash docsets are intentionally not enabled.
+
+** Git with Magit
+Start with ~M-x magit-status~ (or Doom's ~SPC g g~ when using its Evil leader).
+In the status buffer, stage or unstage the item at point with ~s~ or ~u~, inspect
+changes with ~d~, create or switch branches with ~b~, and browse history with
+~l~.  Use the push and pull dispatch menus (~P~ and ~F~) rather than memorizing
+remote commands; type ~?~ in any Magit buffer to see its context-specific keys.
+
+After staging a coherent change, start a commit with ~c c~.  In the commit
+message buffer, ~M-x gptel-magit-generate-message~ can draft the configured
+Conventional Commit subject; review it, edit it as needed, then finish with
+~C-c C-c~.  Magit executes real Git operations, so inspect the target branch,
+remote, and staged diff before pushing or committing.
+
 ** Docker
 The =:tools docker= module provides the Docker management UI at ~C-c o d~,
 Docker container TRAMP paths such as =/docker:container:/path/to/file=, and
@@ -215,6 +274,3 @@ DEBUG=1 doom update
 - Settings -> keyboard -> Keyboard Shortcuts -> Custom Shortcuts
 - name it "Emacs Everywhere"
 - command field ~emacsclient --eval "(emacs-everywhere)"~
-
-** ~lookup~
-- Use ~dash-docs-install-docset~ to install offline docsets
