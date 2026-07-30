@@ -214,18 +214,6 @@
     :desc "Report" "r" #'profiler-report
     )
 
-  ;; C-c t -- toggle
-  (:prefix-map
-    ("t" . "<toggle>")
-    (:when (modulep! :editor word-wrap)
-      :desc "Visual line mode" "v" #'+word-wrap-mode)
-    (:when (modulep! :checkers spell)
-      :desc "Spelling check" "s" #'spell-fu-mode)
-    (:when (modulep! :lang org +present)
-      :map org-mode-map
-      :desc "Org presentation" "p" #'org-tree-slide-mode)
-    )
-
   ;; C-c w --- workspace
   (:prefix-map
     ("w" . "<workspace>")

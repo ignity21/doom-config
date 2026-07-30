@@ -19,6 +19,8 @@
   :doc "Prefix keymap for opening tools and resources.")
 (defvar-keymap cc/gptel-keymap
   :doc "Prefix keymap for gptel commands.")
+(defvar-keymap cc/toggle-keymap
+  :doc "Prefix keymap for toggle commands.")
 
 (defconst cc/file-map-prefix "C-c f")
 (defconst cc/search-map-prefix "C-c s")
@@ -29,6 +31,7 @@
 (defconst cc/local-mode-map-prefix "C-c m")
 (defconst cc/open-map-prefix "C-c o")
 (defconst cc/gptel-map-prefix "C-c g")
+(defconst cc/toggle-map-prefix "C-c t")
 
 (keymap-global-set cc/file-map-prefix cc/file-keymap)
 (keymap-global-set cc/search-map-prefix cc/search-keymap)
@@ -39,6 +42,7 @@
 (keymap-global-set cc/local-mode-map-prefix cc/local-mode-keymap)
 (keymap-global-set cc/open-map-prefix cc/open-keymap)
 (keymap-global-set cc/gptel-map-prefix cc/gptel-keymap)
+(keymap-global-set cc/toggle-map-prefix cc/toggle-keymap)
 
 (after! which-key
   (which-key-add-key-based-replacements
@@ -50,7 +54,8 @@
     cc/run-map-prefix "<run>"
     cc/local-mode-map-prefix "<local-mode>"
     cc/open-map-prefix "<open>"
-    cc/gptel-map-prefix "<gptel>"))
+    cc/gptel-map-prefix "<gptel>"
+    cc/toggle-map-prefix "<toggle>"))
 
 ;; Global keybindings
 (map! "M-." #'+lookup/definition
@@ -58,6 +63,17 @@
   "C-s" #'consult-line
   ;; "C-x C-e" #'+eval/buffer-or-region
   )
+
+;; C-c t prefix
+(map! :map cc/toggle-keymap
+  (:when (modulep! :editor word-wrap)
+    :desc "Visual line mode" "v" #'+word-wrap-mode)
+  (:when (modulep! :checkers spell)
+    :desc "Spelling check" "s" #'spell-fu-mode)
+  :desc "Minuet automatic suggestions" "c" #'cc/minuet-toggle-auto-suggestion)
+(when (modulep! :lang org +present)
+  (map! :map org-mode-map
+    :desc "Org presentation" "C-c t p" #'org-tree-slide-mode))
 
 ;; F5 prefix
 (map! :prefix cc/run-map-prefix
@@ -130,7 +146,6 @@
 (map! :prefix cc/code-map-prefix
   :desc "Compile" "c" #'+default/compile
   :desc "Format buffer or region" "f" #'+format/region-or-buffer
-  :desc "Treesit install" "t" #'treesit-install-language-grammar
   (:prefix ("m" . "<minor-mode>")
     :desc "Flycheck" "f" #'flycheck-mode
     :desc "Line Numbers" "l" #'doom/toggle-line-numbers

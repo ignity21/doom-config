@@ -55,11 +55,11 @@
     minuet-request-timeout 20
     minuet-context-window 2048)
   (setf (plist-get minuet-openai-fim-compatible-options :end-point)
-        "https://api.deepseek.com/beta/completions"
-        (plist-get minuet-openai-fim-compatible-options :api-key)
-        (lambda () cc/deepseek-api-key)
-        (plist-get minuet-openai-fim-compatible-options :model)
-        "deepseek-v4-flash")
+    "https://api.deepseek.com/beta/completions"
+    (plist-get minuet-openai-fim-compatible-options :api-key)
+    (lambda () cc/deepseek-api-key)
+    (plist-get minuet-openai-fim-compatible-options :model)
+    "deepseek-v4-flash")
   (minuet-set-optional-options minuet-openai-fim-compatible-options :max_tokens 64)
   (minuet-set-optional-options minuet-openai-compatible-options :thinking '(:type "disabled"))
   (minuet-set-optional-options minuet-openai-fim-compatible-options :top_p 0.9)
@@ -68,6 +68,14 @@
 
 (defvar-local cc/minuet--last-trigger-tick nil
   "Buffer modification tick at last minuet trigger.")
+
+(defun cc/minuet-toggle-auto-suggestion ()
+  "Toggle Minuet automatic suggestions in the current buffer."
+  (interactive)
+  (minuet-auto-suggestion-mode
+    (if (bound-and-true-p minuet-auto-suggestion-mode) -1 1))
+  (message "Minuet automatic suggestions %s"
+    (if minuet-auto-suggestion-mode "enabled" "disabled")))
 
 (defun cc/minuet-only-on-change-p ()
   "Return t (block) if buffer hasn't changed since last trigger."
@@ -79,13 +87,9 @@
 
 (use-package! minuet
   :init
-  (add-hook! (prog-mode yaml-mode conf-mode)
-    (defun cc/minuet-enable-auto-suggestion-on-change ()
-      "Enable Minuet auto suggestions without triggering on buffer entry."
-      (setq-local cc/minuet--last-trigger-tick (buffer-chars-modified-tick))
-      (minuet-auto-suggestion-mode 1)))
+  (setq-hook! (prog-mode yaml-mode conf-mode)
+    cc/minuet--last-trigger-tick (buffer-chars-modified-tick))
   :config
-
   (map! :map minuet-active-mode-map
     "M-RET" #'minuet-accept-suggestion
     "<right>" #'minuet-accept-suggestion
