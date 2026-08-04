@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: org TOC heading
+# key: tocn
+# --
+* TOC :TOC_${1:1}:
