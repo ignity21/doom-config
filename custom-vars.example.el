@@ -41,3 +41,7 @@
 (setopt
   ispell-dictionary "en_US"
   cc/personal-aspell-en-dict "~/dicts/spell-fu/en.pws")
+
+;; python
+(setopt
+  cc/python-lsp-backend 'tyruff)
