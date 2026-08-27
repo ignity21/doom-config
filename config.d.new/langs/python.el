@@ -1,7 +1,7 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;; config.d.new/langs/python.el
 
-(defcustom cc/python-lsp-backend 'basedruff
+(defcustom cc/python-lsp-backend 'tyruff
   "Python LSP backend.
 
 Possible values are:

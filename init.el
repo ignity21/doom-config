@@ -111,17 +111,16 @@
   ;;(graphql +lsp)    ; Give queries a REST
   (json +lsp)       ; At least it ain't XML
   ;;(java +lsp)       ; the poster child for carpal tunnel syndrome
-  ;;(javascript +lsp) ; all(hope(abandon(ye(who(enter(here))))))
-  (latex +cdlatex)      ; NOTE may try +lsp
+  (latex +cdlatex)
   ;;lua               ; one-based indices? one-based indices
-  markdown            ; writing docs for people to ignore
+  (markdown +lsp)           ; writing docs for people to ignore
   (org +roam +present) ; TODO +noter
   plantuml            ; diagrams for confusing people more
   ;; qt                  ; the 'cutest' gui framework ever
   rst                 ; ReST in peace
   ;; (rest + jq)      ; TODO Emacs as a REST client +jq Enable support for reading and processing REST responses with jq
   (sh +lsp)
-  (web +lsp)   ; support for various web languages, including HTML5, CSS, SASS/SCSS, as well as Django
+  (web +lsp +tree-sitter)   ; support for various web languages, including HTML5, CSS, SASS/SCSS, as well as Django
   (yaml +lsp +tree-sitter) ; JSON, but readable
 
   :app
