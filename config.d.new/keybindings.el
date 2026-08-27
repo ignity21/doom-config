@@ -173,17 +173,17 @@
       :desc "Switch client" "s" #'+lsp/switch-client)
     )
   (:when (modulep! :tools lsp +eglot)
-    :map eglot-managed-mode-map
-    (:prefix ("R" . "<refactor>")
-      :desc "Refactor inline" "r" #'eglot-code-action-inline
+    :map eglot-mode-map
+    (:prefix ("r" . "<refactor>")
+      :desc "Rename symbol" "r" #'eglot-rename
+      :desc "Refactor inline" "i" #'eglot-code-action-inline
       :desc "Refactor extract" "e" #'eglot-code-action-extract
       :desc "Refactor rewrite" "w" #'eglot-code-action-rewrite
       )
     (:prefix ("s" . "<eglot-session>")
       :desc "Shutdown" "d" #'eglot-shutdown
       :desc "Reconnect" "r" #'eglot-reconnect)
-    :desc "Rename symbol" "r" #'eglot-rename
-    :desc "Code actions" "a" #'eglot-code-action-quickfix)
+    :desc "Code actions" "a" #'eglot-code-actions)
   )
 
 (map! :prefix cc/open-map-prefix

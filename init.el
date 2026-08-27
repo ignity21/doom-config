@@ -78,14 +78,14 @@
 
   :tools
   ;; use "lsp with debugger" or "eglot"
-  lsp
+  ;; lsp
   ;; (debugger +lsp)
-  ;; (lsp +eglot) ; +booster) maybe enable for big projects
+  (lsp +eglot) ; +booster) maybe enable for big projects
 
   llm
   (eval +overlay)     ; run code, run (also, repls)
   ansible             ; Playbooks, Jinja templates, Vault, and ansible-doc
-  direnv              ; project-local environments via .envrc
+  ;; direnv              ; project-local environments via .envrc
   (docker +lsp +tree-sitter) ; Docker UI, Dockerfile LSP, and syntax trees
   editorconfig        ; let someone else argue about tabs vs spaces
   ;; ein                 ; TODO try Jupyter notebooks with emacs

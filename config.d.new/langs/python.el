@@ -1,10 +1,25 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;; config.d.new/langs/python.el
 
-(defcustom cc/python-use-ty-p nil
-  "Whether to use ty-ls as the default LSP client for Python."
-  :type 'boolean
+(defcustom cc/python-lsp-backend 'basedruff
+  "Python LSP backend.
+
+Possible values are:
+- `basedruff': BasedPyright + Ruff
+- `tyruff': Ty + Ruff
+
+To override this setting for a project, add this to `.dir-locals.el':
+
+  ((nil
+    . ((cc/python-lsp-backend . tyruff))))"
+  :type '(choice
+           (const :tag "BasedPyright + Ruff" basedruff)
+           (const :tag "Ty + Ruff" tyruff))
   :group 'cc-python)
+
+(put 'cc/python-lsp-backend 'safe-local-variable
+  (lambda (value)
+    (memq value '(basedruff tyruff))))
 
 (defun cc/python-dis-region-or-buffer ()
   "Disassemble the Python code in the current region or buffer and show it in a temp buffer."
@@ -28,15 +43,16 @@
       (when (file-exists-p temp-file)
         (delete-file temp-file)))))
 
-(defun cc/python-setup-lsp-clients ()
-  "Configure formatter and LSP clients for the current Python buffer."
+(defun cc/python-setup ()
+  "Configure Python tooling for the current buffer."
   (setq-local +format-with '(ruff-isort ruff))
   (when (modulep! :tools lsp -eglot)
-    (setq-local lsp-enabled-clients (if cc/python-use-ty-p
-                                      '(ty-ls ruff)
-                                    '(pyright ruff)))))
+    (setq-local lsp-enabled-clients
+      (pcase cc/python-lsp-backend
+        ('basedruff '(pyright ruff))
+        ('tyruff     '(ty-ls ruff))))))
 
-(add-hook 'python-base-mode-hook #'cc/python-setup-lsp-clients)
+(add-hook 'python-base-mode-hook #'cc/python-setup)
 
 (map! :map python-base-mode-map
   :desc "Disassemble region/buffer" "C-c c d"
@@ -44,16 +60,15 @@
 
 (when (modulep! :tools lsp -eglot)
   (after! lsp-mode
-    ;; lsp client choices: pyright, ruff, ty-ls.  Add a buffer-local
-    ;; `lsp-enabled-clients' value in .dir-locals.el to override this default.
     (setopt lsp-pyright-langserver-command "basedpyright"
       lsp-pyright-disable-organize-imports t
       lsp-ruff-advertize-fix-all nil)))
 
 (after! eglot
-  (add-to-list 'eglot-server-programs
-    '(python-base-mode . ("basedpyright-langserver" "--stdio"))))
-
-;; (after! python
-;;   (setopt python-shell-interpreter "python3"
-;;           python-indent-offset 4))
+  (add-to-list
+    'eglot-server-programs
+    `((python-mode python-ts-mode)
+       . ,(lambda (&rest _)
+            (pcase cc/python-lsp-backend
+              ('basedruff '("rass" "basedruff"))
+              ('tyruff     '("rass" "python")))))))
