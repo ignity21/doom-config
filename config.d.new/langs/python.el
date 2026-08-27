@@ -7,6 +7,8 @@
 Possible values are:
 - `basedruff': BasedPyright + Ruff
 - `tyruff': Ty + Ruff
+- `basedpyright': BasedPyright only
+- `ty': Ty only
 
 To override this setting for a project, add this to `.dir-locals.el':
 
@@ -14,12 +16,14 @@ To override this setting for a project, add this to `.dir-locals.el':
     . ((cc/python-lsp-backend . tyruff))))"
   :type '(choice
            (const :tag "BasedPyright + Ruff" basedruff)
-           (const :tag "Ty + Ruff" tyruff))
+           (const :tag "Ty + Ruff" tyruff)
+           (const :tag "BasedPyright only" basedpyright)
+           (const :tag "Ty only" ty))
   :group 'cc-python)
 
 (put 'cc/python-lsp-backend 'safe-local-variable
   (lambda (value)
-    (memq value '(basedruff tyruff))))
+    (memq value '(basedruff tyruff basedpyright ty))))
 
 (defun cc/python-dis-region-or-buffer ()
   "Disassemble the Python code in the current region or buffer and show it in a temp buffer."
@@ -49,8 +53,10 @@ To override this setting for a project, add this to `.dir-locals.el':
   (when (modulep! :tools lsp -eglot)
     (setq-local lsp-enabled-clients
       (pcase cc/python-lsp-backend
-        ('basedruff '(pyright ruff))
-        ('tyruff     '(ty-ls ruff))))))
+        ('basedruff    '(pyright ruff))
+        ('tyruff       '(ty-ls ruff))
+        ('basedpyright '(pyright))
+        ('ty           '(ty-ls))))))
 
 (add-hook 'python-base-mode-hook #'cc/python-setup)
 
@@ -68,7 +74,9 @@ To override this setting for a project, add this to `.dir-locals.el':
   (add-to-list
     'eglot-server-programs
     `((python-mode python-ts-mode)
-       . ,(lambda (&rest _)
+       . ,(lambda (_interactive _project)
             (pcase cc/python-lsp-backend
-              ('basedruff '("rass" "basedruff"))
-              ('tyruff     '("rass" "python")))))))
+              ('basedruff    '("rass" "basedruff"))
+              ('tyruff       '("rass" "python"))
+              ('basedpyright '("basedpyright-langserver" "--stdio"))
+              ('ty           '("ty" "server")))))))
