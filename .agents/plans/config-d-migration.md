@@ -182,7 +182,9 @@ defaults → theme → keybindings → ui → editor → completion → checkers
       Step 1 / Step 4 清
 - [x] Step 1 config.d/ 平移，删除 `config.d/` 目录（含把 `cc/dev` 的 rainbow-mode 挪出）
 - [x] Step 2 键位统一，删除 `modules/cc/bindings`
-- [ ] Step 3 `config.d.new/ai.el` 并入 `modules/cc/ai/`
+- [x] （附带）`config.d.new/` → `config.d/` 改名，同步 `config.el` /
+      `test/lint-config.el` / 头注释 / AGENTS.md
+- [ ] Step 3 `config.d/ai.el` 并入 `modules/cc/ai/`
 - [ ] Step 4 新建 `modules/cc/completion`
 - [ ] Step 5 defcustom 规范化 + 文档同步
 - [ ] Step 6 纯函数 ERT 测试
