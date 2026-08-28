@@ -362,6 +362,51 @@ emacs -Q --batch -l test/lint-config.el -f cc/lint-run
 自身 autoload。确实缺失的，改为在 `keybindings.el` 顶部直接 `(autoload ...)`，
 或在绑定处用 `:when` + `after!`。
 
+### Step 2 交接资料（Session A 期间收集，未动代码）
+
+Session A 只做到 Step 1。以下是为 Step 2 新 session 准备的清单，避免重新踩点。
+
+**待合并的键位来源（5 处）**
+
+| 文件 | 行数 | 内容概要 | 归属 |
+|---|---|---|---|
+| `config.d.new/keybindings.el` | 208 | 目标文件。已有 10 个 `cc/*-keymap` 前缀（file `C-c f` / search `C-c s` / lookup `C-c l` / code-lookup `C-c .` / code `C-c c` / run `<f5>` / local-mode `C-c m` / open `C-c o` / gptel `C-c g` / toggle `C-c t`）+ which-key + 全局 `M-.` `M-,` `C-s` | — |
+| `modules/cc/bindings/config.el` | 241 | 全局 unset/rebind、`doom-leader-key` 设置、which-key 大量 `add-key-based-replacements`、projectile `C-c p c` 重映射、`C-x` 前缀（`C-x a` agenda prefix-map、`C-x C-b` ibuffer、`C-x n g` nil）、`C-h w` woman、`C-c` 下 8 个 prefix-map（`a`空/`d`debug/`e`edit/`i`insert/`n`note(org+roam ~30行)/`p`project/`P`profiling/`w`workspace/`y`snippets） | 全部并入 keybindings.el，删除本模块 |
+| `modules/cc/ai/config.el:7` | 1 | `(map! :desc "ai-code" "C-c a" #'ai-code-menu)` — 把 `C-c a` 绑成命令 | → keybindings.el 建 `cc/ai-keymap`，`C-c a a` = `ai-code-menu`；此行由 Step 2 **或** Step 3 删除（谁先到谁删，另一方核对） |
+| `modules/cc/notes/config.el:36-144` | ~110 | **org-mode-local**（`:after org` `:map org-mode-map`）：非前缀 `M-S-<return>`/`S-<return>`；`C-c o l`、`C-c s o`；`C-x n n/w`；`C-c i t/T/p/i/l/f`（org 版 insert，与全局 `C-c i` insert 前缀叠加）；`C-c n p` preview/plot；`C-c n P` pdfnotes；`C-c n p` org-noter（org-noter maps）；`C-c n k` anki（org-mode-map）；`C-c m d` org-download（org-mode-map） | `C-c n` 大块 → keybindings.el 带 `(:when (modulep! :lang org +roam))`；`C-c i` org 补充项、`C-c m d`、anki、org-noter、非前缀键 **留模块**，一律 `:map` 限定 |
+| `modules/cc/agenda/config.el:281` | 块 | `(map! :map org-agenda-mode-map ...)` | 包内 keymap，**留模块** |
+
+**`modules/cc/bindings/autoload.el` 核查结果（已验证，不必再查）**
+
+- `:tools upload` 的 `:commands` 只含 5 个：`ssh-deploy-upload-handler`、
+  `-upload-handler-forced`、`-diff-handler`、`-browse-remote-handler`、
+  `-remote-changes-handler` → 这 5 个已 autoload。
+- **缺失 3 个**：`ssh-deploy-download-handler`、`ssh-deploy-delete-handler`、
+  `ssh-deploy-open-remote-file-handler` —— keybindings.el 的 `C-c f u d/D/f` 正依赖
+  它们，目前靠这个从未执行的 autoload.el「本应」提供。Step 2 必须在 keybindings.el
+  顶部补 `(autoload 'ssh-deploy-download-handler "ssh-deploy" nil t)` 等 3 行。
+- `recentf-open-files`、`org-capture-goto-target` → 各自包已 autoload，无需处理。
+- `projectile-recentf` → projectile 自身 autoload，无需处理。
+- 结论：删除 `modules/cc/bindings/autoload.el` 前，只需把上述 3 个 ssh-deploy handler
+  的 autoload 迁到 keybindings.el。
+
+**计划冲突清单之外、本次新发现的点**
+
+- `C-c i`：全局 `<insert>` 前缀（bindings）与 notes 的 org-local `C-c i t/T/p/...`
+  两个 owner。org 项必须 `:map org-mode-map`，否则覆盖全局 insert 前缀。
+- `C-c t p`：keybindings.el 已绑 `org-tree-slide-mode`（org-mode-map），Step 1 起
+  `tools.el` 又绑 pdf toggles（pdf-view-mode-map）。两者 mode-local 不冲突，但
+  which-key 描述可能打架，`C-c t` 前缀描述统一放 keybindings.el。
+- `C-x a`：agenda 前缀目前在 bindings 的 `C-x` map!，keybindings.el 尚无；新建
+  `cc/agenda-keymap`（`C-x a`），内容取 bindings 的 `<agenda>` prefix-map
+  （`f` find-in-notes / `a` org-agenda / `c` org-capture / `A` org-agenda-archive）。
+- `C-c n p` 被 notes 用了两次：`preview/plot`（org-mode-map）与 `org-noter` sync
+  （org-noter maps）。不同 map，保留但注意 which-key。
+
+**删除动作**：`git rm -r modules/cc/bindings`（含 `.doommodule`、`autoload.el`、
+`config.el`）；`init.el` 的 `:cc` 块移除 `bindings`；`doom sync`。
+lint baseline 随之移除 `autoload-cookie:modules/cc/bindings/autoload.el`。
+
 ## Step 3 — modules/cc/ai 吸收 config.d.new/ai.el（中 · ~180 行 · 建议新 session，与 Step 4 同 session）
 
 拆分 `config.d.new/ai.el` 到模块：
