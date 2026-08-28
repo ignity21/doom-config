@@ -1,5 +1,27 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;; config.d.new/keybindings.el
+;;
+;; The single source of truth for keybindings: global prefix keymaps, global
+;; unbinds/rebinds, which-key descriptions, and every entry that hangs off a
+;; global prefix (even mode-local ones, guarded with `:map' / `:when').
+;; Package-internal keymaps (vertico-map, corfu-map, treemacs-mode-map, ...)
+;; stay in their theme/module files.
+
+;; Autoloads for commands bound below whose packages do not autoload them
+;; themselves (previously in the never-executed modules/cc/bindings/autoload.el).
+(autoload 'org-capture-goto-target "org-capture" nil t)
+(autoload 'recentf-open-files "recentf" nil t)
+(autoload 'projectile-recentf "projectile" nil t)
+(when (modulep! :tools upload)
+  (dolist (handler '(ssh-deploy-upload-handler
+                     ssh-deploy-download-handler
+                     ssh-deploy-delete-handler
+                     ssh-deploy-browse-remote-handler
+                     ssh-deploy-remote-changes-handler
+                     ssh-deploy-upload-handler-forced
+                     ssh-deploy-open-remote-file-handler
+                     ssh-deploy-diff-handler))
+    (autoload handler "ssh-deploy" nil t)))
 
 (defvar-keymap cc/file-keymap
   :doc "Prefix keymap for file commands.")
@@ -44,7 +66,15 @@
 (keymap-global-set cc/gptel-map-prefix cc/gptel-keymap)
 (keymap-global-set cc/toggle-map-prefix cc/toggle-keymap)
 
+(which-key-mode +1)
+(setopt doom-leader-key "C-c M-;"
+  doom-localleader-key "C-c M-l"
+  doom-leader-alt-key "C-c M-;"
+  doom-localleader-alt-key "C-c M-l")
+
 (after! which-key
+  (setopt which-key-sort-order 'which-key-description-order
+    which-key-use-C-h-commands t)
   (which-key-add-key-based-replacements
     cc/file-map-prefix "<file>"
     cc/search-map-prefix "<search>"
@@ -55,7 +85,22 @@
     cc/local-mode-map-prefix "<local-mode>"
     cc/open-map-prefix "<open>"
     cc/gptel-map-prefix "<gptel>"
-    cc/toggle-map-prefix "<toggle>"))
+    cc/toggle-map-prefix "<toggle>"
+    "C-c 1" "<checker>"
+    "C-x <RET>" "coding-system"
+    "M-s h" "highlight"
+    "C-x n" "<narrow>"
+    "C-x r" "register"
+    "C-x t" "tab"
+    "C-x w" "win-select"
+    "C-x x" "buffer-ops"
+    "C-x 4" "other-window"
+    "C-x 5" "other-frame"
+    "C-x p" "project"
+    "C-h d p" "doom/help-packages"
+    "C-c M-d" "doom/leader"
+    "C-c M-d l" "doom/localleader"
+    "C-." "<lookup>"))
 
 ;; Global keybindings
 (map! "M-." #'+lookup/definition
@@ -63,6 +108,42 @@
   "C-s" #'consult-line
   ;; "C-x C-e" #'+eval/buffer-or-region
   )
+
+;; Global unbinds and rebinds
+(map! "C-z" nil
+  "C-x C-z" nil
+  "C-x 8" nil                            ; emoji
+  "C-h 4" nil                            ; info other window
+  "C-<wheel-up>" nil                     ; text scale up
+  "C-<wheel-down>" nil                   ; text scale down
+  "M-<wheel-up>" #'mouse-wheel-text-scale
+  "M-<wheel-down>" #'mouse-wheel-text-scale)
+(when (modulep! :emacs undo)
+  (map! "C-z" #'undo-fu-only-undo))
+
+(after! projectile
+  (keymap-set projectile-mode-map "C-c p c" 'projectile-command-map)
+  (which-key-add-keymap-based-replacements projectile-mode-map
+    "C-c p c" "<projectile-command>"
+    "C-c p c 4" "other-window"
+    "C-c p c 5" "other-frame"
+    "C-c p c x" "execute"
+    "C-c p c s" "search"))
+
+;; C-x prefix supplements
+(map! :prefix "C-x"
+  :desc "ibuffer" "C-b" #'ibuffer
+  (:prefix ("n" . "<narrow>")
+    "g" nil)
+  (:prefix-map ("a" . "<agenda>")
+    :desc "Find agenda file" "f" #'+default/find-in-notes
+    :desc "Agenda view" "a" #'org-agenda
+    :desc "Agenda capture" "c" #'org-capture
+    :desc "Agenda archive" "A" #'org-agenda-archive))
+
+;; C-h prefix supplements
+(map! :prefix "C-h"
+  :desc "Woman" "w" #'woman)
 
 ;; C-c t prefix
 (map! :map cc/toggle-keymap
@@ -206,3 +287,143 @@
     ;; org-mode
     :desc "Limit ctx to Heading" "o" #'gptel-org-set-topic
     :desc "Set org property" "O" #'gptel-org-set-properties))
+
+;; C-c prefixes migrated from modules/cc/bindings
+(map! :prefix "C-c"
+  ;; C-c a -- ai
+  (:prefix-map ("a" . "<ai>")
+    (:when (modulep! :cc ai)
+      :desc "AI code menu" "a" #'ai-code-menu))
+
+  ;; C-c d -- debug
+  (:prefix-map ("d" . "<debug>")
+    (:when (modulep! :tools debugger)
+      :map prog-mode-map
+      :desc "Start" "d" #'+debugger/start
+      :desc "Stop" "s" #'+debugger/quit)
+    (:when (modulep! :tools lsp)
+      :desc "dap-debug" "g" #'dap-debug
+      :desc "dap-hydra" "h" #'dap-hydra
+      :map lsp-mode-map
+      :desc "Edit dap template" "t" #'dap-debug-edit-template
+      (:prefix ("b" . "<breakpoint>")
+        :desc "Toggle" "b" #'dap-breakpoint-toggle
+        :desc "Delete all" "d" #'dap-breakpoint-delete-all)))
+
+  ;; C-c e -- edit/writing
+  (:prefix-map ("e" . "<edit>")
+    (:when (modulep! :editor multiple-cursors)
+      (:prefix ("m" . "<multicursors>")
+        :desc "Edit lines" "e" #'mc/edit-lines
+        :desc "Mark next like this" "n" #'mc/mark-next-like-this
+        :desc "Mark previous like this" "p" #'mc/mark-previous-like-this
+        :desc "Mark all like this" "a" #'mc/mark-all-like-this))
+    (:when (modulep! :emacs undo)
+      (:prefix ("u" . "<undo>")
+        :desc "Undo" "u" #'undo-fu-only-undo
+        :desc "Undo tree redo" "r" #'undo-fu-only-redo
+        :desc "Undo tree redo all" "R" #'undo-fu-redo-all))
+    (:when (modulep! :checkers spell)
+      (:prefix ("s" . "<spell>")
+        :desc "Correct this word" "c" #'+spell/correct
+        :desc "Add word to dict" "a" #'+spell/add-word
+        :desc "Remove word" "r" #'+spell/remove-word
+        (:unless (modulep! :checkers spell +flyspell)
+          :desc "Toggle spell-fu" "t" #'spell-fu-mode
+          :desc "Reset word cache" "k" #'spell-fu-reset
+          :desc "Next error" "n" #'spell-fu-goto-next-error
+          :desc "Previous error" "p" #'spell-fu-goto-previous-error)))
+    (:prefix ("w" . "<writing>")
+      (:when (modulep! :checkers grammar)
+        :desc "Grammar check" "c" #'langtool-check
+        :desc "Grammar correct" "e" #'langtool-correct-buffer
+        :desc "Grade level" "l" #'writegood-grade-level
+        :desc "Reading ease" "r" #'writegood-reading-ease)))
+
+  ;; C-c i -- insert
+  (:prefix-map ("i" . "<insert>")
+    :desc "From clipboard" "c" #'+default/yank-pop
+    (:when (modulep! :completion corfu)
+      :desc "From dict" "d" #'cape-dict
+      :desc "Emoji" "e" #'cape-emoji
+      :desc "Nerd font" "n" #'nerd-icons-insert
+      :desc "dabbrev" "a" #'cape-dabbrev)
+    (:when (modulep! :editor snippets)
+      :desc "Insert snippet" "s" #'yas-insert-snippet))
+
+  ;; C-c n -- notes
+  (:prefix-map ("n" . "<note>")
+    (:when (modulep! :lang org +roam)
+      :desc "Fleet note" "j" #'org-roam-dailies-find-today
+      :desc "Capture note by category" "n" #'cc/org-roam-capture-in-category
+      :desc "Find note (create in Inbox)" "f" #'cc/org-roam-node-find
+      :desc "Find ref" "r" #'org-roam-ref-find
+      :desc "Insert node" "i" #'org-roam-node-insert
+      :desc "Capture" "c" #'org-roam-capture
+      :desc "Show backlinks" "b" #'org-roam-buffer-toggle
+      :desc "Show backlinks(dedicated)" "B" #'org-roam-buffer-display-dedicated
+      :desc "Sync db" "s" #'org-roam-db-sync
+      :desc "Refile node" "w" #'org-roam-refile
+      :desc "Move current node to category" "m" #'cc/org-roam-move-current-node
+      (:prefix ("a" . "<alias>")
+        :desc "Add alias" "a" #'org-roam-alias-add
+        :desc "Remove alias" "r" #'org-roam-alias-remove)
+      (:prefix ("r" . "<ref>")
+        :desc "Add ref" "a" #'org-roam-ref-add
+        :desc "Remove ref" "r" #'org-roam-ref-remove
+        :desc "Find ref" "f" #'org-roam-ref-find)
+      (:prefix ("t" . "<tag>")
+        :desc "Add tag" "a" #'org-roam-tag-add
+        :desc "Remove tag" "r" #'org-roam-tag-remove)
+      (:prefix ("d" . "<by date>")
+        :desc "Goto date" "d" #'org-roam-dailies-goto-date
+        :desc "Capture date" "c" #'org-roam-dailies-capture-date
+        :desc "Goto tomorrow" "m" #'org-roam-dailies-goto-tomorrow
+        :desc "Goto today" "t" #'org-roam-dailies-goto-today
+        :desc "Goto yesterday" "y" #'org-roam-dailies-goto-yesterday
+        :desc "Find dir" "f" #'org-roam-dailies-find-directory)
+      (:map org-roam-mode-map
+        :desc "Visit node" "v" #'org-roam-node-visit)))
+
+  ;; C-c p -- project
+  (:prefix-map ("p" . "<project>")
+    :desc "Open current editorconfig" "e" #'editorconfig-find-current-editorconfig
+    :desc "Search project" "s" #'+default/search-project
+    :desc "Switch project" "p" #'projectile-switch-project
+    :desc "Recent files" "R" #'projectile-recentf
+    :desc "Replace in project" "r" #'projectile-replace
+    :desc "Find file" "f" #'projectile-find-file
+    :desc "Project dired" "d" #'+default/browse-project
+    :desc "Search symbol" "." #'+default/search-project-for-symbol-at-point
+    :desc "Add dir local variable" "v" #'add-dir-local-variable
+    :desc "Add file local variable" "V" #'add-file-local-variable)
+
+  ;; C-c P -- profiling
+  (:prefix-map ("P" . "<profiling>")
+    :desc "Start profiling" "s" #'profiler-start
+    :desc "Stop profiling" "t" #'profiler-stop
+    :desc "Report" "r" #'profiler-report)
+
+  ;; C-c w -- workspace
+  (:prefix-map ("w" . "<workspace>")
+    (:when (modulep! :ui workspaces)
+      :desc "Make workspace" "m" #'+workspace/new-named
+      :desc "Load workspace" "l" #'+workspace/load
+      :desc "Remove workspace" "r" #'+workspace/delete
+      :desc "Switch workspace" "o" #'+workspace/switch-to
+      :desc "Display workspaces" "d" #'+workspace/display
+      :desc "Save current workspace" "s" #'cc/workspace-save-current)
+    :desc "Kill other buffers" "k" #'doom/kill-other-buffers
+    :desc "Kill all buffers" "K" #'doom/kill-all-buffers
+    :desc "Load last session" "w" #'doom/quickload-session)
+
+  ;; C-c y -- yasnippets
+  (:when (modulep! :editor snippets)
+    (:prefix-map ("y" . "<snippets>")
+      :desc "New snippet" "n" #'+snippets/new
+      :desc "Edit snippet" "e" #'+snippets/edit
+      :desc "Find snippet" "f" #'+snippets/find
+      :desc "Browse snippets" "b" #'+default/browse-templates
+      :desc "aya create" "m" #'aya-create
+      :desc "aya expand" "a" #'aya-expand
+      :desc "Describe snippets" "d" #'yas-describe-tables)))

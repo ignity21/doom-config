@@ -35,5 +35,4 @@
   (map! :map ibuffer-mode-map
     "K" #'doom/kill-all-buffers))
 
-(when (modulep! :emacs undo)
-  (map! "C-z" #'undo-fu-only-undo))
+;; `C-z' unbind + rebind to `undo-fu-only-undo' lives in keybindings.el.

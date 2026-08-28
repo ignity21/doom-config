@@ -176,7 +176,7 @@ defaults → theme → keybindings → ui → editor → completion → checkers
       server doctor）；`cc-langs/{python,web}/doctor.el` 新增；`cc/dev` 剩余部分待
       Step 1 / Step 4 清
 - [x] Step 1 config.d/ 平移，删除 `config.d/` 目录（含把 `cc/dev` 的 rainbow-mode 挪出）
-- [ ] Step 2 键位统一，删除 `modules/cc/bindings`
+- [x] Step 2 键位统一，删除 `modules/cc/bindings`
 - [ ] Step 3 `config.d.new/ai.el` 并入 `modules/cc/ai/`
 - [ ] Step 4 新建 `modules/cc/completion`
 - [ ] Step 5 defcustom 规范化 + 文档同步
@@ -406,6 +406,39 @@ Session A 只做到 Step 1。以下是为 Step 2 新 session 准备的清单，�
 **删除动作**：`git rm -r modules/cc/bindings`（含 `.doommodule`、`autoload.el`、
 `config.el`）；`init.el` 的 `:cc` 块移除 `bindings`；`doom sync`。
 lint baseline 随之移除 `autoload-cookie:modules/cc/bindings/autoload.el`。
+
+### Step 2 落地结果
+
+- `modules/cc/bindings/` 已 `git rm`（`.doommodule` / `autoload.el` / `config.el`）；
+  `init.el` `:cc` 块移除 `bindings`；`doom sync` / `doom doctor` 干净（无 module
+  missing）；`make lint` 绿，baseline 少一条。
+- `modules/cc/bindings/config.el` 全部并入 `config.d.new/keybindings.el`：全局
+  unbind/rebind（`C-z` 等 + 滚轮）、`doom-leader-key` setopt、which-key 排序与
+  `which-key-add-key-based-replacements` 大块、projectile `C-c p c` 重映射、
+  `C-x`（`C-b` ibuffer / `C-x n g` nil / `C-x a` `<agenda>` prefix-map）、
+  `C-h w` woman、`C-c` 下 8 个 prefix-map（`a`/`d`/`e`/`i`/`n`(roam)/`p`/`P`/`w`/`y`）。
+- `autoload.el` 内容（3 条 `autoload` + 8 个 ssh-deploy handler，`:tools upload`
+  守卫）搬到 `keybindings.el` 顶部。
+- 冲突点处理：
+  - `C-c a`：改为 `<ai>` prefix，`C-c a a` = `ai-code-menu`；
+    `modules/cc/ai/config.el` 的 `(map! "C-c a" ...)` 已删。
+  - `C-z`：`keybindings.el` 里先 unbind 后 rebind 到 `undo-fu-only-undo`；
+    `config.d.new/defaults.el` 的 `C-z` 段删除。
+  - `C-c w s`：移入 `cc/workspace` prefix-map；`config.d.new/ui.el` 只留
+    `persp-mode-map "C-c p" nil` 防遮蔽。
+- **偏离计划**：
+  1. 未做「全量 `defvar-keymap` + `keymap-set` 重写」。沿用 `keybindings.el`
+     现有的 `map! :prefix` / `cc/*-keymap` 混合风格（Step 1 已立此先例，
+     AGENTS.md 也允许保留 `map!`）。全量重写留作独立清理。
+  2. `C-c 1` `<checker>` 仍在 `config.d.new/checkers.el`（绑在 `flycheck-mode-map`
+     内，本就是 mode-local；提到全局会改变 flycheck 外的行为）。only 把
+     `"C-c 1" "<checker>"` which-key 描述搬进 `keybindings.el`。
+  3. `modules/cc/notes/config.el` 的 org-local 键位（`C-c n p` preview/plot、
+     `C-c n P`、`C-c n k` anki、`C-c m d`、org-noter、非前缀键）与
+     `modules/cc/agenda/config.el` 的 `org-agenda-mode-map` 键位按归属规则留在
+     模块内，未动。
+- **未验证**：GUI 键位回归（Verification 第 3 条）留给用户实机按一遍，
+  重点 `C-c a` / `C-z` / `C-c m e` / `C-c m d` / `C-x a a` / `C-c n`。
 
 ## Step 3 — modules/cc/ai 吸收 config.d.new/ai.el（中 · ~180 行 · 建议新 session，与 Step 4 同 session）
 

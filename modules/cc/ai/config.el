@@ -4,7 +4,7 @@
 ;; ai-code-interface
 (use-package! ai-code
   :init
-  (map! :desc "ai-code" "C-c a" #'ai-code-menu)
+  ;; `C-c a a' is bound in config.d.new/keybindings.el.
   (setopt
     ai-code-backends-infra-terminal-backend 'ghostel
     ai-code-auto-test-type 'ask-me)

@@ -50,9 +50,10 @@
   (+workspace/save (persp-name (get-current-persp))))
 
 (when (modulep! :ui workspaces)
+  ;; Keep persp-mode from shadowing the global `C-c p' project prefix.
+  ;; `C-c w s' is bound in keybindings.el.
   (map! :map persp-mode-map
-    "C-c p" nil)
-  (map! :desc "Save Current" "C-c w s" #'cc/workspace-save-current))
+    "C-c p" nil))
 
 (defun cc/zen-disable-line-numbers ()
   "Hide line numbers while writeroom is active."
