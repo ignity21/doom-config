@@ -3,12 +3,6 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
-(when (modulep! :cc ui)
-  (cc/set-doom-ui-appearance))
-
-(eval-when-compile (require 'ring))
-(require 'ring)
-
 (load! "custom-vars.el")
 
 ;; load config files

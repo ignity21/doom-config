@@ -3,6 +3,14 @@
 Personal Doom Emacs configuration. On branch `refactor` — the old flat
 `config.d/` files are being migrated to the themed `config.d.new/` layout.
 
+The active migration — `config.d/` → `config.d.new/` + `modules/` restructure,
+plus confirmed module decisions and LSP invariants — is tracked in
+[`.agents/plans/config-d-migration.md`](.agents/plans/config-d-migration.md),
+which carries a step-by-step plan and a progress checklist. Resume from the
+first unchecked Step.
+
+@.agents/plans/config-d-migration.md
+
 ## AI Project Content
 
 This project prefers `AGENTS.md` files and the `.agents/` directory for

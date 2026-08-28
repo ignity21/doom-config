@@ -24,6 +24,9 @@
 (defgroup cc-ui nil
   "User interface settings for the personal configuration."
   :group 'cc)
+(defgroup cc-defaults nil
+  "Default settings for the personal configuration."
+  :group 'cc)
 (defgroup cc-ai nil
   "AI settings for the personal configuration."
   :group 'cc)
@@ -132,7 +135,6 @@
   (default +smartparens) ;; +bindings
 
   :cc
-  theme
   defaults
   bindings
   dev
