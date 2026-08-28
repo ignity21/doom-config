@@ -521,10 +521,10 @@ lint baseline 随之移除 `autoload-cookie:modules/cc/bindings/autoload.el`。
   +minuet)` 守卫，新增 `o`/`n`（copilot）带 `+copilot` 守卫。
 - **机械检查**：`make lint` 绿（6 条 baseline 全部剩余项属 Step 5）、
   `doom sync` / `doom doctor` 干净（无 module missing）、`check-parens` 过。
-- **未验证**：GUI/批处理运行期验证（Verification 第 2/4/5 条）——
-  Doom 2.2.3 无批处理全量加载入口，留用户实机：冷启动后 `M-x gptel` 查
-  `gptel-backend` 与 `*Warnings*`；`*.py` 缓冲区试 minuet 自动建议 + `C-c t c`；
-  `M-x doom/reload` 后确认注册表重建（`clrhash` 路径）。
+- **已验证（用户实机）**：冷启动无 void/module 警告；`M-x gptel` 后
+  `gptel-backend` 正确、无 "No gptel backend" 警告、`doom/reload` 后注册表重建
+  正常；`*.py` minuet 自动建议 + `C-c t c` 开关 + `M-RET` 接受均正常；
+  `C-c a` `<ai>` 前缀正常。
 
 ## Step 5 — defcustom 规范化与文档同步（小 · ~60 行 · 可与 Step 4 同 session 或单独收尾）
 
