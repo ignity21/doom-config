@@ -136,6 +136,7 @@
 
   :cc
   defaults
+  lsp
   bindings
   dev
   notes

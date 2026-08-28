@@ -44,7 +44,10 @@
 
 - `:tools lsp +eglot` 指 Eglot，**不是** lsp-mode；两套 client 配置与 mode-local
   键位互斥。
-- `config.d.new/lsp.el` 是 LSP 配置的唯一来源。
+- `modules/cc/lsp/` 是 LSP 客户端配置的唯一来源（`config.el` = 调校 / advice /
+  `cc/eglot-events-*` 命令；`doctor.el` = 无私有模块的语言的 eglot server 检查）。
+  按语言划分的 `eglot-server-programs` 条目仍就近放在语言配置里
+  （`langs/<lang>.el` 或 `cc-langs/<lang>/`）。
 - Doom 的 `:editor format +onsave` 拥有「保存时格式化」；lsp-mode 自带的保存
   格式化刻意关闭。
 
@@ -91,7 +94,7 @@ config.d.new/
   editor.el  [新]  fold / word-wrap / snippets / multiple-cursors
   completion.el    只剩 vertico / corfu（copilot、minuet 移出）
   checkers.el      不变
-  lsp.el           不变
+  lsp.el     [删]  → modules/cc/lsp/（见下方「修订 A」，已落地）
   tools.el         + debugger / pdf
   patch.el         不变
   ai.el      [删]  并入 modules/cc/ai/
@@ -100,21 +103,52 @@ config.d.new/
     sh.el    [新]
 modules/cc/
   ai/         [扩] 吸收 config.d.new/ai.el
+  lsp/        [新] 吸收 config.d.new/lsp.el + eglot server doctor（修订 A，已落地）
   completion/ [新] copilot + minuet（+minuet / +copilot flag 二选一）
-  defaults/ dev/ notes/ agenda/   保留
+  defaults/ notes/ agenda/   保留
+  dev/        [删] rainbow-mode → editor.el；company-dict disable → 顶层 packages.el
   bindings/   [删]
 ```
 
-`config.el` 新加载顺序（`ai.el` 移除，新增 3 项）：
+`config.el` 新加载顺序（`ai.el` / `lsp.el` 移除，新增 3 项）：
 
 ```
 defaults → theme → keybindings → ui → editor → completion → checkers
-  → lsp → tools → patch
+  → tools → patch
   → langs/elisp → langs/sh → langs/yaml → langs/python → langs/web
 ```
 
 > ⚠️ 每新增一个 `config.d.new/` 文件都必须在 `config.el` 里显式注册
 > （`cc/load-config` / `cc/load-lang-config`），否则静默不加载。
+
+---
+
+## 修订 A — LSP 模块化 + `cc/dev` 待解散（Session A 期间，已部分落地）
+
+**动机**：`+eglot` 不自动装 language server，需要 `doctor.el` 覆盖；而
+`doctor.el` 只能挂模块（顶层 `$DOOMDIR/doctor.el` 不存在，`doom doctor` 只遍历
+`(doom-module-list)`）。把 eglot server 检查放进 `cc/dev` 与 `lsp.el` 的调校分家。
+
+**已落地**：
+
+- 新建 `modules/cc/lsp/`：`config.el` ← `config.d.new/lsp.el` 整体；
+  `doctor.el` = sh / markdown / json / docker 四个 eglot server 检查（这几个语言
+  没有私有模块）+ `assert! (:tools lsp)`；`README.org`。无 `packages.el`（不引入包）。
+- `init.el` `:cc` 块加 `lsp`（在 `defaults` 之后）；`config.el` 移除 `lsp.el` 注册。
+- `modules/cc-langs/python/doctor.el`、`modules/cc-langs/web/doctor.el`（新）：各查
+  本语言的 eglot server（`rass` / `basedpyright-langserver` / `ty`；
+  `vscode-{html,css}-language-server` / `typescript-language-server`）。
+- `modules/cc/dev/doctor.el` 移除 eglot 检查（已挪到 `cc/lsp`）；`config.el` 删掉
+  死的 `:tools ein` 段。
+- 全部检查只 `warn!` 不 `error!`，守卫 `(and (modulep! :lang X) (modulep! :tools lsp +eglot))`。
+
+**待办（并入后续 Step）**：
+
+- `cc/dev` 解散：`rainbow-mode` use-package! → `config.d.new/editor.el`（Step 1
+  新建，`package! rainbow-mode` 移顶层 `packages.el`）；`disable-packages!
+  company-dict` → 顶层 `packages.el`；copilot 的 editorconfig/jsonrpc doctor 检查
+  → `modules/cc/completion/doctor.el`（Step 4 本来就计划搬）。三者搬完后
+  `git rm -r modules/cc/dev` 并从 `init.el` `:cc` 块移除 `dev`。
 
 ---
 
@@ -138,7 +172,10 @@ defaults → theme → keybindings → ui → editor → completion → checkers
 - [x] Step 0 修复与清理
 - [x] Step 0.5 配置不变量 lint（`test/lint-config.el`）— 7 项检查全部就位；`make lint`
       绿（9 条既有 finding 进 `test/lint-baseline.txt`，后续 Step 逐条清）
-- [ ] Step 1 config.d/ 平移，删除 `config.d/` 目录
+- [x] 修订 A（部分）— 新建 `modules/cc/lsp/`（吸收 `config.d.new/lsp.el` + eglot
+      server doctor）；`cc-langs/{python,web}/doctor.el` 新增；`cc/dev` 剩余部分待
+      Step 1 / Step 4 清
+- [ ] Step 1 config.d/ 平移，删除 `config.d/` 目录（含把 `cc/dev` 的 rainbow-mode 挪出）
 - [ ] Step 2 键位统一，删除 `modules/cc/bindings`
 - [ ] Step 3 `config.d.new/ai.el` 并入 `modules/cc/ai/`
 - [ ] Step 4 新建 `modules/cc/completion`
@@ -243,7 +280,9 @@ emacs -Q --batch -l test/lint-config.el -f cc/lint-run
 - **新建 `config.d.new/editor.el`** ← `config.d/editor.el` 的 word-wrap 段与
   snippets 的 `remove-hook!`（后者实际是改 corfu capf，放
   `config.d.new/completion.el` 更合适）。fold / multiple-cursors / yas 的前缀
-  键位移交 Step 2。
+  键位移交 Step 2。**并入 `modules/cc/dev/config.el` 的 `rainbow-mode`
+  use-package!**（修订 A），`package! rainbow-mode` 与 `disable-packages!
+  company-dict` 挪到顶层 `packages.el`。
 - **新建 `config.d.new/langs/sh.el`** ← `config.d/langs.el`；把内联
   `add-hook!` + defun 改成顶层命名函数 `cc/sh-set-default-shell` +
   `(add-hook 'sh-mode-hook #'cc/sh-set-default-shell)`。
@@ -336,7 +375,9 @@ emacs -Q --batch -l test/lint-config.el -f cc/lint-run
   `use-package!` 可并存无需 `:if` 守卫 —— `disable-packages!` 掉的包，其
   `use-package!` / `after!` 自动 no-op。
 - `modules/cc/completion/doctor.el`（**新建**）— 从 `modules/cc/dev/doctor.el`
-  搬来 copilot 的 editorconfig / jsonrpc 检查（它现在放错模块了）。
+  搬来 copilot 的 editorconfig / jsonrpc 检查（它现在放错模块了）。搬完后
+  `modules/cc/dev/doctor.el` 已空（eglot 检查在修订 A 已挪走），配合 Step 1 把
+  `rainbow-mode` 挪走后即可 `git rm -r modules/cc/dev` 并从 `init.el` 移除 `dev`。
 - `init.el`：`:cc` 列表加 `(completion +minuet)`；顶层新增
   `(defgroup cc-completion ...)`。
 - 顶层 `packages.el`：删除 `use-minuet-p` defvar 与 minuet/copilot 声明。

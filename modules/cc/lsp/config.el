@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
-;;; config.d.new/lsp.el
+;;; cc/lsp/config.el
 
 (when (modulep! :tools lsp -eglot)
   (after! lsp-mode

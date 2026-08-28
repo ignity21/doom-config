@@ -1,0 +1,15 @@
+#+title: :cc lsp
+
+Personal tuning for the =:tools lsp= client (Eglot by default; lsp-mode
+config is kept behind =-eglot= guards).  Owns:
+
+- Eglot / lsp-mode / lsp-ui settings, the =emacs-lsp-booster= advice
+  (=-eglot +booster=), and the =cc/eglot-events-*= debug commands.
+- =doctor.el= checks that the Eglot language servers for enabled languages
+  are installed (Eglot does not auto-install them).  Languages with their
+  own =cc-langs/<lang>= module check their servers there.
+
+Per-language =eglot-server-programs= entries live in the language's config
+(=config.d.new/langs/<lang>.el= or =modules/cc-langs/<lang>/=).
+
+Requires =(:tools lsp)=.
