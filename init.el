@@ -33,6 +33,9 @@
 (defgroup cc-completion nil
   "Completion settings for the personal configuration."
   :group 'cc)
+(defgroup cc-agenda nil
+  "Org agenda settings for the personal configuration."
+  :group 'cc)
 (defgroup cc-langs nil
   "Language settings for the personal configuration."
   :group 'cc)
@@ -76,6 +79,9 @@
   (ibuffer +icons)  ; interactive buffer management
   (undo +tree)      ; persistent, smarter undo for your inevitable mistakes (undo-fu)
   vc                ; version-control and Emacs, sitting in a tree (gitignore, gitconfig)
+
+  :term
+  ghostel           ; libghostty-vt terminal emulation
 
   :checkers
   grammar          ; aid your writing by combining lang-tool and writegood-mode

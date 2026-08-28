@@ -35,29 +35,18 @@
 ;; YES: An affirmative decision.
 ;; NO: A negative decision.
 
-(defvar cc/org-agenda-dir "~/org/todos/"
-  "Agenda home directory")
-
-(defvar cc/agenda-habits-file nil
-  "The file path to store habits.")
-
-(defvar cc/agenda-projects-file nil
-  "The file path to store personal projects.")
-
-(defvar cc/agenda-work-file nil
-  "The file path to store work projects.")
-
-(defvar cc/agenda-study-file nil
-  "The file path to store study tasks.")
+;; `cc/default-org-dir' / `cc/org-agenda-dir' and the derived-file defvars are
+;; defined in init.el.
 
 (after! org
+  ;; Derived agenda-file paths: ordinary state, keyed off `cc/org-agenda-dir'.
+  (setq +org-capture-todo-file (file-name-concat cc/org-agenda-dir "todo.org")
+        +org-capture-journal-file (file-name-concat cc/org-agenda-dir "journal.org")
+        cc/agenda-habits-file (file-name-concat cc/org-agenda-dir "habits.org")
+        cc/agenda-projects-file (file-name-concat cc/org-agenda-dir "projects.org")
+        cc/agenda-work-file (file-name-concat cc/org-agenda-dir "work.org")
+        cc/agenda-study-file (file-name-concat cc/org-agenda-dir "study.org"))
   (setopt org-log-repeat nil
-          +org-capture-todo-file (file-name-concat cc/org-agenda-dir "todo.org")
-          +org-capture-journal-file (file-name-concat cc/org-agenda-dir "journal.org")
-          cc/agenda-habits-file (file-name-concat cc/org-agenda-dir "habits.org")
-          cc/agenda-projects-file (file-name-concat cc/org-agenda-dir "projects.org")
-          cc/agenda-work-file (file-name-concat cc/org-agenda-dir "work.org")
-          cc/agenda-study-file (file-name-concat cc/org-agenda-dir "study.org")
           org-deadline-warning-days 5
           org-log-done 'time
           org-todo-repeat-to-state "LOOP"

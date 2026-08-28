@@ -80,8 +80,7 @@
 ;; LLM
 (package! gptel :recipe (:nonrecursive t))
 
-;; Terminal
-(package! ghostel)
+;; Terminal emulation is provided by the :term ghostel module.
 
 ;; python
 ;; (when (modulep! :tools lsp +eglot)

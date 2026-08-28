@@ -29,13 +29,12 @@ packages.el          package declarations — run `doom sync` after edits
 config.el            entry point: loads custom-vars + all config.d files in order
 config.d/            themed configs (loaded explicitly by config.el, not auto-discovered)
   ├─ defaults.el theme.el keybindings.el ui.el editor.el completion.el
-  ├─ checkers.el tools.el patch.el ai.el org.el
+  ├─ checkers.el tools.el patch.el
   └─ langs/<lang>.el     per-language config (loaded via cc/load-lang-config)
 modules/cc/          private Doom modules (defaults, lsp, notes, ai, agenda, completion)
 modules/cc-langs/    private language modules (cpp, python, web)
-custom-vars.el       symlink → real file in Dropbox (API keys, name/email) — NOT committed
+custom-vars.el       symlink → real file in Dropbox (API keys, name/email, dirs) — NOT committed
 custom-vars.example.el  template users copy to custom-vars.el; lists every defcustom
-mycustom.el          machine-local setopt overrides (cc-note dirs, tab widths, ...)
 ```
 
 ## How config loads
@@ -46,13 +45,17 @@ missing file is tolerated, not an error). The load order is hard-coded in
 `config.el`:
 
 ```
-defaults → org → theme → keybindings → ui → editor → completion → checkers
-  → tools → patch → ai
+defaults → theme → keybindings → ui → editor → completion → checkers
+  → tools → patch
   → langs/elisp → langs/sh → langs/yaml → langs/python → langs/web
 ```
 
-(`org.el` is a temporary bridge file removed in migration Step 5; `lsp.el`
-already moved into `modules/cc/lsp/`.)
+AI (`gptel`), LSP tuning, org/agenda, notes and the copilot/minuet code
+completion backend all live in private `modules/cc/*` modules, not in
+`config.d/`. `org-directory` and the notes/pdf/dailies directories are
+derived by the `:set` functions of `cc/default-org-dir` (in
+`modules/cc/agenda/init.el`) and `cc/notes-root-dir` (in
+`modules/cc/notes/init.el`).
 
 **Adding a new `config.d/` file requires registering it in `config.el`.**
 Forgetting this is the most common mistake — the file silently never loads.
@@ -70,17 +73,19 @@ These rules apply across `config.d/`, `modules/cc/`, and
 
 - **Custom variables**: use the `cc/` prefix with a slash, for example
   `cc/gptel-default-backend`, `cc/font-size`, and
-  `cc/code-completion-backend`.
+  `cc/python-lsp-backend`.
 - **Customize groups**: use `cc-<area>` with a hyphen, such as `cc-ai`,
   `cc-ui`, `cc-completion`, and `cc-langs`. (`langs/yaml.el` uses bare `cc`
   as an exception.)
 - **Backend / option choices**: declare them with
   `(defcustom ... :type '(choice (const :tag "Label" val) ...))`.
-- **Mutually exclusive packages**: pick one at install time in `packages.el`
-  with a `defvar` flag and `disable-packages!` (see `use-minuet-p` for the
-  minuet/copilot switch). A `:disable`d package's `use-package!` and `after!`
-  blocks become no-ops automatically, so both packages' configurations can
-  remain in place without `:if` guards.
+- **Mutually exclusive packages**: pick one with a module flag, not a
+  `defcustom` (a module's `packages.el` is read before `custom-vars.el`
+  loads). The copilot/minuet switch is `(completion +minuet)` in `init.el`;
+  `modules/cc/completion/packages.el` calls `disable-packages!` on the
+  unpicked one. A `:disable`d package's `use-package!` and `after!` blocks
+  become no-ops automatically, so both configurations can remain in place
+  without `:if` guards.
 - **Lexical binding**: every `.el` starts with
   `;;; -*- lexical-binding: t; no-byte-compile: t; -*-`.
 - **Doom idioms**: wrap package configuration in `(after! PACKAGE ...)`; use
@@ -138,6 +143,19 @@ from `custom-vars.el`.
 - Continue to use Doom's `map!` when its descriptions, conditional bindings,
   mode-map targeting, or prefix DSL make the declaration clearer. Give custom
   prefixes a which-key description.
+
+### Keybinding ownership
+
+- `config.d/keybindings.el` is the single source for **global** bindings: the
+  `C-c` / `C-x` / `C-h` prefix keymaps and their contents, global
+  unbind/rebind, `doom-leader-key`, and which-key descriptions. Entries that
+  hang off a global prefix belong here even when they are mode-local (e.g.
+  `C-c m e` wdired, `C-c t c` minuet) — guard them with
+  `(:when (modulep! ...))` and `:map`.
+- Theme files and `modules/cc/*` keep only bindings **inside a package's own
+  keymap** (`vertico-map`, `corfu-map`, `treemacs-mode-map`,
+  `minuet-active-mode-map`, `org-agenda-mode-map`, the org-local `C-c n`
+  note bindings, …).
 
 ### Hooks, advice, and mutable data
 

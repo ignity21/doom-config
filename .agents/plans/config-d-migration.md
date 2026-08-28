@@ -186,8 +186,8 @@ defaults → theme → keybindings → ui → editor → completion → checkers
       `test/lint-config.el` / 头注释 / AGENTS.md
 - [x] Step 3 `config.d/ai.el` 并入 `modules/cc/ai/`
 - [x] Step 4 新建 `modules/cc/completion`（顺带 `git rm -r modules/cc/dev`）
-- [ ] Step 5 defcustom 规范化 + 文档同步
-- [ ] Step 6 纯函数 ERT 测试
+- [x] Step 5 defcustom 规范化 + 文档同步
+- [x] Step 6 纯函数 ERT 测试
 
 ## Step 0 — 修复与清理（小 · ~20 行 · 同 session）
 
@@ -594,6 +594,41 @@ header，让编译告警在测试代码上生效；被测文件因自身 file-lo
 emacs -Q --batch -l ert $(for f in test/test-*.el; do echo -n "-l $f "; done) \
       -f ert-run-tests-batch-and-exit
 ```
+
+### Step 5 / Step 6 落地结果（Session D）
+
+- **Step 5**：
+  - `modules/cc/agenda/init.el`（新）= `cc/default-org-dir`（`:set` →
+    `org-directory`）、`cc/org-agenda-dir` 两个 defcustom + 4 个 `cc/agenda-*-file`
+    `defvar`（派生值，属内部 state）。`defgroup cc-agenda` 加进顶层 `init.el`。
+    `agenda/config.el` 里派生路径改 `setq`（`+org-capture-*` 与 `cc/agenda-*-file`），
+    org 真变量仍 `setopt`。
+  - `modules/cc/notes/init.el`：新增 `cc/notes--derive-directories`（纯函数，
+    Step 6 复用）+ `cc/notes--set-root`（`:set`），把 `cc/roam-notes-dir` /
+    `cc/org-pdf-notes-dir` / `cc/roam-dailies-dir` 从「setopt 幽灵变量」变为
+    `defvar` + `:set` 派生。
+  - `config.d/org.el` 桥接文件 `git rm`，`config.el` 注销。
+  - `:term ghostel` 启用（`init.el` `doom!` 块）；`packages.el` 删 `(package! ghostel)`。
+  - `custom-vars.example.el` 补：`cc/default-org-dir` `cc/org-agenda-dir`
+    `cc/notes-root-dir` `cc/org-roam-default-category`
+    `cc/org-roam-non-category-directories` `cc/dark-ef-theme`
+    `cc/cpp-default-tab-width` `cc/yaml-indent-offset`。lint baseline 清空（0）。
+  - `AGENTS.md`：Repository layout（去 `ai.el`/`org.el`/`mycustom.el`）、加载顺序、
+    「Mutually exclusive packages」改指模块 flag、`cc/code-completion-backend`
+    → `cc/python-lsp-backend`、新增「Keybinding ownership」小节。
+  - **未做**：`mycustom.el` 不存在（AGENTS.md 旧提法，已删除该行）；派生目录变量
+    选择留 `defvar` 而非 defcustom，避免 7 个内部变量都要进 example。
+- **Step 6**：`test/test-helper.el`（stub Doom 宏 + `cc/test-load`）+
+  `test-gptel.el` / `test-agenda.el` / `test-notes.el` / `test-completion.el`，
+  共 24 个 ERT，`make test` 全绿。覆盖 `cc/gptel-magit--truncate-subject`、
+  `cc/gptel-select-backend`、`cc/notes--derive-directories`、
+  `cc/notes--set-root`、org-roam category 目录逻辑、`cc/org-clock-in-switch-state`、
+  `cc/agenda--set-org-dir`、`cc/minuet-only-on-change-p`。
+- **机械检查**：`make lint` 绿（0 finding）、`make test` 绿（24/24）、
+  `doom sync` / `doom doctor` 干净（仅外部工具缺失告警 + ghostel 需 zig 仅源码编译时）。
+- **未验证（留用户实机）**：Verification 第 6 条（`org-directory` /
+  `org-roam-directory` / `cc/org-pdf-notes-dir` 与 custom-vars 一致；`C-c n f`
+  与 `C-x a a`）、`C-c o t` → ghostel 打开终端。
 
 ---
 

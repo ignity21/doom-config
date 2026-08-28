@@ -6,7 +6,7 @@ EMACS ?= emacs
 lint:
 	$(EMACS) -Q --batch -l test/lint-config.el -f cc/lint-run
 
-## test: run the ERT suites under test/ (added in a later migration step)
+## test: run the ERT suites under test/ (pure helpers only, no Doom)
 test:
 	@set -e; \
 	files=$$(ls test/test-*.el 2>/dev/null || true); \

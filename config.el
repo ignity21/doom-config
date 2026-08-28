@@ -12,7 +12,6 @@
   (cc/load-config (concat "langs/" lang ".el")))
 
 (cc/load-config "defaults.el")
-(cc/load-config "org.el")           ; TEMPORARY: removed in Step 5 (see file header)
 (cc/load-config "theme.el")
 (cc/load-config "keybindings.el")
 (cc/load-config "ui.el")

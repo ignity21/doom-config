@@ -17,11 +17,23 @@
 
 ;; Themes
 (setopt
-  cc/light-ef-theme 'ef-cyprus)
+  cc/light-ef-theme 'ef-cyprus
+  cc/dark-ef-theme 'ef-dream)
 
 ;; Defaults
 (setopt
   cc/tramp-user-bin-directory "~/.local/bin")
+
+;; Org agenda
+(setopt
+  cc/default-org-dir "~/org/"
+  cc/org-agenda-dir "~/org/todos/")
+
+;; Notes / org-roam
+(setopt
+  cc/notes-root-dir "~/notes/"
+  cc/org-roam-default-category "Inbox"
+  cc/org-roam-non-category-directories '(".cache" "assets" "dailies" "logseq" "pages"))
 
 ;; llm
 (setopt
@@ -48,3 +60,11 @@
 ;; python
 (setopt
   cc/python-lsp-backend 'tyruff)
+
+;; C/C++
+(setopt
+  cc/cpp-default-tab-width 4)
+
+;; yaml
+(setopt
+  cc/yaml-indent-offset 2)
