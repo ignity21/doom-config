@@ -1,4 +1,4 @@
-;; -*- no-byte-compile: t; -*-
+;;; -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;; cc/dev/doctor.el
 
 ;; copilot dependencies

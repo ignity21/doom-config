@@ -1,4 +1,4 @@
-;;; -*- lexical-binding: t; no-byte-compile: t; ---
+;;; -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;; cc/notes/init.el
 
 (defcustom cc/notes-root-dir "~/notes/"

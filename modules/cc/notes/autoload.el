@@ -1,4 +1,4 @@
-;;; -*- lexical-binding: t; no-byte-compile: t; ---
+;;; -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;; cc/notes/autoload.el
 
 ;; Declared by org-roam.  Declare it here too because this autoload file is

@@ -1,5 +1,5 @@
-;;; -*- lexical-binding: t; no-byte-compile: t; ---
-;;; cc/notes/roam.el
+;;; -*- lexical-binding: t; no-byte-compile: t; -*-
+;;; cc/notes/+roam.el
 (when (modulep! :lang org +roam)
   (setopt org-roam-completion-functions nil)
 

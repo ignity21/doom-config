@@ -147,4 +147,4 @@
     org-download-heading-lvl 1
     org-download-annotate-function (lambda (_link) "")))
 
-(load! "roam")
+(load! "+roam")

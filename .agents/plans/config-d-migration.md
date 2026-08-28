@@ -136,7 +136,8 @@ defaults → theme → keybindings → ui → editor → completion → checkers
 
 - [x] Step -1 计划落地到 `.agents/plans/` + AGENTS.md 指针 + memory 指针
 - [x] Step 0 修复与清理
-- [ ] Step 0.5 配置不变量 lint（`test/lint-config.el`）
+- [x] Step 0.5 配置不变量 lint（`test/lint-config.el`）— 7 项检查全部就位；`make lint`
+      绿（9 条既有 finding 进 `test/lint-baseline.txt`，后续 Step 逐条清）
 - [ ] Step 1 config.d/ 平移，删除 `config.d/` 目录
 - [ ] Step 2 键位统一，删除 `modules/cc/bindings`
 - [ ] Step 3 `config.d.new/ai.el` 并入 `modules/cc/ai/`
@@ -200,6 +201,32 @@ emacs -Q --batch -l test/lint-config.el -f cc/lint-run
 ```
 
 失败时以非零退出码退出，便于以后接 CI 或 pre-commit hook。
+
+### Step 0.5 落地结果
+
+- `test/lint-config.el`（7 项检查，入口 `cc/lint-run`）+ `Makefile`（`make lint`
+  / `make test`）+ `test/run.sh`。
+- 检查 6（lexical-binding）**放行 `packages.el`**：Doom 上游模块的 `packages.el`
+  惯例只带 `no-byte-compile`，本仓照此。检查 7 的 Doom 模块目录自动在
+  `~/.config/emacs/sources/doom+/modules` 与 `~/.config/emacs/modules` 间探测，
+  可用 `DOOM_MODULES_DIR` 覆盖。
+- **baseline 机制**：`test/lint-baseline.txt` 记录当前已知 finding，`make lint`
+  只在出现**新** finding 或 baseline 条目不再复现时才非零退出（即修复必须缩小
+  baseline）。`LINT_UPDATE_BASELINE=1 make lint` 重新生成。
+- Step 0.5 内顺手修掉的机械缺陷（不进 baseline）：
+  - `modules/cc/notes/{autoload,init,packages,+roam}.el`、`modules/cc/dev/doctor.el`
+    的文件头 `-*-` 结尾写成 `---` / 缺 `lexical-binding` → 已修正。
+  - `modules/cc/notes/roam.el` → `+roam.el`，`config.el` 的 `(load! "roam")`
+    同步改为 `(load! "+roam")`。
+- **进 baseline、由后续 Step 清除的 9 条**：
+
+  | finding | 清除于 |
+  |---|---|
+  | `autoload-cookie:modules/cc/bindings/autoload.el` | Step 2 |
+  | `autoload-cookie:modules/cc/ai/autoload.el` | Step 3 |
+  | `module-missing:ui/doom-dashboard`（在 `config.d/ui.el`） | Step 1（该文件删除 / 改 `:ui dashboard`） |
+  | `defcustom-missing-example:cc/dark-ef-theme` `cc/yaml-indent-offset` | Step 5（补 `custom-vars.example.el`） |
+  | `defcustom-missing-example:cc/cpp-default-tab-width` `cc/notes-root-dir` `cc/org-roam-default-category` `cc/org-roam-non-category-directories` | Step 5（先与用户确认这些属 `custom-vars.example.el` 还是机器本地 `mycustom.el`；`mycustom.el` 无模板，可能需要放宽检查 3 或补一个 `mycustom.example.el`） |
 
 ## Step 1 — config.d/ 平移到 config.d.new/（中 · ~200 行 · 与 Step 0 同 session）
 
