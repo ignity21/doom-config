@@ -148,3 +148,8 @@
   python
   web
   )
+
+;; Must be set before the :ui dashboard module's config.el runs its early
+;; `(switch-to-buffer +dashboard-name)` bootstrap, otherwise the dashboard
+;; renders into a differently-named buffer that never gets a window.
+(setq +dashboard-name "*Happy Hacking!*")

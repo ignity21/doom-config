@@ -5,8 +5,8 @@
   (map! :map +popup-buffer-mode-map
     :desc "Raise popup" "C-c C-p" #'+popup/raise))
 
-(when (modulep! :ui dashboard)
-  (setopt +dashboard-name "*Happy Hacking!*"))
+;; `+dashboard-name' is set in init.el — it must precede the dashboard module's
+;; early buffer bootstrap, which runs before this file loads.
 
 (when (modulep! :ui treemacs)
   (map! :map treemacs-mode-map
