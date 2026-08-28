@@ -73,7 +73,9 @@
 
 ;; Development
 (disable-packages! flymake)
+(disable-packages! company-dict)
 (package! apheleia :pin "7a2136052f4174c178b28da1a2c632904bf08176")
+(package! rainbow-mode)
 
 ;; Code copilot
 (package! minuet :recipe

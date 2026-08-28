@@ -21,6 +21,9 @@
 (after! corfu
   (setopt corfu-preselect 'directory))
 
+(when (modulep! :editor snippets)
+  (remove-hook! 'yas-minor-mode-hook #'+corfu-add-yasnippet-capf-h))
+
 ;; copilot
 (use-package! copilot
   :init

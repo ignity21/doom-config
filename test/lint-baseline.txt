@@ -8,4 +8,3 @@ defcustom-missing-example:cc/notes-root-dir
 defcustom-missing-example:cc/org-roam-default-category
 defcustom-missing-example:cc/org-roam-non-category-directories
 defcustom-missing-example:cc/yaml-indent-offset
-module-missing:ui/doom-dashboard

@@ -1,8 +1,13 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
-;;; config.d/org.el
+;;; config.d.new/org.el
+;;
+;; TEMPORARY BRIDGE.  Step 5 of .agents/plans/config-d-migration.md sinks this
+;; into modules/cc/agenda/init.el (org-directory + cc/default-org-dir defcustom)
+;; and modules/cc/notes/init.el (notes-dir derivation via a :set function).
+;; Delete this file and its config.el registration once Step 5 lands.
 
-;; org-directory must be set before doom-package:org has loaded
-;; set if cc/org-home-dir is bound
+;; org-directory must be set before org loads; guarded by `boundp' because the
+;; value lives in custom-vars.el, which may not define it.
 (when (boundp 'cc/default-org-dir)
   (setq org-directory cc/default-org-dir))
 

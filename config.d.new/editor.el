@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
-;;; config.d/editor.el
+;;; config.d.new/editor.el
 
 (when (modulep! :editor fold)
   (map! :map (prog-mode-map
@@ -22,14 +22,6 @@
     "<return>" nil))
 
 (when (modulep! :editor snippets)
-  (remove-hook! 'yas-minor-mode-hook #'+corfu-add-yasnippet-capf-h)
-  ;; (when (modulep! :tools lsp)
-  ;;   (after! lsp-mode
-  ;;     (remove-hook! 'completion-at-point-functions #'lsp-completion-at-point)
-  ;;     (add-hook! 'completion-at-point-functions (cape-capf-super
-  ;;                                                #'lsp-completion-at-point
-  ;;                                                #'yasnippet-capf)))
-  ;;   )
   (map! :map yas-minor-mode-map
     "C-c &" nil
     "M-/" #'yas-insert-snippet))
@@ -40,3 +32,13 @@
     (add-to-list '+word-wrap-disabled-modes mode))
   (when (modulep! :term vterm)
     (add-to-list '+word-wrap-disabled-modes 'vterm-mode)))
+
+;; Rainbow mode: highlight color strings (moved from the retired cc/dev module).
+(defun cc/rainbow-mode-toggle-hl-line ()
+  "Disable `hl-line-mode' while `rainbow-mode' is on so colors stay readable."
+  (hl-line-mode (if rainbow-mode -1 +1)))
+
+(use-package! rainbow-mode
+  :hook ((emacs-lisp-mode html-mode css-mode scss-mode) . rainbow-mode)
+  :config
+  (add-hook 'rainbow-mode-hook #'cc/rainbow-mode-toggle-hl-line))

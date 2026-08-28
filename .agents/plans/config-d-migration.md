@@ -175,7 +175,7 @@ defaults → theme → keybindings → ui → editor → completion → checkers
 - [x] 修订 A（部分）— 新建 `modules/cc/lsp/`（吸收 `config.d.new/lsp.el` + eglot
       server doctor）；`cc-langs/{python,web}/doctor.el` 新增；`cc/dev` 剩余部分待
       Step 1 / Step 4 清
-- [ ] Step 1 config.d/ 平移，删除 `config.d/` 目录（含把 `cc/dev` 的 rainbow-mode 挪出）
+- [x] Step 1 config.d/ 平移，删除 `config.d/` 目录（含把 `cc/dev` 的 rainbow-mode 挪出）
 - [ ] Step 2 键位统一，删除 `modules/cc/bindings`
 - [ ] Step 3 `config.d.new/ai.el` 并入 `modules/cc/ai/`
 - [ ] Step 4 新建 `modules/cc/completion`
@@ -296,6 +296,30 @@ emacs -Q --batch -l test/lint-config.el -f cc/lint-run
 - 在 `config.el` 注册 `ui` / `editor` / `langs/sh`，删除全部 `config.d/*` 的
   `load!` 调用，**删除 `config.d/` 目录**。
 
+### Step 1 落地结果
+
+- 新建 `config.d.new/{ui,editor}.el`、`config.d.new/langs/sh.el`；`defaults.el` /
+  `tools.el` / `completion.el` 扩充；均在 `config.el` 注册，新加载顺序落地
+  （`ai.el` 仍在，Step 3 处理）。
+- `config.d/ui.el` 的 `:ui doom-dashboard` → `:ui dashboard`，`+doom-dashboard-name`
+  → `+dashboard-name`。lint baseline 移除 `module-missing:ui/doom-dashboard`。
+- 内联 defun 提为顶层命名函数：`cc/sh-set-default-shell`、`cc/workspace-save-current`、
+  `cc/zen-{disable,enable}-line-numbers`、`cc/rainbow-mode-toggle-hl-line`；对应
+  `add-hook!` 改 `add-hook`。
+- `cc/dev` 部分解散：`rainbow-mode` use-package! → `config.d.new/editor.el`；
+  `package! rainbow-mode` + `disable-packages! company-dict` → 顶层 `packages.el`。
+  `modules/cc/dev/{config,packages}.el` 清空留占位注释，`init.el` 仍留 `dev`
+  （copilot doctor 检查 Step 4 搬走后再 `git rm`）。
+- **偏离计划两处**（均为保持跨 session 可启动）：
+  1. 键位未拆进 `keybindings.el`。绝大多数是包内 keymap（`treemacs-mode-map`、
+     `widget-keymap`、`pdf-view-mode-map`、`yas-minor-mode-map` 等），按键位归属
+     规则本就该留在主题文件；仅 `C-z`、`C-c w s` 两个真·全局绑定暂留
+     `defaults.el` / `ui.el`，Step 2 统一时迁走。
+  2. 新建了**临时** `config.d.new/org.el`（原样搬 `config.d/org.el`，含头部注释）。
+     计划要求 org 配置直接下沉到模块 init.el，但那是 Step 5（Session D）。为避免
+     Step 1→5 之间 `org-directory` / notes 目录派生失效，先留桥接文件，Step 5
+     删除它及其 `config.el` 注册。
+
 ## Step 2 — 键位统一（大 · ~450 行重写 · **建议新开 session**）
 
 把 `modules/cc/bindings/config.el`（241 行）全部并入
@@ -400,6 +424,8 @@ emacs -Q --batch -l test/lint-config.el -f cc/lint-run
   `cc/roam-dailies-dir` 补 defcustom（三者当前只被 `setopt` 从未定义）。给
   `cc/notes-root-dir` 加 `:set` 函数，在其中派生上述三个值，取代
   `config.d/org.el` 后半段的手工派生逻辑。
+- **删除 Step 1 的临时桥接文件** `config.d.new/org.el` 及其在 `config.el` 的
+  `(cc/load-config "org.el")` 注册（内容已被上面两条模块化）。
 - **`custom-vars.example.el`** — 按 AGENTS.md 要求补齐每个新 defcustom 的示例：
   `cc/default-org-dir`、`cc/notes-root-dir`、`cc/org-agenda-dir`。
 - **`packages.el` / `init.el`** — 删除手写的 `(package! ghostel)`，改为在

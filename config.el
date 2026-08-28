@@ -5,15 +5,6 @@
 
 (load! "custom-vars.el")
 
-;; load config files
-(load! "config.d/defaults.el")
-(load! "config.d/org.el")
-(load! "config.d/ui.el")
-(load! "config.d/editor.el")
-(load! "config.d/emacs.el")
-(load! "config.d/tools.el")
-(load! "config.d/langs.el")
-
 (defun cc/load-config (name)
   (load! (concat "config.d.new/" name) doom-user-dir t))
 
@@ -21,14 +12,18 @@
   (cc/load-config (concat "langs/" lang ".el")))
 
 (cc/load-config "defaults.el")
+(cc/load-config "org.el")           ; TEMPORARY: removed in Step 5 (see file header)
 (cc/load-config "theme.el")
 (cc/load-config "keybindings.el")
+(cc/load-config "ui.el")
+(cc/load-config "editor.el")
 (cc/load-config "completion.el")
 (cc/load-config "checkers.el")
 (cc/load-config "tools.el")
 (cc/load-config "patch.el")
 (cc/load-config "ai.el")
 (cc/load-lang-config "elisp")
+(cc/load-lang-config "sh")
 (cc/load-lang-config "yaml")
 (cc/load-lang-config "python")
 (cc/load-lang-config "web")

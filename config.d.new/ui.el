@@ -1,12 +1,12 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
-;;; config.d/ui.el
+;;; config.d.new/ui.el
 
-(when(modulep! :ui popup)
+(when (modulep! :ui popup)
   (map! :map +popup-buffer-mode-map
     :desc "Raise popup" "C-c C-p" #'+popup/raise))
 
-(when (modulep! :ui doom-dashboard)
-  (setopt +doom-dashboard-name "*Happy Hacking!*"))
+(when (modulep! :ui dashboard)
+  (setopt +dashboard-name "*Happy Hacking!*"))
 
 (when (modulep! :ui treemacs)
   (map! :map treemacs-mode-map
@@ -44,18 +44,25 @@
   (after! (:and treemacs ace-window)
     (setopt aw-ignored-buffers (delq 'treemacs-mode aw-ignored-buffers))))
 
+(defun cc/workspace-save-current ()
+  "Save the current workspace under its own name."
+  (interactive)
+  (+workspace/save (persp-name (get-current-persp))))
+
 (when (modulep! :ui workspaces)
   (map! :map persp-mode-map
     "C-c p" nil)
-  (after! persp-mode
-    (defun cc/workspace-save-current ()
-      (interactive)
-      (+workspace/save (persp-name (get-current-persp))))
-    (map! :desc "Save Current" "C-c w s" #'cc/workspace-save-current)))
+  (map! :desc "Save Current" "C-c w s" #'cc/workspace-save-current))
+
+(defun cc/zen-disable-line-numbers ()
+  "Hide line numbers while writeroom is active."
+  (display-line-numbers-mode -1))
+
+(defun cc/zen-enable-line-numbers ()
+  "Restore line numbers after leaving writeroom."
+  (display-line-numbers-mode +1))
 
 (when (modulep! :ui zen)
   (setopt +zen-text-scale 0.8)
-  (add-hook! 'writeroom-mode-enable-hook
-    (display-line-numbers-mode -1))
-  (add-hook! 'writeroom-mode-disable-hook
-    (display-line-numbers-mode +1)))
+  (add-hook 'writeroom-mode-enable-hook #'cc/zen-disable-line-numbers)
+  (add-hook 'writeroom-mode-disable-hook #'cc/zen-enable-line-numbers))

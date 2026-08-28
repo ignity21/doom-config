@@ -1,6 +1,5 @@
 ;; -*- no-byte-compile: t; -*-
-;;; cc/better-defaults/packages.el
+;;; cc/dev/packages.el
 
-(disable-packages! company-dict)
-
-(package! rainbow-mode)
+;; Package declarations moved to the top-level packages.el as part of
+;; dissolving this module (see .agents/plans/config-d-migration.md).
