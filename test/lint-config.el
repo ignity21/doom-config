@@ -210,7 +210,7 @@
     (nreverse pairs)))
 
 (defun cc/lint--modulep!-refs ()
-  "Return list of (CAT . MOD) from (modulep! :cat mod ...) across the repo."
+  "Return list of (CAT . MOD) from every `modulep!' :CATEGORY MODULE reference."
   (let (refs)
     (dolist (f (cc/lint--files "*.el"))
       (with-temp-buffer
