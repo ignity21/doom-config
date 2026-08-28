@@ -144,13 +144,14 @@ provides local syntax parsing and structural editing.  They are complementary.
   ~C-M-n/p~ moves between groups.
 - In Corfu, ~C-c C-l~ moves completion to the minibuffer, ~C-SPC~ inserts a
   separator, ~<tab>~ quick-completes, and ~C-h~ toggles popup information.
-- Minuet is the default inline completion provider (=use-minuet-p= in
-  =packages.el=).  It is active in programming, YAML, and configuration
-  buffers, and only requests a suggestion after buffer changes.  When a
-  suggestion is visible: ~M-RET~ or ~<right>~ accepts it, ~M-l~ accepts one
-  line, ~M-i~ requests one, ~M-n/p~ cycles, and ~C-g~ dismisses it.
-- Copilot is the alternative provider.  Switch the package choice in
-  =packages.el=, run ~doom sync~, and restart Emacs; then ~C-c t o~ toggles
+- Minuet is the default inline completion provider (the =+minuet= flag on the
+  =:cc completion= module in =init.el=).  It is active in programming, YAML,
+  and configuration buffers, and only requests a suggestion after buffer
+  changes.  When a suggestion is visible: ~M-RET~ or ~<right>~ accepts it,
+  ~M-l~ accepts one line, ~M-i~ requests one, ~M-n/p~ cycles, and ~C-g~
+  dismisses it.
+- Copilot is the alternative provider.  Switch the module flag to =+copilot=
+  in =init.el=, run ~doom sync~, and restart Emacs; then ~C-c t o~ toggles
   Copilot and ~C-c t n~ toggles NES mode.
 
 ** Ask an LLM with gptel

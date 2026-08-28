@@ -31,7 +31,7 @@ config.d/            themed configs (loaded explicitly by config.el, not auto-di
   ├─ defaults.el theme.el keybindings.el ui.el editor.el completion.el
   ├─ checkers.el tools.el patch.el ai.el org.el
   └─ langs/<lang>.el     per-language config (loaded via cc/load-lang-config)
-modules/cc/          private Doom modules (ui, defaults, lsp, dev, notes, ai, agenda)
+modules/cc/          private Doom modules (defaults, lsp, notes, ai, agenda, completion)
 modules/cc-langs/    private language modules (cpp, python, web)
 custom-vars.el       symlink → real file in Dropbox (API keys, name/email) — NOT committed
 custom-vars.example.el  template users copy to custom-vars.el; lists every defcustom

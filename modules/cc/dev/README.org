@@ -1,7 +1,0 @@
-#+title: :cc dev
-
-* Debugging
-- ~dap-cpptools-setup~
-
-* TODO List
-- [ ] Use edebug

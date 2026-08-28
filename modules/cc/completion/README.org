@@ -1,0 +1,18 @@
+#+title: :cc completion
+
+Inline code-completion backend.  Pick exactly one at install time via the
+module flag:
+
+- =+minuet= (default) -- Minuet, configured against the DeepSeek FIM
+  endpoint (uses =cc/deepseek-api-key= from the =:cc ai= module).
+- =+copilot= -- GitHub Copilot (=copilot.el=).
+
+The unselected package is =disable-packages!=-d, so both =use-package!=
+blocks stay here without =:if= guards.
+
+Package-internal keymaps (=minuet-active-mode-map=,
+=copilot-completion-map=) live in =config.el=; the =C-c t= toggles live in
+=config.d/keybindings.el=.
+
+Vertico / Corfu tuning stays in =config.d/completion.el= -- this module is
+only the AI completion backend.

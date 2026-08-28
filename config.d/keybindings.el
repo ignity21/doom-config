@@ -151,7 +151,11 @@
     :desc "Visual line mode" "v" #'+word-wrap-mode)
   (:when (modulep! :checkers spell)
     :desc "Spelling check" "s" #'spell-fu-mode)
-  :desc "Minuet automatic suggestions" "c" #'cc/minuet-toggle-auto-suggestion)
+  (:when (modulep! :cc completion +minuet)
+    :desc "Minuet automatic suggestions" "c" #'cc/minuet-toggle-auto-suggestion)
+  (:when (modulep! :cc completion +copilot)
+    :desc "Copilot mode" "o" #'copilot-mode
+    :desc "Copilot NES mode" "n" #'copilot-nes-mode))
 (when (modulep! :lang org +present)
   (map! :map org-mode-map
     :desc "Org presentation" "C-c t p" #'org-tree-slide-mode))

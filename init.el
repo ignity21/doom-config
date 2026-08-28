@@ -30,6 +30,9 @@
 (defgroup cc-ai nil
   "AI settings for the personal configuration."
   :group 'cc)
+(defgroup cc-completion nil
+  "Completion settings for the personal configuration."
+  :group 'cc)
 (defgroup cc-langs nil
   "Language settings for the personal configuration."
   :group 'cc)
@@ -137,10 +140,10 @@
   :cc
   defaults
   lsp
-  dev
   notes
   agenda
   ai
+  (completion +minuet)
 
   :cc-langs
   cpp

@@ -1,6 +1,5 @@
 # Known findings accepted for now; each planned Step should shrink this.
 # Regenerate with: LINT_UPDATE_BASELINE=1 make lint
-autoload-cookie:modules/cc/ai/autoload.el
 defcustom-missing-example:cc/cpp-default-tab-width
 defcustom-missing-example:cc/dark-ef-theme
 defcustom-missing-example:cc/notes-root-dir

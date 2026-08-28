@@ -49,8 +49,6 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;;(unpin! t)
 
-(defvar use-minuet-p t "If non-nil, use Minuet as copilot else use Github Copilot.")
-
 (package! transient
   :pin "1f7039ef8d548d6fe858084fcbeae7588eba4190"
   ) ; 0.12.0
@@ -77,16 +75,7 @@
 (package! apheleia :pin "7a2136052f4174c178b28da1a2c632904bf08176")
 (package! rainbow-mode)
 
-;; Code copilot
-(package! minuet :recipe
-  (:host github :repo "milanglacier/minuet-ai.el" :files ("*.el")))
-(package! copilot
-  :recipe (:host github
-            :repo "copilot-emacs/copilot.el"
-            :files ("*.el")))
-(if use-minuet-p
-  (disable-packages! copilot)
-  (disable-packages! minuet))
+;; Code-completion backend (minuet / copilot) lives in modules/cc/completion.
 
 ;; LLM
 (package! gptel :recipe (:nonrecursive t))

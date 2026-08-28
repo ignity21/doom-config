@@ -184,8 +184,8 @@ defaults → theme → keybindings → ui → editor → completion → checkers
 - [x] Step 2 键位统一，删除 `modules/cc/bindings`
 - [x] （附带）`config.d.new/` → `config.d/` 改名，同步 `config.el` /
       `test/lint-config.el` / 头注释 / AGENTS.md
-- [ ] Step 3 `config.d/ai.el` 并入 `modules/cc/ai/`
-- [ ] Step 4 新建 `modules/cc/completion`
+- [x] Step 3 `config.d/ai.el` 并入 `modules/cc/ai/`
+- [x] Step 4 新建 `modules/cc/completion`（顺带 `git rm -r modules/cc/dev`）
 - [ ] Step 5 defcustom 规范化 + 文档同步
 - [ ] Step 6 纯函数 ERT 测试
 
@@ -495,6 +495,36 @@ lint baseline 随之移除 `autoload-cookie:modules/cc/bindings/autoload.el`。
 - minuet 的 `minuet-active-mode-map` 与 copilot 的 `copilot-completion-map` 按
   键位规则留在模块内；`C-c t o/n/c` 三个开关移交 keybindings.el（Step 2 已处理，
   此处只需确认没有重复绑定残留）。
+
+### Step 3 / Step 4 落地结果（Session C）
+
+- **Step 3**：`modules/cc/ai/init.el`（新）= 6 个 defcustom（4 key +
+  `cc/gptel-enable-copilot` + `cc/gptel-default-backend`）。`config.el` 追加
+  `cc/gptel-backends` / `-fallback-order` / `cc/gptel-select-backend` +
+  `after! gptel` 注册块（顶层），删掉 "lives in config.d/ai.el" 注释。
+  `+magit.el`（新）= `after! gptel-magit` 段，`(load! "+magit")` 在 `config.el`
+  末尾；`cc/gptel-magit--truncate-subject` 已提到文件顶层（Step 6 预备）。
+  `config.d/ai.el` 删除并从 `config.el` 注销。`modules/cc/ai/autoload.el`
+  （整文件注释掉的死 mcp 代码）`git rm`，lint baseline 移除
+  `autoload-cookie:modules/cc/ai/autoload.el`。
+- **Step 4**：`modules/cc/completion/{packages,config,doctor,README}.el`（新）。
+  `packages.el` 用 `(if (modulep! +minuet) (disable-packages! copilot)
+  (disable-packages! minuet))`。`config.el` = copilot + minuet 两个
+  `use-package!` + helper 函数。`doctor.el` = copilot 的 editorconfig/jsonrpc
+  检查（`(unless (modulep! +minuet) ...)` 守卫）。`init.el` `:cc` 加
+  `(completion +minuet)`、移除 `dev`；顶层新增 `(defgroup cc-completion ...)`。
+  顶层 `packages.el` 删除 `use-minuet-p` + minuet/copilot 声明 + if 块。
+  `config.d/completion.el` 只剩 vertico/corfu + yas remove-hook。
+  `git rm -r modules/cc/dev`（doctor 检查已搬入 completion，rainbow-mode 在
+  Step 1 已搬走）。`README.org` 补全提供方说明改指模块 flag。
+- **keybindings.el**：`C-c t` 前缀下 `c`（minuet）加 `(modulep! :cc completion
+  +minuet)` 守卫，新增 `o`/`n`（copilot）带 `+copilot` 守卫。
+- **机械检查**：`make lint` 绿（6 条 baseline 全部剩余项属 Step 5）、
+  `doom sync` / `doom doctor` 干净（无 module missing）、`check-parens` 过。
+- **未验证**：GUI/批处理运行期验证（Verification 第 2/4/5 条）——
+  Doom 2.2.3 无批处理全量加载入口，留用户实机：冷启动后 `M-x gptel` 查
+  `gptel-backend` 与 `*Warnings*`；`*.py` 缓冲区试 minuet 自动建议 + `C-c t c`；
+  `M-x doom/reload` 后确认注册表重建（`clrhash` 路径）。
 
 ## Step 5 — defcustom 规范化与文档同步（小 · ~60 行 · 可与 Step 4 同 session 或单独收尾）
 

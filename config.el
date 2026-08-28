@@ -21,7 +21,6 @@
 (cc/load-config "checkers.el")
 (cc/load-config "tools.el")
 (cc/load-config "patch.el")
-(cc/load-config "ai.el")
 (cc/load-lang-config "elisp")
 (cc/load-lang-config "sh")
 (cc/load-lang-config "yaml")
