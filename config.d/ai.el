@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
-;;; config.d.new/ai.el
+;;; config.d/ai.el
 (defcustom cc/openai-api-key ""
   "The API key for OpenAI."
   :type 'string

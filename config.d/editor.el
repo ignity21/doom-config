@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
-;;; config.d.new/editor.el
+;;; config.d/editor.el
 
 (when (modulep! :editor fold)
   (map! :map (prog-mode-map

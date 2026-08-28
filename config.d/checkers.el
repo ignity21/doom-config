@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
-;;; config.d.new/checkers.el
+;;; config.d/checkers.el
 (defcustom cc/personal-aspell-en-dict "~/spell-fu/en.pws"
   "Path to the personal aspell dictionary for English."
   :type 'file

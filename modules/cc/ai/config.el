@@ -4,7 +4,7 @@
 ;; ai-code-interface
 (use-package! ai-code
   :init
-  ;; `C-c a a' is bound in config.d.new/keybindings.el.
+  ;; `C-c a a' is bound in config.d/keybindings.el.
   (setopt
     ai-code-backends-infra-terminal-backend 'ghostel
     ai-code-auto-test-type 'ask-me)
@@ -32,7 +32,7 @@
               gptel-rewrite
               gptel-tools)
   :config
-  ;; Provider, model, and credential setup lives in config.d.new/ai.el.
+  ;; Provider, model, and credential setup lives in config.d/ai.el.
   (setopt gptel-log-level 'info
     gptel-use-tools t))
 

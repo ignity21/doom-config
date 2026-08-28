@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
-;;; config.d.new/ui.el
+;;; config.d/ui.el
 
 (when (modulep! :ui popup)
   (map! :map +popup-buffer-mode-map

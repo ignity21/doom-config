@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
-;;; config.d.new/completion.el
+;;; config.d/completion.el
 (map!
   :map vertico-map
   "C-M-n" #'vertico-next-group

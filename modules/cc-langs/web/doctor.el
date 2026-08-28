@@ -2,7 +2,7 @@
 ;;; cc-langs/web/doctor.el
 
 ;; Eglot does not auto-install language servers.  `:lang web +lsp' drives
-;; `web-mode' (HTML, via the entry added in config.d.new/langs/web.el),
+;; `web-mode' (HTML, via the entry added in config.d/langs/web.el),
 ;; `css-mode', and the JS/TS modes.
 (when (and (modulep! :lang web)
            (modulep! :tools lsp +eglot))

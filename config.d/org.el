@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
-;;; config.d.new/org.el
+;;; config.d/org.el
 ;;
 ;; TEMPORARY BRIDGE.  Step 5 of .agents/plans/config-d-migration.md sinks this
 ;; into modules/cc/agenda/init.el (org-directory + cc/default-org-dir defcustom)

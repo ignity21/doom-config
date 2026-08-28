@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
-;;; config.d.new/keybindings.el
+;;; config.d/keybindings.el
 ;;
 ;; The single source of truth for keybindings: global prefix keymaps, global
 ;; unbinds/rebinds, which-key descriptions, and every entry that hangs off a

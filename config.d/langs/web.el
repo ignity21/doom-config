@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
-;;; config.d.new/langs/web.el
+;;; config.d/langs/web.el
 
 (after! eglot
   (add-to-list

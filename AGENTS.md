@@ -1,9 +1,11 @@
 # AGENTS.md
 
 Personal Doom Emacs configuration. On branch `refactor` — the old flat
-`config.d/` files are being migrated to the themed `config.d.new/` layout.
+`config.d/` files have been replaced in place by the themed `config.d/`
+layout (migration happened in a transitional `config.d.new/` directory that
+was renamed back to `config.d/` once the old flat files were gone).
 
-The active migration — `config.d/` → `config.d.new/` + `modules/` restructure,
+The active migration — themed `config.d/` + `modules/` restructure,
 plus confirmed module decisions and LSP invariants — is tracked in
 [`.agents/plans/config-d-migration.md`](.agents/plans/config-d-migration.md),
 which carries a step-by-step plan and a progress checklist. Resume from the
@@ -24,13 +26,12 @@ otherwise.
 ```
 init.el              Doom module flags (the `doom!` block) — run `doom sync` after edits
 packages.el          package declarations — run `doom sync` after edits
-config.el            entry point: loads custom-vars + all config.d(.new) files in order
-config.d/            legacy flat configs (defaults, ui, editor, langs, ...) — still loaded
-config.d.new/        new themed configs (the active target of the refactor)
-  ├─ defaults.el theme.el keybindings.el completion.el
-  ├─ checkers.el lsp.el patch.el ai.el
+config.el            entry point: loads custom-vars + all config.d files in order
+config.d/            themed configs (loaded explicitly by config.el, not auto-discovered)
+  ├─ defaults.el theme.el keybindings.el ui.el editor.el completion.el
+  ├─ checkers.el tools.el patch.el ai.el org.el
   └─ langs/<lang>.el     per-language config (loaded via cc/load-lang-config)
-modules/cc/          private Doom modules (ui, defaults, dev, notes, ai, agenda, bindings)
+modules/cc/          private Doom modules (ui, defaults, lsp, dev, notes, ai, agenda)
 modules/cc-langs/    private language modules (cpp, python, web)
 custom-vars.el       symlink → real file in Dropbox (API keys, name/email) — NOT committed
 custom-vars.example.el  template users copy to custom-vars.el; lists every defcustom
@@ -39,17 +40,21 @@ mycustom.el          machine-local setopt overrides (cc-note dirs, tab widths, .
 
 ## How config loads
 
-`config.d.new/` is **not** auto-discovered. Each file is loaded explicitly by
+`config.d/` is **not** auto-discovered. Each file is loaded explicitly by
 `config.el` via `cc/load-config` / `cc/load-lang-config` (the `t` arg means a
 missing file is tolerated, not an error). The load order is hard-coded in
-`config.el` (around lines 29–39):
+`config.el`:
 
 ```
-defaults → theme → keybindings → completion → checkers → lsp → patch → ai
-  → langs/elisp → langs/yaml → langs/python
+defaults → org → theme → keybindings → ui → editor → completion → checkers
+  → tools → patch → ai
+  → langs/elisp → langs/sh → langs/yaml → langs/python → langs/web
 ```
 
-**Adding a new `config.d.new/` file requires registering it in `config.el`.**
+(`org.el` is a temporary bridge file removed in migration Step 5; `lsp.el`
+already moved into `modules/cc/lsp/`.)
+
+**Adding a new `config.d/` file requires registering it in `config.el`.**
 Forgetting this is the most common mistake — the file silently never loads.
 
 Private modules under `modules/cc*/` follow Doom's own module lifecycle
@@ -58,7 +63,7 @@ top-level `init.el` `doom!` block.
 
 ## Development Rules
 
-These rules apply across `config.d.new/`, `modules/cc/`, and
+These rules apply across `config.d/`, `modules/cc/`, and
 `modules/cc-langs/`.
 
 ### Conventions
@@ -84,7 +89,7 @@ These rules apply across `config.d.new/`, `modules/cc/`, and
 
 ### When adding a `defcustom`
 
-1. Define it in the relevant `config.d.new/*.el` (or module `config.el`) with
+1. Define it in the relevant `config.d/*.el` (or module `config.el`) with
    the `cc/` prefix and a `cc-<area>` group.
 2. Add an example value to `custom-vars.example.el` under the matching section
    (`;; llm`, `;; code completion`, ...). The template must list every
@@ -97,14 +102,14 @@ API keys, `user-full-name`, and `user-mail-address` live in `custom-vars.el`,
 which is a symlink to a Dropbox-synced file and is never committed. The
 `custom-vars.example.el` template carries placeholder values only. Do not
 hard-code keys or personal information into committed files; always route them
-through a `cc/`-prefixed `defcustom` defined in `config.d.new/` and consumed
+through a `cc/`-prefixed `defcustom` defined in `config.d/` and consumed
 from `custom-vars.el`.
 
 ### Verifying changes
 
 - After editing `init.el` or `packages.el`, run `doom sync` (or
   `M-x doom/reload`).
-- `config.el` and `config.d.new/*` are loaded on startup; restart Emacs or
+- `config.el` and `config.d/*` are loaded on startup; restart Emacs or
   re-evaluate the specific form. There is no test suite, so verify changes by
   starting Emacs and exercising the feature.
 - Byte-compilation is disabled project-wide (`no-byte-compile: t`); do not

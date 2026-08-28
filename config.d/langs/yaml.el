@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
-;;; config.d.new/langs/yaml.el
+;;; config.d/langs/yaml.el
 
 (defcustom cc/yaml-indent-offset 2
   "Number of spaces to use for indentation in YAML files."

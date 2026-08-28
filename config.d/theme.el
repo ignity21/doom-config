@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
-;;; config.d.new/theme.el
+;;; config.d/theme.el
 
 
 (defcustom cc/font-size 16

@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
-;;; config.d.new/langs/sh.el
+;;; config.d/langs/sh.el
 
 (defun cc/sh-set-default-shell ()
   "Default new `sh-mode' buffers to bash."

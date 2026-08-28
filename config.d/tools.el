@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
-;;; config.d.new/tools.el
+;;; config.d/tools.el
 
 ;; Doom's Docker module starts LSP for `dockerfile-mode`, but +tree-sitter
 ;; remaps Dockerfiles to `dockerfile-ts-mode`.  Start the same LSP dispatcher

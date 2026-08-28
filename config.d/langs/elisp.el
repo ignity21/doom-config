@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t; no-byte-compile: t; -*-
-;;; config.d.new/langs/elisp.el
+;;; config.d/langs/elisp.el
 
 (setq-hook! 'emacs-lisp-mode-hook
   completion-at-point-functions

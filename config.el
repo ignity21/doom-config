@@ -6,7 +6,7 @@
 (load! "custom-vars.el")
 
 (defun cc/load-config (name)
-  (load! (concat "config.d.new/" name) doom-user-dir t))
+  (load! (concat "config.d/" name) doom-user-dir t))
 
 (defun cc/load-lang-config (lang)
   (cc/load-config (concat "langs/" lang ".el")))

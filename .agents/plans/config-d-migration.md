@@ -2,6 +2,11 @@
 
 ## Context
 
+> ⚠️ **目录已改名（Step 2 之后）**：过渡目录 `config.d.new/` 已 `git mv` 回
+> `config.d/`（旧的扁平 `config.d/` 在 Step 1 已删空）。本文档下文所有
+> `config.d.new/` 字样一律按 `config.d/` 理解；`config.el` 的
+> `cc/load-config` 前缀、`test/lint-config.el` 的扫描路径均已同步。
+
 `refactor` 分支上，旧的扁平 `config.d/`（8 文件 / 176 行）正在迁往主题化的
 `config.d.new/`（829 行）与私有模块 `modules/`（1527 行）。目前三者并存，边界
 模糊，并且阅读中发现若干**从未生效**的配置和悬空引用。
