@@ -14,13 +14,13 @@
 (autoload 'projectile-recentf "projectile" nil t)
 (when (modulep! :tools upload)
   (dolist (handler '(ssh-deploy-upload-handler
-                     ssh-deploy-download-handler
-                     ssh-deploy-delete-handler
-                     ssh-deploy-browse-remote-handler
-                     ssh-deploy-remote-changes-handler
-                     ssh-deploy-upload-handler-forced
-                     ssh-deploy-open-remote-file-handler
-                     ssh-deploy-diff-handler))
+                      ssh-deploy-download-handler
+                      ssh-deploy-delete-handler
+                      ssh-deploy-browse-remote-handler
+                      ssh-deploy-remote-changes-handler
+                      ssh-deploy-upload-handler-forced
+                      ssh-deploy-open-remote-file-handler
+                      ssh-deploy-diff-handler))
     (autoload handler "ssh-deploy" nil t)))
 
 (defvar-keymap cc/file-keymap
@@ -119,7 +119,7 @@
   "M-<wheel-up>" #'mouse-wheel-text-scale
   "M-<wheel-down>" #'mouse-wheel-text-scale)
 (when (modulep! :emacs undo)
-  (map! "C-z" #'undo-fu-only-undo))
+  (map! "C-z" #'undo))
 
 (after! projectile
   (keymap-set projectile-mode-map "C-c p c" 'projectile-command-map)
@@ -172,7 +172,7 @@
 
 ;; C-c l prefix
 (map! :prefix cc/lookup-map-prefix
-  :desc "Find file" "f" #'+lookup/file
+  :desc "Find file (fd)" "f" #'+lookup/file
   :desc "Search online" "o" #'+lookup/online
   :desc "Find in dictionary" "d" #'+lookup/dictionary-definition
   :desc "Replace with synonyms" "D" #'+lookup/synonyms)
