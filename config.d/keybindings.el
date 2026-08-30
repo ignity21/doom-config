@@ -145,8 +145,13 @@
 (map! :prefix "C-h"
   :desc "Woman" "w" #'woman)
 
-;; C-c t prefix
+;; C-c t prefix -- toggles: minor modes and buffer/UI state (the single home
+;; for minor-mode toggles; code-specific ones used to live under `C-c c m').
 (map! :map cc/toggle-keymap
+  :desc "Flycheck" "f" #'flycheck-mode
+  :desc "Line numbers" "l" #'doom/toggle-line-numbers
+  (:when (modulep! :ui indent-guides)
+    :desc "Indent guides" "i" #'indent-bars-mode)
   (:when (modulep! :editor word-wrap)
     :desc "Visual line mode" "v" #'+word-wrap-mode)
   (:when (modulep! :checkers spell)
@@ -156,6 +161,12 @@
   (:when (modulep! :cc completion +copilot)
     :desc "Copilot mode" "o" #'copilot-mode
     :desc "Copilot NES mode" "n" #'copilot-nes-mode))
+(when (modulep! :tools lsp -eglot)
+  (map! :map lsp-mode-map
+    :desc "Inlay hints" "C-c t h" #'lsp-inlay-hints-mode))
+(when (modulep! :tools lsp +eglot)
+  (map! :map eglot-mode-map
+    :desc "Inlay hints" "C-c t h" #'eglot-inlay-hints-mode))
 (when (modulep! :lang org +present)
   (map! :map org-mode-map
     :desc "Org presentation" "C-c t p" #'org-tree-slide-mode))
@@ -231,21 +242,12 @@
 (map! :prefix cc/code-map-prefix
   :desc "Compile" "c" #'+default/compile
   :desc "Format buffer or region" "f" #'+format/region-or-buffer
-  (:prefix ("m" . "<minor-mode>")
-    :desc "Flycheck" "f" #'flycheck-mode
-    :desc "Line Numbers" "l" #'doom/toggle-line-numbers
-    (:when (modulep! :ui indent-guides)
-      :desc "Indent guides" "i" #'indent-bars-mode)
-    )
   (:when (modulep! :tools lsp -eglot)
     :map lsp-mode-map
     :desc "Code actions" "a" #'lsp-execute-code-action
     :desc "Rename symbol" "r" #'lsp-rename
     :desc "imenu" "i" #'lsp-ui-imenu
     :desc "Flycheck" "e" #'lsp-ui-flycheck-list
-    (:prefix ("m" . "<minor-mode>")
-      :desc "Inlay hints" "i" #'lsp-inlay-hints-mode
-      )
     (:prefix ("s" . "<lsp-session>")
       :desc "List sessions" "l" #'lsp-describe-session
       :desc "Disconnect" "q" #'lsp-disconnect
@@ -277,7 +279,11 @@
   (:when (modulep! :tools docker)
     :desc "Docker" "d" #'docker)
   (:when (modulep! :app calendar)
-    :desc "Calendar" "c" #'+calendar/open-calendar))
+    :desc "Calendar" "c" #'+calendar/open-calendar)
+  (:prefix ("p" . "<profiling>")
+    :desc "Start profiling" "s" #'profiler-start
+    :desc "Stop profiling" "t" #'profiler-stop
+    :desc "Report" "r" #'profiler-report))
 
 (map! :prefix cc/gptel-map-prefix
   (:when (modulep! :tools llm)
@@ -401,12 +407,6 @@
     :desc "Search symbol" "." #'+default/search-project-for-symbol-at-point
     :desc "Add dir local variable" "v" #'add-dir-local-variable
     :desc "Add file local variable" "V" #'add-file-local-variable)
-
-  ;; C-c P -- profiling
-  (:prefix-map ("P" . "<profiling>")
-    :desc "Start profiling" "s" #'profiler-start
-    :desc "Stop profiling" "t" #'profiler-stop
-    :desc "Report" "r" #'profiler-report)
 
   ;; C-c w -- workspace
   (:prefix-map ("w" . "<workspace>")

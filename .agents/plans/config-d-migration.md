@@ -671,7 +671,7 @@ Step 0.5 之后有了机械检查，其余仍需实际启动验证（Doom 2.2.3 
 
 3. **键位回归（Step 2 之后逐个按一遍）**：
    `C-c f` `C-c s` `C-c l` `C-c .` `C-c c` `C-c o` `C-c g` `C-c t` `C-c a`
-   `C-c d` `C-c e` `C-c i` `C-c n` `C-c p` `C-c P` `C-c w` `C-c y` `C-c 1`
+   `C-c d` `C-c e` `C-c i` `C-c n` `C-c p` `C-c o p` `C-c w` `C-c y` `C-c 1`
    `<f5>` `C-x a` —— which-key 弹窗应显示正确描述，无 "prefix 被命令覆盖"。
    另外单测 `C-z`（undo）、`C-c m e`（dired 中 wdired）、`C-c m d`（org 中
    org-download）三个已知冲突点。
