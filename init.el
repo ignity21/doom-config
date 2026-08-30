@@ -125,7 +125,7 @@
   ;;(java +lsp)       ; the poster child for carpal tunnel syndrome
   (latex +cdlatex)
   ;;lua               ; one-based indices? one-based indices
-  (markdown +lsp)           ; writing docs for people to ignore
+  (markdown +lsp)       ; writing docs for people to ignore
   (org +roam +present) ; TODO +noter
   plantuml            ; diagrams for confusing people more
   ;; qt                  ; the 'cutest' gui framework ever
