@@ -5,13 +5,11 @@ Personal Doom Emacs configuration. On branch `refactor` — the old flat
 layout (migration happened in a transitional `config.d.new/` directory that
 was renamed back to `config.d/` once the old flat files were gone).
 
-The active migration — themed `config.d/` + `modules/` restructure,
-plus confirmed module decisions and LSP invariants — is tracked in
-[`.agents/plans/config-d-migration.md`](.agents/plans/config-d-migration.md),
-which carries a step-by-step plan and a progress checklist. Resume from the
-first unchecked Step.
+The completed themed `config.d/` + `modules/` migration is archived under
+`.agents/archive/`. Active follow-up work and unresolved decisions are tracked
+in [`.agents/plans/active.md`](.agents/plans/active.md).
 
-@.agents/plans/config-d-migration.md
+@.agents/plans/active.md
 
 ## AI Project Content
 
@@ -28,9 +26,10 @@ init.el              Doom module flags (the `doom!` block) — run `doom sync` a
 packages.el          package declarations — run `doom sync` after edits
 config.el            entry point: loads custom-vars + all config.d files in order
 config.d/            themed configs (loaded explicitly by config.el, not auto-discovered)
-  ├─ defaults.el theme.el keybindings.el ui.el editor.el completion.el
+  ├─ defaults.el theme.el keybindings.el dashboard-tips.el ui.el editor.el completion.el
   ├─ checkers.el tools.el patch.el
   └─ langs/<lang>.el     per-language config (loaded via cc/load-lang-config)
+data/dashboard-tips.eld  declarative, lazily loaded Dashboard tip content
 modules/cc/          private Doom modules (defaults, lsp, notes, ai, agenda, completion)
 modules/cc-langs/    private language modules (cpp, python, web)
 custom-vars.el       symlink → real file in Dropbox (API keys, name/email, dirs) — NOT committed
@@ -45,7 +44,7 @@ missing file is tolerated, not an error). The load order is hard-coded in
 `config.el`:
 
 ```
-defaults → theme → keybindings → ui → editor → completion → checkers
+defaults → theme → keybindings → dashboard-tips → ui → editor → completion → checkers
   → tools → patch
   → langs/elisp → langs/sh → langs/yaml → langs/python → langs/web
 ```

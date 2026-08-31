@@ -14,6 +14,7 @@
 (cc/load-config "defaults.el")
 (cc/load-config "theme.el")
 (cc/load-config "keybindings.el")
+(cc/load-config "dashboard-tips.el")
 (cc/load-config "ui.el")
 (cc/load-config "editor.el")
 (cc/load-config "completion.el")
