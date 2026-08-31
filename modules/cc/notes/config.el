@@ -6,7 +6,7 @@
 ;;; Hints:
 ;;
 ;; C-c o l -- Open link at point
-;; C-c i l -- Insert a link
+;; C-c c i l -- Insert a link
 ;; C-x n s, C-x n w -- Narrow/Unnarrow buffer
 ;; C-c s o -- Search in an outline tree as much as possible
 ;; C-c - -- Cycle bullets (-, +, *, ...)
@@ -45,15 +45,21 @@
     :desc "Org narrow to subtree" "n" #'org-narrow-to-subtree
     :desc "Widen" "w" #'widen
     )
-  ;; C-c i --- insert
-  (:prefix "C-c i"
-    :desc "Org insert date" "t" #'org-timestamp-inactive
-    :desc "Org insert time" "T" #'org-timestamp
-    :desc "Set a tag" "T" #'org-set-tags-command
-    :desc "Set property" "p" #'org-set-property
-    :desc "Create org-id" "i" #'org-id-get-create
-    :desc "Insert link" "l" #'org-insert-link
-    :desc "Insert footnote" "f" #'org-footnote-new)
+  ;; C-c c i --- insert
+  (:prefix "C-c c"
+    (:prefix ("i" . "<insert>")
+      :desc "Org insert date" "t" #'org-timestamp-inactive
+      :desc "Org insert time" "T" #'org-timestamp
+      :desc "Set a tag" "g" #'org-set-tags-command
+      :desc "Set property" "p" #'org-set-property
+      :desc "Create org-id" "i" #'org-id-get-create
+      :desc "Insert link" "l" #'org-insert-link
+      :desc "Insert footnote" "f" #'org-footnote-new)
+    (:prefix ("d" . "<org-download>")
+      :desc "Insert screenshot" "i" #'org-download-screenshot
+      :desc "Insert from clipboard" "y" #'org-download-clipboard
+      :desc "Rename at point" "r" #'org-download-rename-at-point
+      :desc "Delete at point" "d" #'org-download-delete))
 
   (:prefix
     "C-c n"
@@ -135,13 +141,6 @@
               org-download-clipboard
               org-download-delete
               org-download-rename-at-point)
-  :init
-  (map! :map org-mode-map
-    :prefix ("C-c m d" . "<org-download>")
-    :desc "Insert screenshot" "i" #'org-download-screenshot
-    :desc "Insert from clipboard" "y" #'org-download-clipboard
-    :desc "Rename at point" "r" #'org-download-rename-at-point
-    :desc "Delete at point" "d" #'org-download-delete)
   :config
   (setopt org-download-image-dir "images/screenshots/"
     org-download-heading-lvl 1

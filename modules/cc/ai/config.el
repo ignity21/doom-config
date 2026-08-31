@@ -47,10 +47,10 @@
 (defun cc/gptel-select-backend ()
   "Return the configured gptel backend or a deterministic available fallback."
   (or (gethash cc/gptel-default-backend cc/gptel-backends)
-      (catch 'backend
-        (dolist (name cc/gptel-backend-fallback-order)
-          (when-let ((backend (gethash name cc/gptel-backends)))
-            (throw 'backend backend))))))
+    (catch 'backend
+      (dolist (name cc/gptel-backend-fallback-order)
+        (when-let ((backend (gethash name cc/gptel-backends)))
+          (throw 'backend backend))))))
 
 ;; NOTE: gptel is lazy-loaded via :commands, so this `after!' body runs on
 ;; first use -- well after $DOOMDIR/config.el has loaded custom-vars.el.  Do
@@ -109,12 +109,12 @@
 
   ;; Select the requested backend, or a known available fallback.
   (if-let ((backend (cc/gptel-select-backend)))
-      (setq gptel-backend backend)
+    (setq gptel-backend backend)
     (setq gptel-backend nil)
     (display-warning
-     'cc-ai
-     "No gptel backend is configured; set a provider key or enable GitHub Copilot."
-     :warning)))
+      'cc-ai
+      "No gptel backend is configured; set a provider key or enable GitHub Copilot."
+      :warning)))
 
 ;; mcp servers
 ;; (use-package! mcp

@@ -2,10 +2,9 @@
 ;;; config.d/keybindings.el
 ;;
 ;; The single source of truth for keybindings: global prefix keymaps, global
-;; unbinds/rebinds, which-key descriptions, and every entry that hangs off a
-;; global prefix (even mode-local ones, guarded with `:map' / `:when').
-;; Package-internal keymaps (vertico-map, corfu-map, treemacs-mode-map, ...)
-;; stay in their theme/module files.
+;; unbinds/rebinds, which-key descriptions, and every shared mode-local
+;; binding.  Package-internal keymaps (vertico-map, corfu-map,
+;; treemacs-mode-map, ...) stay in their theme/module files.
 
 ;; Autoloads for commands bound below whose packages do not autoload them
 ;; themselves (previously in the never-executed modules/cc/bindings/autoload.el).
@@ -31,12 +30,10 @@
   :doc "Prefix keymap for lookup commands.")
 (defvar-keymap cc/code-lookup-keymap
   :doc "Prefix keymap for code lookup commands.")
-(defvar-keymap cc/code-keymap
-  :doc "Prefix keymap for code commands.")
+(defvar-keymap cc/mode-keymap
+  :doc "Base prefix keymap for major-mode-local commands.")
 (defvar-keymap cc/run-eval-keymap
   :doc "Prefix keymap for run and evaluation commands.")
-(defvar-keymap cc/local-mode-keymap
-  :doc "Prefix keymap for major-mode-local commands.")
 (defvar-keymap cc/open-keymap
   :doc "Prefix keymap for opening tools and resources.")
 (defvar-keymap cc/gptel-keymap
@@ -48,9 +45,8 @@
 (defconst cc/search-map-prefix "C-c s")
 (defconst cc/lookup-map-prefix "C-c l")
 (defconst cc/code-lookup-map-prefix "C-c .")
-(defconst cc/code-map-prefix "C-c c")
+(defconst cc/mode-map-prefix "C-c c")
 (defconst cc/run-map-prefix "<f5>")
-(defconst cc/local-mode-map-prefix "C-c m")
 (defconst cc/open-map-prefix "C-c o")
 (defconst cc/gptel-map-prefix "C-c g")
 (defconst cc/toggle-map-prefix "C-c t")
@@ -59,9 +55,8 @@
 (keymap-global-set cc/search-map-prefix cc/search-keymap)
 (keymap-global-set cc/lookup-map-prefix cc/lookup-keymap)
 (keymap-global-set cc/code-lookup-map-prefix cc/code-lookup-keymap)
-(keymap-global-set cc/code-map-prefix cc/code-keymap)
+(keymap-global-set cc/mode-map-prefix cc/mode-keymap)
 (keymap-global-set cc/run-map-prefix cc/run-eval-keymap)
-(keymap-global-set cc/local-mode-map-prefix cc/local-mode-keymap)
 (keymap-global-set cc/open-map-prefix cc/open-keymap)
 (keymap-global-set cc/gptel-map-prefix cc/gptel-keymap)
 (keymap-global-set cc/toggle-map-prefix cc/toggle-keymap)
@@ -80,9 +75,8 @@
     cc/search-map-prefix "<search>"
     cc/lookup-map-prefix "<lookup>"
     cc/code-lookup-map-prefix "<lookup(code)>"
-    cc/code-map-prefix "<code>"
+    cc/mode-map-prefix "<mode>"
     cc/run-map-prefix "<run>"
-    cc/local-mode-map-prefix "<local-mode>"
     cc/open-map-prefix "<open>"
     cc/gptel-map-prefix "<gptel>"
     cc/toggle-map-prefix "<toggle>"
@@ -239,11 +233,16 @@
       :desc "Diff" "x" #'ssh-deploy-diff-handler))
   )
 
-(map! :prefix cc/code-map-prefix
-  :desc "Compile" "c" #'+default/compile
-  :desc "Format buffer or region" "f" #'+format/region-or-buffer
+(map!
+  (:map prog-mode-map
+    :prefix cc/mode-map-prefix
+    :desc "Compile" "c" #'+default/compile
+    :desc "Format buffer or region" "f" #'+format/region-or-buffer)
   (:when (modulep! :tools lsp -eglot)
     :map lsp-mode-map
+    :prefix cc/mode-map-prefix
+    :desc "Compile" "c" #'+default/compile
+    :desc "Format buffer or region" "f" #'+format/region-or-buffer
     :desc "Code actions" "a" #'lsp-execute-code-action
     :desc "Rename symbol" "r" #'lsp-rename
     :desc "imenu" "i" #'lsp-ui-imenu
@@ -261,6 +260,9 @@
     )
   (:when (modulep! :tools lsp +eglot)
     :map eglot-mode-map
+    :prefix cc/mode-map-prefix
+    :desc "Compile" "c" #'+default/compile
+    :desc "Format buffer or region" "f" #'+format/region-or-buffer
     (:prefix ("r" . "<refactor>")
       :desc "Rename symbol" "r" #'eglot-rename
       :desc "Refactor inline" "i" #'eglot-code-action-inline

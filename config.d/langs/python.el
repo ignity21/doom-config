@@ -61,8 +61,9 @@ To override this setting for a project, add this to `.dir-locals.el':
 (add-hook 'python-base-mode-hook #'cc/python-setup)
 
 (map! :map python-base-mode-map
-  :desc "Disassemble region/buffer" "C-c c d"
-  #'cc/python-dis-region-or-buffer)
+  (:prefix "C-c c"
+    :desc "Disassemble region/buffer" "d"
+    #'cc/python-dis-region-or-buffer))
 
 (when (modulep! :tools lsp -eglot)
   (after! lsp-mode
