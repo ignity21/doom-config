@@ -39,6 +39,9 @@
 ;; defined in init.el.
 
 (after! org
+  (map! :map org-mode-map
+        "S-<return>" #'org-insert-todo-heading)
+
   ;; Derived agenda-file paths: ordinary state, keyed off `cc/org-agenda-dir'.
   (setq +org-capture-todo-file (file-name-concat cc/org-agenda-dir "todo.org")
         +org-capture-journal-file (file-name-concat cc/org-agenda-dir "journal.org")

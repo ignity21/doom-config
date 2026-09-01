@@ -65,10 +65,6 @@
   vimish-fold
   evil-vimish-fold)
 
-;; org-noter
-(package! nov)
-(package! djvu)
-
 ;; Development
 (disable-packages! flymake)
 (disable-packages! company-dict)
