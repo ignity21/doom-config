@@ -75,8 +75,75 @@ can link to and be linked from every other category."
   (org-roam-node-find other-window initial-input filter-fn predicate))
 
 ;;;###autoload
+(defun cc/org-roam-capture-in-default-category ()
+  "Capture an org-roam node, creating the default category if needed."
+  (interactive)
+  (cc/org-roam-default-category-directory)
+  (org-roam-capture))
+
+;; A downloaded image is normally linked relative to its note, for example
+;; `images/screenshots/Heading/20260101-image.png'.  Keep that relative layout
+;; when a note changes category so its links need no rewriting.
+(defun cc/org-roam--file-link-targets (file)
+  "Return absolute local targets of all `file:' links in FILE."
+  (require 'org-element)
+  (with-temp-buffer
+    (insert-file-contents file)
+    (delay-mode-hooks (org-mode))
+    (let ((default-directory (file-name-directory file)))
+      (delete-dups
+       (org-element-map (org-element-parse-buffer) 'link
+         (lambda (link)
+           (when (string-equal (org-element-property :type link) "file")
+             (when-let* ((path (org-element-property :path link)))
+               (expand-file-name (org-link-unescape path))))))))))
+
+(defun cc/org-roam--linked-resource-files (file)
+  "Return local non-Org files linked relative to FILE's directory."
+  (let ((directory (file-name-directory file)))
+    (seq-filter
+     (lambda (target)
+       (and (file-regular-p target)
+            (not (file-symlink-p target))
+            (file-in-directory-p target directory)
+            (not (string-equal (downcase (or (file-name-extension target) ""))
+                               "org"))))
+     (cc/org-roam--file-link-targets file))))
+
+(defun cc/org-roam--resource-shared-p (resource source source-directory)
+  "Return non-nil when RESOURCE is linked by another Org file in SOURCE-DIRECTORY."
+  (seq-some
+   (lambda (other-file)
+     (and (not (equal other-file source))
+          (member resource (cc/org-roam--file-link-targets other-file))))
+   (directory-files-recursively source-directory "\\.org\\'")))
+
+(defun cc/org-roam--same-file-contents-p (first second)
+  "Return non-nil when regular files FIRST and SECOND have identical contents."
+  (and (= (file-attribute-size (file-attributes first))
+          (file-attribute-size (file-attributes second)))
+       (string-equal (secure-hash 'sha256 first)
+                     (secure-hash 'sha256 second))))
+
+(defun cc/org-roam--delete-empty-resource-directories (resources stop-directory)
+  "Delete empty parents of RESOURCES without deleting STOP-DIRECTORY itself."
+  (dolist (resource resources)
+    (let ((directory (file-name-directory resource)))
+      (while (and (file-in-directory-p directory stop-directory)
+                  (not (equal (directory-file-name directory)
+                              (directory-file-name stop-directory)))
+                  (null (directory-files directory nil
+                                         directory-files-no-dot-files-regexp)))
+        (delete-directory directory)
+        (setq directory (file-name-directory (directory-file-name directory)))))))
+
+;;;###autoload
 (defun cc/org-roam-move-current-node ()
-  "Move the current org-roam file to a category without changing its ID."
+  "Move the current org-roam file and its linked resources to a category.
+
+Relative non-Org `file:' links below the note's directory keep their paths.
+Resources linked by another note in that directory are copied instead of moved.
+Org attachments use stable IDs and are deliberately left in place."
   (interactive)
   (unless buffer-file-name
     (user-error "Current buffer is not visiting a file"))
@@ -89,18 +156,75 @@ can link to and be linked from every other category."
     (let* ((category (cc/org-roam-read-category))
            (target-directory (cc/org-roam-category-directory category))
            (target (expand-file-name (file-name-nondirectory source)
-                                     target-directory)))
+                                     target-directory))
+           (source-directory (file-name-directory source))
+           (resources (cc/org-roam--linked-resource-files source))
+           (resource-plan
+            (mapcar
+             (lambda (resource)
+               (let ((destination
+                      (expand-file-name (file-relative-name resource source-directory)
+                                        target-directory)))
+                 (list resource destination
+                       (if (cc/org-roam--resource-shared-p
+                            resource source source-directory)
+                           'copy
+                         'move))))
+             resources)))
       (when (equal source target)
         (user-error "Node is already in %s" category))
       (when (file-exists-p target)
         (user-error "A note named %s already exists in %s"
                     (file-name-nondirectory source) category))
+      (dolist (entry resource-plan)
+        (pcase-let ((`(,resource ,destination ,_) entry))
+          (when (file-exists-p destination)
+            (unless (cc/org-roam--same-file-contents-p resource destination)
+              (user-error "Resource collision at %s" destination))
+            (setcar (cddr entry) 'reuse))))
       (save-buffer)
-      (rename-file source target)
-      (set-visited-file-name target t)
-      (set-buffer-modified-p nil)
-      (org-roam-db-sync)
-      (message "Moved %s to %s" (file-name-nondirectory source) category))))
+      (let (moved-resources copied-resources note-moved)
+        (condition-case err
+            (progn
+              (dolist (entry resource-plan)
+                (pcase-let ((`(,resource ,destination ,action) entry))
+                  (unless (eq action 'reuse)
+                    (make-directory (file-name-directory destination) t)
+                    (pcase action
+                      ('copy
+                       (copy-file resource destination)
+                       (push entry copied-resources))
+                      ('move
+                       (rename-file resource destination)
+                       (push entry moved-resources))))))
+              (rename-file source target)
+              (setq note-moved t)
+              (set-visited-file-name target t)
+              (set-buffer-modified-p nil)
+              (cc/org-roam--delete-empty-resource-directories
+               (mapcar #'car moved-resources) source-directory)
+              (org-roam-db-sync)
+              (message "Moved %s to %s%s"
+                       (file-name-nondirectory source) category
+                       (if resources
+                           (format "; transferred %d linked resource%s"
+                                   (length resources)
+                                   (if (= (length resources) 1) "" "s"))
+                         "")))
+          (error
+           (when note-moved
+             (rename-file target source t)
+             (set-visited-file-name source t)
+             (set-buffer-modified-p nil))
+           (dolist (entry moved-resources)
+             (pcase-let ((`(,resource ,destination ,_) entry))
+               (when (file-exists-p destination)
+                 (rename-file destination resource t))))
+           (dolist (entry copied-resources)
+             (pcase-let ((`(,_ ,destination ,_) entry))
+               (when (file-exists-p destination)
+                 (delete-file destination))))
+           (signal (car err) (cdr err))))))))
 
 ;; ;;;###autoload
 ;; (defun cc/org-roam-find-by-dir (&rest args)

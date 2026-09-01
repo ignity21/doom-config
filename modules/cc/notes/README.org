@@ -34,8 +34,10 @@
 3. Use =C-c n i= to create links.  It always searches the whole database;
    category boundaries do not limit links or backlinks.
 4. Review =Inbox/= periodically.  In a roam note, use =C-c n m= to select the
-   permanent category and move its file there.  The file name and Org =:ID:=
-   remain unchanged, then the database is synchronized automatically.
+   permanent category and move its file there.  Relative non-Org =file:=
+   resources move with the note; a resource still linked by another note is
+   copied instead.  The file name and Org =:ID:= remain unchanged, then the
+   database is synchronized automatically.
 5. Use =#+filetags:= for cross-cutting topics.  Directories describe the primary
    home of a note; tags describe additional subjects.
 

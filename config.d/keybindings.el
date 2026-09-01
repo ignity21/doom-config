@@ -371,7 +371,7 @@
       :desc "Find note (create in Inbox)" "f" #'cc/org-roam-node-find
       :desc "Find ref" "r" #'org-roam-ref-find
       :desc "Insert node" "i" #'org-roam-node-insert
-      :desc "Capture" "c" #'org-roam-capture
+      :desc "Capture (default category)" "c" #'cc/org-roam-capture-in-default-category
       :desc "Show backlinks" "b" #'org-roam-buffer-toggle
       :desc "Show backlinks(dedicated)" "B" #'org-roam-buffer-display-dedicated
       :desc "Sync db" "s" #'org-roam-db-sync
