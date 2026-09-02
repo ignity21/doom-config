@@ -163,7 +163,7 @@
 ;;   ;; check if gptel package is loaded
 ;;   (when (featurep 'gptel)
 ;;     (require 'gptel-integrations))
-;;   (map! :desc "mcp hub" "C-c m h" #'mcp-hub)
+;;   (map! :desc "mcp hub" "C-c a m" #'mcp-hub)
 ;;   (when cc/use-mcp-p
 ;;     (after! gptel
 ;;       (cc/gptel-mcp-register-tools))
