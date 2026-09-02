@@ -24,8 +24,6 @@
 (cc/load-lang-config "elisp")
 (cc/load-lang-config "sh")
 (cc/load-lang-config "yaml")
-(cc/load-lang-config "python")
-(cc/load-lang-config "web")
 (cc/load-lang-config "plantuml")
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an

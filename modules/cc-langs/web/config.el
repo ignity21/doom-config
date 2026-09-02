@@ -3,4 +3,9 @@
 
 (when (modulep! :lang web)
   (setq-hook! 'css-mode-hook
-    css-indent-offset 2))
+    css-indent-offset 2)
+
+  (after! eglot
+    (add-to-list
+      'eglot-server-programs
+      '(web-mode . ("vscode-html-language-server" "--stdio")))))
