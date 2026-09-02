@@ -133,6 +133,7 @@
   ;; (rest + jq)      ; TODO Emacs as a REST client +jq Enable support for reading and processing REST responses with jq
   (sh +lsp)
   (web +lsp +tree-sitter)   ; support for various web languages, including HTML5, CSS, SASS/SCSS, as well as Django
+  (javascript +lsp +tree-sitter)
   (yaml +lsp +tree-sitter) ; JSON, but readable
 
   :app
@@ -145,6 +146,7 @@
 
   :cc
   defaults
+  doctor
   lsp
   notes
   agenda
@@ -154,7 +156,6 @@
   :cc-langs
   cpp
   python
-  web
   )
 
 ;; Must be set before the :ui dashboard module's config.el runs its early

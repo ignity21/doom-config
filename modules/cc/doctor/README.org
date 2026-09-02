@@ -1,0 +1,13 @@
+#+title: Readme
+
+Doom does not support a global =doctor.el= that runs regardless of which
+modules are enabled. This module exists solely to hold that: =doom doctor=
+checks with no natural home in any single =cc/= or =cc-langs/= module.
+
+A check belongs here only when it isn't specific to one module's feature
+(e.g. it targets a Doom-provided module, or a cross-cutting external tool).
+Anything that clearly belongs to a specific module should stay in that
+module's own =doctor.el=.
+
+This module has no =config.el=, =packages.el=, or =init.el= -- it provides
+no functionality, only a place to hang doctor checks.

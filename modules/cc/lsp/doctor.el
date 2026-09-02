@@ -6,8 +6,8 @@
 
 ;; Eglot does not auto-install language servers.  Check the servers for
 ;; enabled languages that have no private cc-langs module of their own.
-;; (Languages with a private module -- python, web -- check their own
-;; servers in modules/cc-langs/<lang>/doctor.el.)
+;; (Languages with a private module -- python -- check their own servers in
+;; modules/cc-langs/<lang>/doctor.el.)
 (when (modulep! :tools lsp +eglot)
   (when (modulep! :lang sh)
     (unless (executable-find "bash-language-server")
@@ -23,4 +23,15 @@
 
   (when (modulep! :tools docker)
     (unless (executable-find "docker-langserver")
-      (warn! "Couldn't find `docker-langserver' (dockerfile-language-server). Dockerfile LSP will not work."))))
+      (warn! "Couldn't find `docker-langserver' (dockerfile-language-server). Dockerfile LSP will not work.")))
+
+  ;; `:lang web' drives `web-mode' (HTML, via config.d/langs/web.el) and `css-mode'.
+  (when (modulep! :lang web)
+    (unless (executable-find "vscode-html-language-server")
+      (warn! "Couldn't find `vscode-html-language-server' (vscode-langservers-extracted). HTML LSP will not work."))
+    (unless (executable-find "vscode-css-language-server")
+      (warn! "Couldn't find `vscode-css-language-server' (vscode-langservers-extracted). CSS/SCSS LSP will not work.")))
+
+  (when (modulep! :lang javascript)
+    (unless (executable-find "typescript-language-server")
+      (warn! "Couldn't find `typescript-language-server'. JavaScript/TypeScript LSP will not work."))))
