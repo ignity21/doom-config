@@ -1,9 +1,9 @@
 # AGENTS.md
 
-Personal Doom Emacs configuration. On branch `refactor` — the old flat
-`config.d/` files have been replaced in place by the themed `config.d/`
-layout (migration happened in a transitional `config.d.new/` directory that
-was renamed back to `config.d/` once the old flat files were gone).
+Personal Doom Emacs configuration. The old flat `config.d/` files have been
+replaced in place by the themed `config.d/` layout (migration happened in a
+transitional `config.d.new/` directory that was renamed back to `config.d/`
+once the old flat files were gone).
 
 The completed themed `config.d/` + `modules/` migration is archived under
 `.agents/archive/`. Active follow-up work and unresolved decisions are tracked
@@ -149,7 +149,7 @@ from `custom-vars.el`.
   `C-c` / `C-x` / `C-h` prefix keymaps and their contents, global
   unbind/rebind, `doom-leader-key`, and which-key descriptions. Entries that
   hang off a global prefix belong here even when they are mode-local (e.g.
-  `C-c m e` wdired, `C-c t c` minuet) — guard them with
+  `C-c c e` wdired, `C-c t c` minuet) — guard them with
   `(:when (modulep! ...))` and `:map`.
 - Theme files and `modules/cc/*` keep only bindings **inside a package's own
   keymap** (`vertico-map`, `corfu-map`, `treemacs-mode-map`,

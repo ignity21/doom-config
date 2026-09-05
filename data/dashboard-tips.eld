@@ -89,7 +89,7 @@
   :weight 3)
  (:id wdired
   :topic "Dired"
-  :text "In Dired, use C-c m e to edit file names in place with wdired."
+  :text "In Dired, use C-c c e to edit file names in place with wdired."
   :weight 4)
  (:id remote-files
   :topic "Remote files"
