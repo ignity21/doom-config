@@ -28,8 +28,6 @@
   :doc "Prefix keymap for search commands.")
 (defvar-keymap cc/lookup-keymap
   :doc "Prefix keymap for lookup commands.")
-(defvar-keymap cc/code-lookup-keymap
-  :doc "Prefix keymap for code lookup commands.")
 (defvar-keymap cc/mode-keymap
   :doc "Base prefix keymap for major-mode-local commands.")
 (defvar-keymap cc/run-eval-keymap
@@ -44,7 +42,6 @@
 (defconst cc/file-map-prefix "C-c f")
 (defconst cc/search-map-prefix "C-c s")
 (defconst cc/lookup-map-prefix "C-c l")
-(defconst cc/code-lookup-map-prefix "C-c .")
 (defconst cc/mode-map-prefix "C-c c")
 (defconst cc/run-map-prefix "<f5>")
 (defconst cc/open-map-prefix "C-c o")
@@ -54,7 +51,6 @@
 (keymap-global-set cc/file-map-prefix cc/file-keymap)
 (keymap-global-set cc/search-map-prefix cc/search-keymap)
 (keymap-global-set cc/lookup-map-prefix cc/lookup-keymap)
-(keymap-global-set cc/code-lookup-map-prefix cc/code-lookup-keymap)
 (keymap-global-set cc/mode-map-prefix cc/mode-keymap)
 (keymap-global-set cc/run-map-prefix cc/run-eval-keymap)
 (keymap-global-set cc/open-map-prefix cc/open-keymap)
@@ -74,7 +70,6 @@
     cc/file-map-prefix "<file>"
     cc/search-map-prefix "<search>"
     cc/lookup-map-prefix "<lookup>"
-    cc/code-lookup-map-prefix "<lookup(code)>"
     cc/mode-map-prefix "<mode>"
     cc/run-map-prefix "<run>"
     cc/open-map-prefix "<open>"
@@ -175,26 +170,23 @@
   :desc "Send to REPL" "s" #'+eval/send-region-to-repl
   :desc "Open REPL" "r" #'+eval/open-repl-other-window)
 
-;; C-c l prefix
+;; C-c l prefix -- general and code lookup
 (map! :prefix cc/lookup-map-prefix
   :desc "Find file (fd)" "f" #'+lookup/file
   :desc "Search online" "o" #'+lookup/online
   :desc "Find in dictionary" "d" #'+lookup/dictionary-definition
-  :desc "Replace with synonyms" "D" #'+lookup/synonyms)
-
-;; C-c . prefix
-(map! :prefix cc/code-lookup-map-prefix
+  :desc "Replace with synonyms" "D" #'+lookup/synonyms
   (:when (modulep! :tools lsp -eglot)
     :desc "Consult symbol in project" "p" #'consult-lsp-symbols)
   (:when (modulep! :tools lsp +eglot)
     :desc "Consult symbol in project" "p" #'consult-eglot-symbols
     :desc "Call hierarchy" "c" #'eglot-show-call-hierarchy
     :desc "Type hierarchy" "T" #'eglot-show-type-hierarchy)
-  :desc "Consult symbol in File" "f" #'+vertico/search-symbol-at-point
+  :desc "Consult symbol in File" "s" #'+vertico/search-symbol-at-point
   :desc "Find references" "r" #'+lookup/references
   :desc "Find implementations" "i" #'+lookup/implementations
   :desc "Find type definition" "t" #'+lookup/type-definition
-  :desc "Find documentation" "d" #'+lookup/documentation)
+  :desc "Find documentation" "h" #'+lookup/documentation)
 
 ;; C-c s prefix
 (map! :prefix cc/search-map-prefix
