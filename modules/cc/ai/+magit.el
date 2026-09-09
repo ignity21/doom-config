@@ -12,6 +12,29 @@
          prefix)))))
 
 (after! gptel-magit
+  ;; Per-feature backend/model override (see `gptel-magit--request').
+  (setq gptel-magit-model cc/gptel-magit-model
+    gptel-magit-backend
+    (when cc/gptel-magit-backend
+      (or (gethash cc/gptel-magit-backend cc/gptel-backends)
+        (ignore
+          (display-warning
+            'cc-ai
+            (format "cc/gptel-magit-backend: `%s' is not in cc/gptel-backends"
+              cc/gptel-magit-backend)
+            :warning)))))
+  ;; gptel-magit issues non-streaming requests; the ChatGPT OAuth endpoint
+  ;; is stream-only and 400s ("Stream must be set to true").
+  (when (and gptel-magit-backend
+          (fboundp 'gptel-openai-oauth-p)
+          (gptel-openai-oauth-p gptel-magit-backend))
+    (display-warning
+      'cc-ai
+      "cc/gptel-magit-backend points at the ChatGPT OAuth backend, which is \
+stream-only; commit-message generation will fail. Use deepseek / copilot / \
+anthropic / openai instead."
+      :warning))
+
   (setopt
     git-commit-summary-max-length 72
     gptel-magit-commit-prompt

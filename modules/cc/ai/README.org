@@ -10,6 +10,13 @@ from their own ~cc/*-api-key~ options.  Two more are gated by a boolean:
   (~openai-sub~).  After enabling, run ~M-x gptel-openai-oauth-login~ once
   to authenticate.
 
+~gptel-magit~ (commit messages) can run on a different backend/model than
+the chat default: set ~cc/gptel-magit-backend~ (a ~cc/gptel-backends~ key)
+and ~cc/gptel-magit-model~.  Both nil = follow the active backend.  Note
+~gptel-magit~ sends *non-streaming* requests, so it cannot use
+~openai-sub~ (the ChatGPT OAuth endpoint is stream-only and returns
+HTTP 400) -- pick ~deepseek~ / ~copilot~ / ~anthropic~ / ~openai~.
+
 ** Custom OpenAI-compatible vendors
 
 Any other OpenAI-compatible vendor (Groq, OpenRouter, SiliconFlow,
@@ -55,6 +62,35 @@ Find a vendor's model ids:
 #+begin_src bash
 curl -s https://<host>/v1/models -H "Authorization: Bearer $KEY" | jq '.data[].id'
 #+end_src
+
+** Fetching model lists automatically
+
+gptel's built-in ~:models~ lists are static and lag the providers.
+[[https://github.com/cat-emacs/gptel-model-updater][gptel-model-updater]]
+(pinned) is loaded on first use of one of its commands:
+
+- ~M-x gptel-model-updater-update-all~ -- refresh every registered backend
+- ~M-x gptel-model-updater-update-backend~ -- refresh one
+- ~M-x gptel-model-updater-transient~ -- menu (also under ~-u~ in ~gptel-menu~)
+
+Fetched ids are merged into the live backend (existing ~:models~ and
+their metadata win) and matched against models.dev for cost / context /
+capabilities.  Results are *in memory only* -- re-run after each restart.
+
+Only backends the updater can actually reach are registered
+(`cc/gptel--model-updater-can-fetch-p'): it builds the models URL by
+trimming ~chat/completions~ off the endpoint, so it excludes
+
+- *OpenAI* and *openai-sub* -- Responses-API endpoint, no ~/models~ path;
+- *Anthropic* -- not OpenAI-compatible.
+
+gptel's static lists for those three are well maintained (and this module
+unpins gptel in ~packages.el~ to track upstream, so they stay current),
+so nothing is lost.  *Gemini* is registered but its fetch needs direct
+network access
+(it times out otherwise -- ignore it, or drop ~cc/gptel-backend--gemini~
+from ~gptel-model-updater-backends~).  A custom vendor only works if its
+~:protocol~/~:endpoint~ point at a real OpenAI-style ~/v1/models~.
 
 * Aider Models
 - ~aider --list-models [copilot]~

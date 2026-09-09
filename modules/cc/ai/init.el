@@ -53,6 +53,22 @@ any entry in `cc/gptel-openai-compatible-vendors'."
            (symbol :tag "Custom vendor :id"))
   :group 'cc-ai)
 
+(defcustom cc/gptel-magit-backend nil
+  "gptel backend for `gptel-magit' (commit messages, diff explain).
+
+nil uses the active `gptel-backend'.  Otherwise a key into
+`cc/gptel-backends': a built-in provider symbol (`deepseek', `openai',
+...) or a custom vendor `:id'.  Set `cc/gptel-magit-model' as well when
+the chosen model belongs to this backend."
+  :type '(choice (const :tag "Active backend" nil)
+           (symbol :tag "Registry key"))
+  :group 'cc-ai)
+
+(defcustom cc/gptel-magit-model nil
+  "gptel model for `gptel-magit'; nil uses `gptel-model'."
+  :type '(choice (const :tag "Default model" nil) (symbol :tag "Model"))
+  :group 'cc-ai)
+
 (defcustom cc/gptel-openai-compatible-vendors nil
   "Custom OpenAI-compatible backends to register with gptel.
 

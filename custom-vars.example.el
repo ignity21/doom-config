@@ -70,6 +70,15 @@
   gptel-model 'gpt-5.6-terra
   ;; gptel-temperature 0.8
   ;; gptel-max-tokens 4096
+
+  ;; gptel-magit：commit message 用另一套 backend/model（都留 nil 则跟随默认）
+  ;; openai-sub（ChatGPT OAuth）是 stream-only，gptel-magit 走非流式会 400，
+  ;; 只能挑支持非流式的 backend：deepseek / copilot / anthropic / openai
+  cc/gptel-magit-backend 'deepseek
+  cc/gptel-magit-model 'deepseek-v4-flash
+
+  ;; code completion
+  cc/code-completion-backend 'minuet
   )
 
 ;; checkers

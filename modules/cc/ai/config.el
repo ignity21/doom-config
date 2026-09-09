@@ -90,6 +90,38 @@ Skip it with a warning when a required key is missing."
         (when-let ((backend (gethash name cc/gptel-backends)))
           (throw 'backend backend))))))
 
+(defun cc/gptel--model-updater-can-fetch-p (backend)
+  "Non-nil when `gptel-model-updater' can build a models URL for BACKEND.
+
+The updater derives the URL by trimming `chat/completions' off the
+endpoint, so OpenAI backends on the Responses API (plain \"OpenAI\" and
+\"openai-sub\") and non-OpenAI-compatible ones (Anthropic) cannot work --
+gptel ships good static lists for those anyway.  Gemini and Ollama are
+handled natively (Gemini still needs direct network access)."
+  (or (and (fboundp 'gptel-gemini-p) (gptel-gemini-p backend))
+    (and (fboundp 'gptel-ollama-p) (gptel-ollama-p backend))
+    (and (gptel-openai-p backend)
+      (not (and (fboundp 'gptel-openai-responses-p)
+             (gptel-openai-responses-p backend)))
+      (when-let ((ep (gptel-backend-endpoint backend)))
+        (string-search "chat/completions" ep)))))
+
+(defun cc/gptel--sync-model-updater-backends ()
+  "Expose fetchable `cc/gptel-backends' entries to `gptel-model-updater'.
+It targets backends held in variables, so bind one per eligible registry
+entry (see `cc/gptel--model-updater-can-fetch-p') and point
+`gptel-model-updater-backends' at them.  Safe to re-run after
+`doom/reload' rebuilds the registry with fresh structs."
+  (when (boundp 'gptel-model-updater-backends)
+    (let (syms)
+      (maphash (lambda (id backend)
+                 (when (cc/gptel--model-updater-can-fetch-p backend)
+                   (let ((sym (intern (format "cc/gptel-backend--%s" id))))
+                     (set sym backend)
+                     (push sym syms))))
+        cc/gptel-backends)
+      (setq gptel-model-updater-backends (nreverse syms)))))
+
 ;; NOTE: gptel is lazy-loaded via :commands, so this `after!' body runs on
 ;; first use -- well after $DOOMDIR/config.el has loaded custom-vars.el.  Do
 ;; not `require' gptel during startup or the API keys will not be set yet.
@@ -163,6 +195,32 @@ Skip it with a warning when a required key is missing."
       'cc-ai
       "No gptel backend is configured; set a provider key or enable GitHub Copilot."
       :warning)))
+
+;; gptel-model-updater: `M-x gptel-model-updater-update-all' (or the
+;; transient) fetches model ids from each backend's models endpoint.
+;; Fetched lists are in-memory only; re-run after each restart.
+(use-package! gptel-model-updater
+  :after gptel
+  :commands (gptel-model-updater-update-all
+              gptel-model-updater-update-backend
+              gptel-model-updater-transient))
+
+;; Expose the registry to the updater once both are loaded; re-runs on
+;; `doom/reload' since the registry is rebuilt with fresh structs.
+(after! (gptel gptel-model-updater)
+  (cc/gptel--sync-model-updater-backends))
+
+;; Reach the updater from `gptel-menu', right after the "-m" model infix.
+;; Best-effort: gptel is unpinned, so tolerate upstream menu changes.
+(after! gptel-transient
+  (unless (ignore-errors (transient-get-suffix 'gptel-menu "-u"))
+    (condition-case err
+      (transient-append-suffix 'gptel-menu "-m"
+        '("-u" "Update model lists" gptel-model-updater-transient))
+      (error (display-warning 'cc-ai
+               (format "Couldn't add model-updater to gptel-menu: %s"
+                 (error-message-string err))
+               :warning)))))
 
 ;; mcp servers
 ;; (use-package! mcp
