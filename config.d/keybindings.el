@@ -282,7 +282,7 @@
 (map! :prefix cc/gptel-map-prefix
   (:when (modulep! :tools llm)
     :desc "Open chat" "c" #'gptel
-    :desc "Menu" "m" #'gptel-menu
+    :desc "Menu" "g" #'gptel-menu
     :desc "Send region(or before)" "s" #'gptel-send
     :desc "Rewrite" "r" #'gptel-rewrite
     :desc "Add text to ctx" "a" #'gptel-add
@@ -294,8 +294,8 @@
 
 ;; C-c prefixes migrated from modules/cc/bindings
 (map! :prefix "C-c"
-  ;; C-c a -- ai
-  (:prefix-map ("a" . "<ai>")
+  ;; C-c c a -- ai
+  (:prefix "c"
     (:when (modulep! :cc ai)
       :desc "AI code menu" "a" #'ai-code-menu))
 

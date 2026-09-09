@@ -1,5 +1,61 @@
 #+title: Readme
 
+* gptel backends
+
+Built-in backends (OpenAI / DeepSeek / Anthropic / Gemini) are registered
+from their own ~cc/*-api-key~ options.  Two more are gated by a boolean:
+
+- ~cc/gptel-enable-copilot~ -- GitHub Copilot (~Copilot~).
+- ~cc/gptel-enable-openai-sub~ -- ChatGPT Plus/Pro subscription via OAuth
+  (~openai-sub~).  After enabling, run ~M-x gptel-openai-oauth-login~ once
+  to authenticate.
+
+** Custom OpenAI-compatible vendors
+
+Any other OpenAI-compatible vendor (Groq, OpenRouter, SiliconFlow,
+OpenWebUI, a local vLLM, ...) goes in ~cc/gptel-openai-compatible-vendors~
+in ~custom-vars.el~ as a list of plists.  It is *pure data*: the actual
+~gptel-make-openai~ call is deferred to this module's ~after! gptel~
+block, so the setting stays harmless when the ~:cc ai~ module is disabled.
+
+#+begin_src elisp
+(setopt
+  cc/gptel-openai-compatible-vendors
+  '((:id groq
+     :name "Groq"
+     :host "api.groq.com"
+     :endpoint "/openai/v1/chat/completions"
+     :key "gsk_..."
+     :models (llama-3.3-70b-versatile
+              (moonshotai/kimi-k2-instruct :capabilities (tool))))))
+#+end_src
+
+Plist keys:
+
+| key               | req? | notes                                             |
+|-------------------+------+---------------------------------------------------|
+| ~:id~             | no   | registry key; also a valid ~cc/gptel-default-backend~ value. Defaults to a slug of ~:name~. |
+| ~:name~           | yes  | shown in gptel; must differ from built-in names.  |
+| ~:host~           | yes  | e.g. ~api.groq.com~                               |
+| ~:key~            | yes  | API key                                           |
+| ~:models~         | yes  | symbols or ~(symbol . plist)~ specs; a missing list skips the vendor with a warning. |
+| ~:endpoint~       | no   | default ~/v1/chat/completions~                    |
+| ~:protocol~       | no   | default ~https~                                   |
+| ~:stream~         | no   | default ~t~                                       |
+| ~:header~ / ~:request-params~ / ~:curl-args~ | no | passed through to ~gptel-make-openai~ |
+
+Make a custom vendor the default backend:
+
+#+begin_src elisp
+(setopt cc/gptel-default-backend 'groq)
+#+end_src
+
+Find a vendor's model ids:
+
+#+begin_src bash
+curl -s https://<host>/v1/models -H "Authorization: Bearer $KEY" | jq '.data[].id'
+#+end_src
+
 * Aider Models
 - ~aider --list-models [copilot]~
 - check the output of the following command to find the model id for copilot:

@@ -42,12 +42,32 @@
   cc/deepseek-api-key ""
   cc/gemini-api-key ""
 
+  ;; 自定义 OpenAI 兼容 vendor（纯数据，可加任意多个；构造推迟到 :cc ai 模块内）
+  ;; cc/gptel-openai-compatible-vendors
+  ;; '((:id openwebui
+  ;;    :name "OpenWebUI"
+  ;;    :host "localhost:3000"
+  ;;    :protocol "http"
+  ;;    :endpoint "/api/chat/completions"
+  ;;    :key "KEY_FOR_ACCESSING_OPENWEBUI"
+  ;;    :models ("gemma3n:latest"))
+  ;;   (:id groq
+  ;;    :name "Groq"
+  ;;    :host "api.groq.com"
+  ;;    :endpoint "/openai/v1/chat/completions"
+  ;;    :key "gsk_..."
+  ;;    :models (llama-3.3-70b-versatile
+  ;;             (moonshotai/kimi-k2-instruct :capabilities (tool)))))
+  ;; 选其一作默认：cc/gptel-default-backend 'openwebui
+
   ;; gptel
   gptel-default-mode 'org-mode
   gptel-include-reasoning t
   cc/gptel-enable-copilot t
-  cc/gptel-default-backend 'copilot
-  gptel-model 'claude-sonnet-4.5
+  ;; ChatGPT 订阅（OAuth），启用后运行一次 M-x gptel-openai-oauth-login
+  cc/gptel-enable-openai-sub t
+  cc/gptel-default-backend 'openai-sub
+  gptel-model 'gpt-5.6-terra
   ;; gptel-temperature 0.8
   ;; gptel-max-tokens 4096
   )

@@ -4,7 +4,7 @@
 ;; ai-code-interface
 (use-package! ai-code
   :init
-  ;; `C-c a a' is bound in config.d/keybindings.el.
+  ;; `C-c c a' is bound in config.d/keybindings.el.
   (setopt
     ai-code-backends-infra-terminal-backend 'ghostel
     ai-code-auto-test-type 'ask-me)
@@ -41,8 +41,46 @@
   "Registry of available gptel backends, keyed by provider symbol.")
 
 (defconst cc/gptel-backend-fallback-order
-  '(deepseek openai anthropic gemini copilot)
+  '(deepseek openai anthropic gemini copilot openai-sub)
   "Backend preference order when the configured default is unavailable.")
+
+(defun cc/gptel--vendor-id (vendor)
+  "Return the registry key for VENDOR plist (its :id, or a slug of :name)."
+  (or (plist-get vendor :id)
+    (intern (downcase (replace-regexp-in-string
+                        "[^[:alnum:]]+" "-"
+                        (string-trim (or (plist-get vendor :name) "")))))))
+
+(defun cc/gptel--register-vendor (vendor)
+  "Register VENDOR plist as an OpenAI-compatible gptel backend.
+Skip it with a warning when a required key is missing."
+  (let ((name   (plist-get vendor :name))
+         (host   (plist-get vendor :host))
+         (key    (plist-get vendor :key))
+         (models (plist-get vendor :models)))
+    (cond
+      ((or (not (stringp name)) (string-empty-p (string-trim (or name ""))))
+        (display-warning 'cc-ai "gptel vendor missing :name, skipped" :warning))
+      ((or (not (stringp host)) (string-empty-p (or host "")))
+        (display-warning 'cc-ai (format "gptel vendor %s missing :host, skipped" name) :warning))
+      ((or (not (stringp key)) (string-empty-p (or key "")))
+        (display-warning 'cc-ai (format "gptel vendor %s missing :key, skipped" name) :warning))
+      ((null models)
+        (display-warning 'cc-ai (format "gptel vendor %s missing :models, skipped" name) :warning))
+      (t
+        (puthash (cc/gptel--vendor-id vendor)
+          (apply #'gptel-make-openai name
+            :stream (if (plist-member vendor :stream) (plist-get vendor :stream) t)
+            :key key
+            :host host
+            :models models
+            (append
+              (when-let ((v (plist-get vendor :endpoint)))       (list :endpoint v))
+              (when-let ((v (plist-get vendor :protocol)))       (list :protocol v))
+              (when-let ((v (plist-get vendor :header)))         (list :header v))
+              (when-let ((v (plist-get vendor :request-params))) (list :request-params v))
+              (when-let ((v (plist-get vendor :curl-args)))      (list :curl-args v))))
+          cc/gptel-backends)))))
 
 (defun cc/gptel-select-backend ()
   "Return the configured gptel backend or a deterministic available fallback."
@@ -63,6 +101,12 @@
   (when cc/gptel-enable-copilot
     (puthash 'copilot
       (gptel-make-gh-copilot "Copilot")
+      cc/gptel-backends))
+
+  ;; ChatGPT subscription (OAuth); run `gptel-openai-oauth-login' once.
+  (when cc/gptel-enable-openai-sub
+    (puthash 'openai-sub
+      (gptel-make-openai-oauth "openai-sub")
       cc/gptel-backends))
 
   ;; OpenAI
@@ -106,6 +150,10 @@
         :stream t
         :key cc/gemini-api-key)
       cc/gptel-backends))
+
+  ;; Custom OpenAI-compatible vendors
+  (dolist (vendor cc/gptel-openai-compatible-vendors)
+    (cc/gptel--register-vendor vendor))
 
   ;; Select the requested backend, or a known available fallback.
   (if-let ((backend (cc/gptel-select-backend)))
