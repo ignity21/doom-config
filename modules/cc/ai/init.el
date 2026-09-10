@@ -90,3 +90,13 @@ Each element is a plist with the following keys:
   `gptel-make-openai'."
   :type '(repeat plist)
   :group 'cc-ai)
+
+(defcustom cc/gptel-file-tool-roots nil
+  "Directories that gptel file tools may access.
+
+Each entry and all of its descendants are accessible.  Relative paths
+supplied by the model are resolved against the first entry.  When nil,
+access is limited to the current project root, or `default-directory'
+when the current buffer does not belong to a project."
+  :type '(repeat directory)
+  :group 'cc-ai)

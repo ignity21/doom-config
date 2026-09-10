@@ -276,5 +276,8 @@ entry (see `cc/gptel--model-updater-can-fetch-p') and point
 ;;     (add-hook 'after-init-hook #'mcp-hub-start-all-server)
 ;;     (add-hook 'gptel-mode-hook #'cc/gptel-enable-all-mcp-tools)))
 
+;; Project-scoped filesystem tools for gptel chats.
+(load! "+tools")
+
 ;; gptel-magit: Conventional Commit message generation.
 (load! "+magit")

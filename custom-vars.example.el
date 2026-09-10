@@ -43,22 +43,15 @@
   cc/gemini-api-key ""
 
   ;; 自定义 OpenAI 兼容 vendor（纯数据，可加任意多个；构造推迟到 :cc ai 模块内）
-  ;; cc/gptel-openai-compatible-vendors
-  ;; '((:id openwebui
-  ;;    :name "OpenWebUI"
-  ;;    :host "localhost:3000"
-  ;;    :protocol "http"
-  ;;    :endpoint "/api/chat/completions"
-  ;;    :key "KEY_FOR_ACCESSING_OPENWEBUI"
-  ;;    :models ("gemma3n:latest"))
-  ;;   (:id groq
-  ;;    :name "Groq"
-  ;;    :host "api.groq.com"
-  ;;    :endpoint "/openai/v1/chat/completions"
-  ;;    :key "gsk_..."
-  ;;    :models (llama-3.3-70b-versatile
-  ;;             (moonshotai/kimi-k2-instruct :capabilities (tool)))))
-  ;; 选其一作默认：cc/gptel-default-backend 'openwebui
+  cc/gptel-openai-compatible-vendors
+  '((:id volengine
+      :name "VolEngine"
+      :host "ark.cn-beijing.volces.com"
+      :protocol "https"
+      :key "your-api-key"
+      :endpoint "/api/coding/v3/chat/completions"
+      :stream t
+      :models ((deepseek-v4-flash-260425 :capabilities (tool)))))
 
   ;; gptel
   gptel-default-mode 'org-mode
@@ -70,6 +63,10 @@
   gptel-model 'gpt-5.6-terra
   ;; gptel-temperature 0.8
   ;; gptel-max-tokens 4096
+
+  ;; gptel 文件工具：nil 表示只允许当前项目；也可固定一个或多个目录
+  cc/gptel-file-tool-roots nil
+  ;; cc/gptel-file-tool-roots '("~/projects/")
 
   ;; gptel-magit：commit message 用另一套 backend/model（都留 nil 则跟随默认）
   ;; openai-sub（ChatGPT OAuth）是 stream-only，gptel-magit 走非流式会 400，

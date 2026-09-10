@@ -57,6 +57,12 @@ Make a custom vendor the default backend:
 (setopt cc/gptel-default-backend 'groq)
 #+end_src
 
+For models that support OpenAI-compatible tool calling, use a full model
+specification with ~:capabilities (tool)~.  The file tools in ~+tools.el~ are
+enabled by default.  They can list and read files, and can write or perform an
+exact replacement after confirmation.  Access is limited to the current
+project unless ~cc/gptel-file-tool-roots~ names explicit allowed directories.
+
 Find a vendor's model ids:
 
 #+begin_src bash
