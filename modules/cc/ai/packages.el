@@ -4,18 +4,27 @@
 ;; (package! aider
 ;;   :recipe (:host github :repo "tninja/aider.el" ))
 
+;; `:build (:not autoloads)': the package's own generated autoloads file
+;; embeds bare `transient-define-prefix' forms (`ai-code-insert-menu',
+;; `ai-code-eca-menu') under a plain `;;;###autoload' cookie instead of the
+;; `;;;###autoload (autoload ...)' stub pattern transient-based commands
+;; need.  Emacs's autoload generator doesn't recognize the macro, so it
+;; copies the form verbatim; loading that file (as `doom sync' does for
+;; every package) then calls `transient-define-prefix' before `transient'
+;; is loaded, erroring with "Symbol's function definition is void".  Our
+;; own `use-package!' already declares `ai-code-menu' via `:commands',
+;; which is enough to lazy-load the package, so skip the broken file.
 (package! ai-code
   :recipe (:host github
             :repo "tninja/ai-code-interface.el"
-            :files ("*.el"))
-  :pin "589307b8496ac8530d6de06cd7189d827b72e4b0")
+            :files ("*.el")
+            :build (:not autoloads)))
 
 ;; Fetch backend model lists from providers' /v1/models endpoints.
 (package! gptel-model-updater
   :recipe (:host github
             :repo "cat-emacs/gptel-model-updater"
-            :files ("*.el" (:exclude "*-tests.el")))
-  :pin "ce53fa9667f8c4f83566085c3d0486631f704bc8")
+            :files ("*.el" (:exclude "*-tests.el"))))
 
 ;; Track upstream gptel instead of Doom's `:tools llm' pin: built-in model
 ;; lists for OpenAI / Anthropic / openai-sub only move on gptel releases,

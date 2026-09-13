@@ -49,15 +49,6 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;;(unpin! t)
 
-(package! transient
-  :pin "1f7039ef8d548d6fe858084fcbeae7588eba4190"
-  ) ; 0.12.0
-
-(package! magit
-  :pin "c800f79c2061621fde847f6a53129eca0e8da728"
-  ) ; 4.5.0
-
-
 ;; (package! modus-themes)
 (package! ef-themes)
 
@@ -68,7 +59,7 @@
 ;; Development
 (disable-packages! flymake)
 (disable-packages! company-dict)
-(package! apheleia :pin "7a2136052f4174c178b28da1a2c632904bf08176")
+(package! apheleia)
 (package! rainbow-mode)
 
 ;; Code-completion backend (minuet / copilot) lives in modules/cc/completion.

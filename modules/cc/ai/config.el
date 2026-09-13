@@ -10,7 +10,7 @@
     ai-code-auto-test-type 'ask-me)
   :commands (ai-code-menu)
   :config
-  (ai-code-set-backend 'codex)
+  (ai-code-set-backend 'pi)
   (with-eval-after-load 'magit
     (ai-code-magit-setup-transients))
   )
@@ -122,7 +122,7 @@ entry (see `cc/gptel--model-updater-can-fetch-p') and point
         cc/gptel-backends)
       (setq gptel-model-updater-backends (nreverse syms)))))
 
-;; NOTE: gptel is lazy-loaded via :commands, so this `after!' body runs on
+;; NOTE:  gptel is lazy-loaded via :commands, so this `after!' body runs on
 ;; first use -- well after $DOOMDIR/config.el has loaded custom-vars.el.  Do
 ;; not `require' gptel during startup or the API keys will not be set yet.
 (after! gptel
