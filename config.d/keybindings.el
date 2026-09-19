@@ -126,10 +126,11 @@
   (map! "C-z" #'undo))
 
 ;; C-x prefix supplements
+(map! :map narrow-map
+  "g" nil)
+
 (map! :prefix "C-x"
   :desc "ibuffer" "C-b" #'ibuffer
-  (:prefix ("n" . "<narrow>")
-    "g" nil)
   (:prefix-map ("a" . "<agenda>")
     :desc "Find agenda file" "f" #'+default/find-in-notes
     :desc "Agenda view" "a" #'org-agenda
