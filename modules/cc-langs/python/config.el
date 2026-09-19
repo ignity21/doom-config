@@ -62,9 +62,21 @@ To override this setting for a project, add this to `.dir-locals.el':
   (add-hook 'python-base-mode-hook #'cc/python-setup)
 
   (map! :map python-base-mode-map
+    "C-c C-t" nil                      ; skeleton templates; superseded by yasnippet
+    "C-c TAB" nil
     (:prefix "C-c c"
       :desc "Disassemble region/buffer" "d"
-      #'cc/python-dis-region-or-buffer))
+      #'cc/python-dis-region-or-buffer
+      (:prefix ("i" . "<imports>")
+        :desc "Add import" "a" #'python-add-import
+        :desc "Fix imports" "f" #'python-fix-imports
+        :desc "Remove import" "r" #'python-remove-import
+        :desc "Sort imports" "s" #'python-sort-imports)))
+
+  (when (modulep! :editor snippets)
+    (add-hook! 'python-ts-mode-hook
+      (defun cc/python-ts-mode-yas-parent-h ()
+        (yas-activate-extra-mode 'python-mode))))
 
   (use-package! sphinx-doc
     :hook (python-mode . sphinx-doc-mode)

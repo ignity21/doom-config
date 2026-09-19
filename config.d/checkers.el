@@ -41,9 +41,6 @@
   (map! :map flycheck-mode-map
     "C-c !" nil
     :prefix "C-c"
-    "C-p" #'flycheck-previous-error
-    "C-n" #'flycheck-next-error
-    "M-w" #'flycheck-copy-errors-as-kill
     (:prefix ("1" . "<checker>")
       :desc "First error" "a" #'flycheck-first-error
       :desc "Next error" "n" #'flycheck-next-error

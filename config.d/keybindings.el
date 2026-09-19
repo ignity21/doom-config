@@ -58,10 +58,10 @@
 (keymap-global-set cc/toggle-map-prefix cc/toggle-keymap)
 
 (which-key-mode +1)
-(setopt doom-leader-key "C-c M-;"
-  doom-localleader-key "C-c M-l"
-  doom-leader-alt-key "C-c M-;"
-  doom-localleader-alt-key "C-c M-l")
+(setopt doom-leader-key "C-c M-l d"
+  doom-localleader-key "C-c M-l l"
+  doom-leader-alt-key "C-c M-l d"
+  doom-localleader-alt-key "C-c M-l l")
 
 (after! which-key
   (setopt which-key-sort-order 'which-key-description-order
@@ -76,6 +76,11 @@
     cc/gptel-map-prefix "<gptel>"
     cc/toggle-map-prefix "<toggle>"
     "C-c 1" "<checker>"
+    "C-c p c" "<projectile-command>"
+    "C-c p c 4" "other-window"
+    "C-c p c 5" "other-frame"
+    "C-c p c x" "execute"
+    "C-c p c s" "search"
     "C-x <RET>" "coding-system"
     "M-s h" "highlight"
     "C-x n" "<narrow>"
@@ -87,16 +92,26 @@
     "C-x 5" "other-frame"
     "C-x p" "project"
     "C-h d p" "doom/help-packages"
-    "C-c M-d" "doom/leader"
-    "C-c M-d l" "doom/localleader"
-    "C-." "<lookup>"))
+    "C-c L" "<leader>"
+    "C-c M-l d" "doom/leader"
+    "C-c M-l l" "doom/localleader"
+    "C-c ^" "<smerge>"))
 
 ;; Global keybindings
 (map! "M-." #'+lookup/definition
   "M-," #'better-jumper-jump-backward
   "C-s" #'consult-line
+  :desc "Embark act" "C-." #'embark-act
   ;; "C-x C-e" #'+eval/buffer-or-region
   )
+
+;; Magit auto-adds "C-x g", "C-x M-g" and "C-c M-g" to the global map on
+;; startup (see `magit-define-global-key-bindings').  We don't want anything
+;; of ours living under the bare "C-c" prefix, so disable Magit's own
+;; defaulting and re-add only the C-x bindings we still want.
+(setq magit-define-global-key-bindings nil)
+(map! "C-x g" #'magit-status
+  "C-x M-g" #'magit-dispatch)
 
 ;; Global unbinds and rebinds
 (map! "C-z" nil
@@ -109,15 +124,6 @@
   "M-<wheel-down>" #'mouse-wheel-text-scale)
 (when (modulep! :emacs undo)
   (map! "C-z" #'undo))
-
-(after! projectile
-  (keymap-set projectile-mode-map "C-c p c" 'projectile-command-map)
-  (which-key-add-keymap-based-replacements projectile-mode-map
-    "C-c p c" "<projectile-command>"
-    "C-c p c 4" "other-window"
-    "C-c p c 5" "other-frame"
-    "C-c p c x" "execute"
-    "C-c p c s" "search"))
 
 ;; C-x prefix supplements
 (map! :prefix "C-x"
@@ -172,6 +178,7 @@
 
 ;; C-c l prefix -- general and code lookup
 (map! :prefix cc/lookup-map-prefix
+  :desc "Ace jump" "j" #'ace-jump-mode
   :desc "Find file (fd)" "f" #'+lookup/file
   :desc "Search online" "o" #'+lookup/online
   :desc "Find in dictionary" "d" #'+lookup/dictionary-definition
@@ -391,6 +398,7 @@
 
   ;; C-c p -- project
   (:prefix-map ("p" . "<project>")
+    :desc "<projectile-command>" "c" #'projectile-command-map
     :desc "Open current editorconfig" "e" #'editorconfig-find-current-editorconfig
     :desc "Search project" "s" #'+default/search-project
     :desc "Switch project" "p" #'projectile-switch-project

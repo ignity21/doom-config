@@ -31,8 +31,6 @@
 ;; It can help you to move your cursor to ANY position in emacs
 ;; by using only 3 times key press.
 (use-package! ace-jump-mode
-  :commands ace-jump-mode
-  :init
-  (map! :desc "Ace jump" "C-c j" #'ace-jump-mode))
+  :commands ace-jump-mode)
 
 (add-hook! comint-mode #'visual-line-mode)
