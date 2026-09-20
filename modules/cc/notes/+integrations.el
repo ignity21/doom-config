@@ -14,7 +14,9 @@
   :config
   (setopt anki-editor-create-decks t
           anki-editor-org-tags-as-anki-tags t
-          anki-editor-use-math-jax t)
+          anki-editor-use-math-jax t
+          ;; Avoid [latex] image markup, which needs a separate generator.
+          anki-editor-latex-style 'mathjax)
   :init
   (map! :map org-mode-map
     :prefix ("C-c n k" . "<anki>")
