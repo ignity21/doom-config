@@ -200,7 +200,6 @@
 (map! :prefix cc/search-map-prefix
   :desc "Consult imenu" "i" #'consult-imenu
   :desc "Consult imenu-multi" "I" #'consult-imenu-multi
-  :desc "Consult ripgrep" "d" #'consult-ripgrep
   :desc "Consult flycheck" "f" #'consult-flycheck
   :desc "Search project" "p" #'+vertico/project-search)
 
@@ -374,7 +373,8 @@
       :desc "Capture (default category)" "c" #'cc/org-roam-capture-in-default-category
       :desc "Show backlinks" "b" #'org-roam-buffer-toggle
       :desc "Show backlinks(dedicated)" "B" #'org-roam-buffer-display-dedicated
-      :desc "Sync db" "s" #'org-roam-db-sync
+      :desc "Search note" "s" #'consult-ripgrep
+      :desc "Sync db" "S" #'org-roam-db-sync
       :desc "Refile node" "w" #'org-roam-refile
       :desc "Move current node to category" "m" #'cc/org-roam-move-current-node
       (:prefix ("a" . "<alias>")

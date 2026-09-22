@@ -32,8 +32,8 @@
   (defun cc/org-roam-ui--run-or-defer (command)
     "Run COMMAND now, or after org-roam-ui's browser connection opens."
     (if (and (boundp 'org-roam-ui-ws-socket)
-             (websocket-openp org-roam-ui-ws-socket))
-        (funcall command)
+          (websocket-openp org-roam-ui-ws-socket))
+      (funcall command)
       (setq cc/org-roam-ui--pending-command command)
       (org-roam-ui-open)
       (message "Opening org-roam UI; the current node will be shown when it connects")))
@@ -67,6 +67,7 @@
       (org-roam-ui-mode -1)))
 
   (use-package! org-roam-ui
+    :after org-roam
     :commands (org-roam-ui-mode org-roam-ui-open)
     :config
     (setopt org-roam-ui-sync-theme t
@@ -87,4 +88,5 @@
       :desc "Close roam UI" "q" #'cc/org-roam-ui-close
       :desc "Sync UI theme" "s" #'cc/org-roam-ui-sync-theme
       :desc "Show ui node local" "g" #'cc/org-roam-ui-node-local
-      :desc "Zoom ui node" "z" #'cc/org-roam-ui-node-zoom)))
+      :desc "Zoom ui node" "z" #'cc/org-roam-ui-node-zoom))
+  )
