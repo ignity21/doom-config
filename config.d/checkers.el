@@ -36,6 +36,15 @@
        markdown-html-tag-name-face))
   )
 
+(when (modulep! :checkers grammar)
+  (after! writegood-mode
+    (set-face-attribute 'writegood-weasels-face nil
+      :underline '(:style wave :color "DodgerBlue"))
+    (set-face-attribute 'writegood-duplicates-face nil
+      :underline '(:style wave :color "firebrick"))
+    (set-face-attribute 'writegood-passive-voice-face nil
+      :underline '(:style wave :color "DodgerBlue"))))
+
 (when (and (modulep! :checkers syntax)
         (not (modulep! :checkers syntax +flymake)))
   (map! :map flycheck-mode-map

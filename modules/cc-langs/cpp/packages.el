@@ -3,5 +3,5 @@
 
 (package! cppinsights
   :recipe (:host github
-           :repo "chrischen3121/cppinsights.el"
-           :files ("*.el")))
+            :repo "ignity21/cppinsights.el"
+            :files ("*.el")))
