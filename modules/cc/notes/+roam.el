@@ -66,6 +66,9 @@
     (when (bound-and-true-p org-roam-ui-mode)
       (org-roam-ui-mode -1)))
 
+  (use-package! websocket
+    :after org-roam)
+
   (use-package! org-roam-ui
     :after org-roam
     :commands (org-roam-ui-mode org-roam-ui-open)
