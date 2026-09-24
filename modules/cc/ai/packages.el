@@ -1,9 +1,6 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; cc/ai/packages.el
 
-;; (package! aider
-;;   :recipe (:host github :repo "tninja/aider.el" ))
-
 ;; `:build (:not autoloads)': the package's own generated autoloads file
 ;; embeds bare `transient-define-prefix' forms (`ai-code-insert-menu',
 ;; `ai-code-eca-menu') under a plain `;;;###autoload' cookie instead of the
@@ -31,8 +28,3 @@
 ;; and the OAuth backend has no models endpoint to fetch from.  Accepts
 ;; the upstream-API-churn risk against this module's heavy gptel config.
 (unpin! gptel)
-
-;; (package! mcp
-;;   :recipe (:host github
-;;             :repo "lizqwerscott/mcp.el"
-;;             :files ("*.el")))

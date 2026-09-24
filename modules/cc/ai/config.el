@@ -15,15 +15,6 @@
     (ai-code-magit-setup-transients))
   )
 
-;; ;; aider
-;; (use-package! aider
-;;   :commands (aider-transient-menu)
-;;   :init
-;;   (map! :desc "aider.el menu" "C-c a" #'aider-transient-menu
-;;         (:map aider-prompt-mode-map
-;;          :desc "Aider send region" "C-c C-e" #'aider-send-line-or-region
-;;          :desc "Switch to aider" "C-c C-b" #'aider-switch-to-buffer)))
-
 ;; gptel
 (use-package! gptel
   :commands (gptel-send
@@ -138,7 +129,8 @@ entry (see `cc/gptel--model-updater-can-fetch-p') and point
   ;; ChatGPT subscription (OAuth); run `gptel-openai-oauth-login' once.
   (when cc/gptel-enable-openai-sub
     (puthash 'openai-sub
-      (gptel-make-openai-oauth "openai-sub")
+      (gptel-make-openai-oauth "openai-sub"
+        :request-params '(:reasoning (:effort "high")))
       cc/gptel-backends))
 
   ;; OpenAI
@@ -221,60 +213,6 @@ entry (see `cc/gptel--model-updater-can-fetch-p') and point
                (format "Couldn't add model-updater to gptel-menu: %s"
                  (error-message-string err))
                :warning)))))
-
-;; mcp servers
-;; (use-package! mcp
-;;   :after gptel
-;;   :init
-;;   (setopt mcp-hub-servers
-;;     ;; support multiple directories
-;;     `(
-;;        ;; NOTE filesystem server
-;;        ("filesystem" .
-;;          (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem" ,cc/mcp-fs-directory)))
-
-;;        ;; NOTE mcp-server-fetch server
-;;        ;; ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
-
-;;        ;; NOTE git server
-;;        ;; ("git" . (:command "uvx" :args ("mcp-server-git" "--git-dir" ,cc/mcp-git-directory)))
-;;        )
-;;     )
-;;   :config
-;;   (require 'mcp-hub)
-;;   (require 'gptel-integrations)
-;;   ;; :hook (after-init . mcp-hub-start-all-server)
-;;   )
-
-;; use `mcp-make-text-tool` to create a gptel tool
-;; (use-package! mcp-hub
-;;   :commands (mcp-hub
-;;              mcp-hub-start-all-server
-;;              mcp-hub-close-all-server)
-;;   :init
-;;   (setq mcp-hub-servers
-;;         ;; support multiple directories
-;;         `(
-;;           ;; NOTE filesystem server
-;;           ;; ("filesystem" .
-;;           ;;  (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem" ,cc/mcp-fs-directory)))
-
-;;           ;; NOTE fetch web server
-;;           ;; ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
-
-;;           ;; NOTE git server
-;;           ;; ("git" . (:command "uvx" :args ("mcp-server-git" "--git-dir" ,cc/mcp-git-directory)))
-;;           )
-;;         )
-;;   ;; check if gptel package is loaded
-;;   (when (featurep 'gptel)
-;;     (require 'gptel-integrations))
-;;   (map! :desc "mcp hub" "C-c a m" #'mcp-hub)
-;;   (when cc/use-mcp-p
-;;     (after! gptel
-;;       (cc/gptel-mcp-register-tools))
-;;     (add-hook 'after-init-hook #'mcp-hub-start-all-server)
-;;     (add-hook 'gptel-mode-hook #'cc/gptel-enable-all-mcp-tools)))
 
 ;; Project-scoped filesystem tools for gptel chats.
 (load! "+tools")

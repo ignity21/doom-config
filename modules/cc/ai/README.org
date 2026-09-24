@@ -1,4 +1,40 @@
-#+title: Readme
+#+title: AI in this Doom configuration
+
+* Which interface to use
+
+Use ~gptel~ for short interactions with text already in Emacs: ask about a
+selection, explain a passage, draft prose, or review a local rewrite.  Its
+default backend can be a cost-effective model because these tasks usually
+need limited context and no project-wide changes.
+
+Use ~ai-code-interface~ (~C-c c a~, currently backed by Pi) for development
+work: exploring a repository, changing multiple files, running commands or
+tests, and working with Git.  It delegates those tasks to a coding agent.
+There is no need to build the same project workflow around gptel tools.
+
+** Everyday gptel commands
+
+The ~C-c g~ prefix is defined in ~config.d/keybindings.el~:
+
+| Key       | Command            | Use |
+|-----------+--------------------+-----|
+| ~C-c g s~ | ~gptel-send~       | Ask about the active region, or send text before point. |
+| ~C-c g r~ | ~gptel-rewrite~    | Rewrite a selected passage; review the proposed change before applying it. |
+| ~C-c g e~ | ~gptel-quick~      | Get a quick explanation. |
+| ~C-c g c~ | ~gptel~            | Open a dedicated conversation buffer. |
+| ~C-c g a~ | ~gptel-add~        | Add a region or buffer as context. |
+| ~C-c g f~ | ~gptel-add-file~   | Add a file as context. |
+| ~C-c g g~ | ~gptel-menu~      | Choose a backend/model or adjust the next request. |
+
+For an Org conversation, ~C-c g o~ limits context to the current heading;
+~C-c g O~ stores gptel settings as Org properties.  Chats are ordinary Org
+files when ~gptel-default-mode~ is ~org-mode~.
+
+Keep context deliberate: add only the passages or files needed for the
+question.  The local ~+tools.el~ also registers project-scoped file listing,
+reading, writing, and exact replacement tools.  Writes require confirmation.
+They are useful for an occasional, bounded task, but the coding agent is the
+normal path for repository edits and Git work.
 
 * gptel backends
 
@@ -97,12 +133,3 @@ network access
 (it times out otherwise -- ignore it, or drop ~cc/gptel-backend--gemini~
 from ~gptel-model-updater-backends~).  A custom vendor only works if its
 ~:protocol~/~:endpoint~ point at a real OpenAI-style ~/v1/models~.
-
-* Aider Models
-- ~aider --list-models [copilot]~
-- check the output of the following command to find the model id for copilot:
-#+begin_src bash
-curl -s https://api.githubcopilot.com/models \
-  -H "Authorization: Bearer $(cat ~/.config/litellm/github_copilot/access-token)" \
-  | jq '.data[] | {id: .id, type: .capabilities.type}'
-#+end_src

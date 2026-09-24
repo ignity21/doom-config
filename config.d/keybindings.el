@@ -302,9 +302,8 @@
 ;; C-c prefixes migrated from modules/cc/bindings
 (map! :prefix "C-c"
   ;; C-c c a -- ai
-  (:prefix "c"
-    (:when (modulep! :cc ai)
-      :desc "AI code menu" "a" #'ai-code-menu))
+  (:when (modulep! :cc ai)
+    :desc "AI code menu" "a" #'ai-code-menu)
 
   ;; C-c d -- debug
   (:prefix-map ("d" . "<debug>")
