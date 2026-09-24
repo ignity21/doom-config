@@ -3,12 +3,15 @@
 Inline code-completion backend.  Pick exactly one at install time via the
 module flag:
 
-- =+minuet= (default) -- Minuet, configured against the DeepSeek FIM
-  endpoint (uses =cc/deepseek-api-key= from the =:cc ai= module).
+- =+minuet= (default) -- Minuet. Set =cc/minuet-provider= to =codestral=
+  (regular Mistral FIM API, using =cc/mistral-api-key=) or =deepseek=
+  (DeepSeek FIM API, using =cc/deepseek-api-key= from =:cc ai=).
 - =+copilot= -- GitHub Copilot (=copilot.el=).
 
 The unselected package is =disable-packages!=-d, so both =use-package!=
 blocks stay here without =:if= guards.
+
+Set the provider and API key in =custom-vars.el=, then restart Emacs.
 
 Package-internal keymaps (=minuet-active-mode-map=,
 =copilot-completion-map=) live in =config.el=; the =C-c t= toggles live in

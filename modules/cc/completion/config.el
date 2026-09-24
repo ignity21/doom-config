@@ -29,14 +29,21 @@
 
 ;;; minuet
 
+(defun cc/minuet--use-codestral ()
+  "Configure Minuet to use Codestral through the Mistral FIM API."
+  (setopt minuet-provider 'codestral)
+  (setf (plist-get minuet-codestral-options :end-point)
+    "https://api.mistral.ai/v1/fim/completions"
+    (plist-get minuet-codestral-options :api-key)
+    (lambda () cc/mistral-api-key)
+    (plist-get minuet-codestral-options :model)
+    "codestral-latest")
+  (minuet-set-optional-options minuet-codestral-options :max_tokens 128)
+  (minuet-set-optional-options minuet-codestral-options :stop ["\n\n"]))
+
 (defun cc/minuet--use-deepseek ()
-  "Configure minuet to use the DeepSeek FIM completion endpoint."
-  (setopt
-    minuet-provider 'openai-fim-compatible
-    minuet-auto-suggestion-throttle-delay 1.5 ; Increase to reduce costs
-    minuet-auto-suggestion-debounce-delay 0.6 ; Increase to reduce costs
-    minuet-request-timeout 20
-    minuet-context-window 2048)
+  "Configure Minuet to use the DeepSeek FIM API."
+  (setopt minuet-provider 'openai-fim-compatible)
   (setf (plist-get minuet-openai-fim-compatible-options :end-point)
     "https://api.deepseek.com/beta/completions"
     (plist-get minuet-openai-fim-compatible-options :api-key)
@@ -44,9 +51,20 @@
     (plist-get minuet-openai-fim-compatible-options :model)
     "deepseek-v4-flash")
   (minuet-set-optional-options minuet-openai-fim-compatible-options :max_tokens 64)
-  (minuet-set-optional-options minuet-openai-compatible-options :thinking '(:type "disabled"))
   (minuet-set-optional-options minuet-openai-fim-compatible-options :top_p 0.9)
   (minuet-set-optional-options minuet-openai-fim-compatible-options :temperature 0.15))
+
+(defun cc/minuet--configure-provider ()
+  "Configure Minuet according to `cc/minuet-provider'."
+  (setopt
+    minuet-auto-suggestion-throttle-delay 1.5 ; Increase to reduce costs
+    minuet-auto-suggestion-debounce-delay 0.6 ; Increase to reduce costs
+    minuet-request-timeout 20
+    minuet-context-window 2048)
+  (pcase cc/minuet-provider
+    ('codestral (cc/minuet--use-codestral))
+    ('deepseek (cc/minuet--use-deepseek))
+    (_ (error "Unsupported Minuet provider: %S" cc/minuet-provider))))
 
 (defvar-local cc/minuet--last-trigger-tick nil
   "Buffer modification tick at last minuet trigger.")
@@ -81,6 +99,6 @@
     "M-n" #'minuet-next-suggestion
     "M-p" #'minuet-previous-suggestion
     "C-g" #'minuet-dismiss-suggestion)
-  (cc/minuet--use-deepseek)
+  (cc/minuet--configure-provider)
   (add-to-list 'minuet-auto-suggestion-block-predicates
     #'cc/minuet-only-on-change-p))

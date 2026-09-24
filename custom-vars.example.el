@@ -41,6 +41,7 @@
   cc/anthropic-api-key ""
   cc/deepseek-api-key ""
   cc/gemini-api-key ""
+  cc/mistral-api-key ""
 
   ;; 自定义 OpenAI 兼容 vendor（纯数据，可加任意多个；构造推迟到 :cc ai 模块内）
   cc/gptel-openai-compatible-vendors
@@ -71,11 +72,12 @@
   ;; gptel-magit：commit message 用另一套 backend/model（都留 nil 则跟随默认）
   ;; openai-sub（ChatGPT OAuth）是 stream-only，gptel-magit 走非流式会 400，
   ;; 只能挑支持非流式的 backend：deepseek / copilot / anthropic / openai
-  cc/gptel-magit-backend 'deepseek
-  cc/gptel-magit-model 'deepseek-v4-flash
+  cc/gptel-magit-backend 'volengine
+  cc/gptel-magit-model 'deepseek-v4-flash-260425
 
-  ;; code completion
-  cc/code-completion-backend 'minuet
+  ;; Minuet: 'codestral or 'deepseek
+  cc/minuet-provider 'codestral
+
   )
 
 ;; checkers
