@@ -21,7 +21,7 @@
               :repo "ignity21/org-roam-ui"
               :branch "enhanced"
               :files ("*.el" "out"))
-    :pin "20124941147fb89a14a761203e145881f7278798"))
+    :pin "78b928e321dc7c310cf7b20083d22bca7b5dcdf6"))
 
 ;; `org-noter' itself is provided by Doom's :lang org +noter flag.  These are
 ;; its optional document-reader integrations and should not be installed when
