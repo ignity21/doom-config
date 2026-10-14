@@ -10,6 +10,14 @@
 ;; mature implementation without changing the active major mode.
 (require 'yaml-mode)
 
+;; Explicitly indent the new line instead of letting `newline' also
+;; reindent the preceding YAML line through electric indentation.
+(after! yaml-mode
+  (keymap-set yaml-mode-map "RET" #'newline-and-indent))
+
+(after! yaml-ts-mode
+  (keymap-set yaml-ts-mode-map "RET" #'newline-and-indent))
+
 (defun cc/yaml-ts-setup ()
   "Configure indentation and spell checking for `yaml-ts-mode'."
   (setq-local yaml-indent-offset cc/yaml-indent-offset
