@@ -106,7 +106,6 @@
   magit               ; a git porcelain for Emacs
   make                ; run make tasks from Emacs
   ;; pass             ; password manager for nerds
-  pdf                 ; pdf enhancements
   ;; tmux
   ;;terraform         ; May try it: infrastructure as code, try it when using multiple cloud services
   tree-sitter
@@ -126,7 +125,7 @@
   (latex +cdlatex)
   ;;lua               ; one-based indices? one-based indices
   (markdown +lsp)       ; writing docs for people to ignore
-  (org +roam +present) ; TODO +noter
+  (org +roam +present)
   plantuml            ; diagrams for confusing people more
   ;; qt                  ; the 'cutest' gui framework ever
   rst                 ; ReST in peace
