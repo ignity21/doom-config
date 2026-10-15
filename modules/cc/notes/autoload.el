@@ -69,7 +69,7 @@ can link to and be linked from every other category."
 
 ;;;###autoload
 (defun cc/org-roam-node-find (&optional other-window initial-input filter-fn predicate)
-  "Find a node globally; create unmatched nodes in the Inbox category."
+  "Find a node globally; create unmatched nodes in the Unsorted category."
   (interactive "P")
   (cc/org-roam-default-category-directory)
   (org-roam-node-find other-window initial-input filter-fn predicate))
