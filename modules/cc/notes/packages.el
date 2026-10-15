@@ -22,10 +22,3 @@
               :branch "enhanced"
               :files ("*.el" "out"))
     :pin "78b928e321dc7c310cf7b20083d22bca7b5dcdf6"))
-
-;; `org-noter' itself is provided by Doom's :lang org +noter flag.  These are
-;; its optional document-reader integrations and should not be installed when
-;; that workflow is disabled.
-(when (modulep! :lang org +noter)
-  (package! nov)
-  (package! djvu))

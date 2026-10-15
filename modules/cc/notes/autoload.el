@@ -7,13 +7,6 @@
 (defvar org-roam-capture-templates)
 
 ;;;###autoload
-(defun cc/open-pdf-note-files ()
-  "Open all PDF note files in `cc/org-pdf-notes-dir'."
-  (interactive)
-  (let ((default-directory cc/org-pdf-notes-dir))
-    (call-interactively 'find-file)))
-
-;;;###autoload
 (defun cc/org-roam-default-category-directory ()
   "Create and return the default category directory."
   (let ((directory (expand-file-name cc/org-roam-default-category
