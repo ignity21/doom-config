@@ -13,7 +13,6 @@
       org-roam-directory (expand-file-name cc/roam-notes-dir)
       org-roam-db-location (expand-file-name ".cache/org-roam.db"
                              cc/roam-notes-dir)
-      org-roam-dailies-directory "dailies/"
       org-roam-capture-templates
       `(("d" "default" plain "%?"
           :if-new (file+head

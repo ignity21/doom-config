@@ -8,20 +8,12 @@
 ;; runs at definition time and again when custom-vars.el `setopt's the root.
 (defvar cc/roam-notes-dir nil
   "Absolute path of the org-roam library root.")
-(defvar cc/roam-dailies-dir nil
-  "Directory holding org-roam dailies, kept inside the roam root.")
-
-(defun cc/notes--derive-directories (root)
-  "Return (ROAM DAILIES) directories derived from notes ROOT."
-  (let ((roam (file-name-as-directory (expand-file-name root))))
-    (list roam (expand-file-name "dailies/" roam))))
 
 (defun cc/notes--set-root (symbol value)
-  "Setter for `cc/notes-root-dir': refresh the derived note directories."
+  "Setter for `cc/notes-root-dir': refresh the derived library directory."
   (set-default-toplevel-value symbol value)
-  (pcase-let ((`(,roam ,dailies) (cc/notes--derive-directories value)))
-    (setq cc/roam-notes-dir roam
-      cc/roam-dailies-dir dailies)))
+  (setq cc/roam-notes-dir
+    (file-name-as-directory (expand-file-name value))))
 
 (defcustom cc/notes-root-dir "~/notes/"
   "Root directory of the org-roam library."

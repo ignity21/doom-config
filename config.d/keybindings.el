@@ -364,9 +364,8 @@
   ;; C-c n -- notes
   (:prefix-map ("n" . "<note>")
     (:when (modulep! :lang org +roam)
-      :desc "Fleet note" "j" #'org-roam-dailies-find-today
       :desc "Capture note by category" "n" #'cc/org-roam-capture-in-category
-      :desc "Find note (create in Inbox)" "f" #'cc/org-roam-node-find
+      :desc "Find note (create in Unsorted)" "f" #'cc/org-roam-node-find
       :desc "Find ref" "r" #'org-roam-ref-find
       :desc "Insert node" "i" #'org-roam-node-insert
       :desc "Capture (default category)" "c" #'cc/org-roam-capture-in-default-category
@@ -386,13 +385,6 @@
       (:prefix ("t" . "<tag>")
         :desc "Add tag" "a" #'org-roam-tag-add
         :desc "Remove tag" "r" #'org-roam-tag-remove)
-      (:prefix ("d" . "<by date>")
-        :desc "Goto date" "d" #'org-roam-dailies-goto-date
-        :desc "Capture date" "c" #'org-roam-dailies-capture-date
-        :desc "Goto tomorrow" "m" #'org-roam-dailies-goto-tomorrow
-        :desc "Goto today" "t" #'org-roam-dailies-goto-today
-        :desc "Goto yesterday" "y" #'org-roam-dailies-goto-yesterday
-        :desc "Find dir" "f" #'org-roam-dailies-find-directory)
       (:map org-roam-mode-map
         :desc "Visit node" "v" #'org-roam-node-visit)))
 

@@ -32,8 +32,8 @@
 ;; Notes / org-roam
 (setopt
   cc/notes-root-dir "~/notes/"
-  cc/org-roam-default-category "Inbox"
-  cc/org-roam-non-category-directories '(".cache" "assets" "dailies" "logseq" "pages"))
+  cc/org-roam-default-category "Unsorted"
+  cc/org-roam-non-category-directories '(".cache" "assets"))
 
 ;; llm
 (setopt

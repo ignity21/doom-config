@@ -51,7 +51,7 @@ defaults → theme → keybindings → dashboard-tips → ui → editor → comp
 
 AI (`gptel`), LSP tuning, org/agenda, notes and the copilot/minuet code
 completion backend all live in private `modules/cc/*` modules, not in
-`config.d/`. `org-directory` and the notes/pdf/dailies directories are
+`config.d/`. `org-directory` and the notes directory is
 derived by the `:set` functions of `cc/default-org-dir` (in
 `modules/cc/agenda/init.el`) and `cc/notes-root-dir` (in
 `modules/cc/notes/init.el`).

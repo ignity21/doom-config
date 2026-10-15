@@ -71,13 +71,8 @@
   :weight 4)
  (:id org-roam-find
   :topic "Org-roam"
-  :text "Use C-c n f to find a note or create one in Inbox."
+  :text "Use C-c n f to find a note or create one in Unsorted."
   :weight 6
-  :requires org-roam)
- (:id org-roam-daily
-  :topic "Org-roam"
-  :text "Open today's daily note with C-c n j."
-  :weight 4
   :requires org-roam)
  (:id org-agenda
   :topic "Org agenda"
