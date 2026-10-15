@@ -2,17 +2,6 @@
 ;;; config.d/theme.el
 
 
-(defcustom cc/font-size 16
-  "The default monospace font size."
-  :type 'integer
-  :group 'cc-ui)
-
-(defcustom cc/emoji-font
-  (font-spec :family "Noto Color Emoji" :size cc/font-size)
-  "Emoji font, Must be a `font-spec'"
-  :type 'sexp
-  :group 'cc-ui)
-
 (defcustom cc/light-ef-theme 'ef-cyprus
   "The default light ef theme."
   :type 'symbol
