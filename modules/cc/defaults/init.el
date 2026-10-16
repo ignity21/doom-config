@@ -9,7 +9,7 @@
 
 (defun cc/auto-font-size ()
   "Return a font pixel size suited to the current monitor.
-Use a 9pt size at the monitor's physical DPI (frame pixels divided by the
+Use an 8pt size at the monitor's physical DPI (frame pixels divided by the
 reported physical size, so it is independent of display scaling), clamped to
 12..48.  Return 16 when no graphical display or physical size is available
 (batch, terminal, or daemon startup)."
@@ -19,7 +19,7 @@ reported physical size, so it is independent of display scaling), clamped to
            (height (nth 3 (alist-get 'geometry attrs)))
            (height-mm (cadr (alist-get 'mm-size attrs))))
       (if (and height height-mm (> height-mm 0))
-          (max 12 (min 48 (round (* 9 (/ height (/ height-mm 25.4)) (/ 1.0 72)))))
+          (max 12 (min 48 (round (* 8 (/ height (/ height-mm 25.4)) (/ 1.0 72)))))
         16))))
 
 (defcustom cc/font-size (cc/auto-font-size)
