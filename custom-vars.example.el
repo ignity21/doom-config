@@ -7,7 +7,8 @@
 
 ;; Fonts
 (setopt
-  ;; Omit `cc/font-size' to derive it from the display.
+  ;; `cc/font-size' is in pixels.  Omit it to derive a size from the display
+  ;; (7pt at the monitor's physical DPI); set it to use a fixed size.
   cc/font-size 17
   cc/emoji-font (font-spec :family "Noto Color Emoji" :size cc/font-size)
   doom-font (font-spec :family "Hack Nerd Font Mono" :size cc/font-size)
