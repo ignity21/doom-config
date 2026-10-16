@@ -9,19 +9,18 @@
 
 (defun cc/auto-font-size ()
   "Return a font pixel size suited to the current monitor.
-Use the larger of a resolution-based size (monitor height / 72) and an 11pt
-size at the monitor's physical DPI, clamped to 12..48.  Return 16 when no
-graphical display is available (batch, terminal, or daemon startup)."
+Use a 9pt size at the monitor's physical DPI (frame pixels divided by the
+reported physical size, so it is independent of display scaling), clamped to
+12..48.  Return 16 when no graphical display or physical size is available
+(batch, terminal, or daemon startup)."
   (if (not (display-graphic-p))
       16
     (let* ((attrs (frame-monitor-attributes))
            (height (nth 3 (alist-get 'geometry attrs)))
-           (height-mm (cadr (alist-get 'mm-size attrs)))
-           (by-res (/ height 72.0))
-           (by-dpi (if (and height-mm (> height-mm 0))
-                       (* 11 (/ height (/ height-mm 25.4)) (/ 1.0 72))
-                     0)))
-      (max 12 (min 48 (round (max by-res by-dpi)))))))
+           (height-mm (cadr (alist-get 'mm-size attrs))))
+      (if (and height height-mm (> height-mm 0))
+          (max 12 (min 48 (round (* 9 (/ height (/ height-mm 25.4)) (/ 1.0 72)))))
+        16))))
 
 (defcustom cc/font-size (cc/auto-font-size)
   "The default font size in pixels.
