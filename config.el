@@ -4,6 +4,8 @@
 ;; sync' after modifying this file!
 
 (load! "custom-vars.el")
+;; Machine-local UI preferences override any legacy settings above.
+(load! "ui-vars.el" nil t)
 
 (defun cc/load-config (name)
   (load! (concat "config.d/" name) doom-user-dir t))

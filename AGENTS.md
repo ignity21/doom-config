@@ -24,7 +24,7 @@ otherwise.
 ```
 init.el              Doom module flags (the `doom!` block) — run `doom sync` after edits
 packages.el          package declarations — run `doom sync` after edits
-config.el            entry point: loads custom-vars + all config.d files in order
+config.el            entry point: loads custom-vars, optional ui-vars, then config.d files
 config.d/            themed configs (loaded explicitly by config.el, not auto-discovered)
   ├─ defaults.el theme.el keybindings.el dashboard-tips.el ui.el editor.el completion.el
   ├─ checkers.el tools.el patch.el
@@ -33,7 +33,9 @@ data/dashboard-tips.eld  declarative, lazily loaded Dashboard tip content
 modules/cc/          private Doom modules (defaults, lsp, notes, ai, agenda, completion)
 modules/cc-langs/    private language modules (cpp, python, web)
 custom-vars.el       symlink → real file in Dropbox (API keys, name/email, dirs) — NOT committed
-custom-vars.example.el  template users copy to custom-vars.el; lists every defcustom
+custom-vars.example.el  template for identity, secrets, directories, and backends
+ui-vars.el           ignored machine-local UI settings; normally not a shared symlink
+ui-vars.example.el   template for fonts, fixed pixel size (default 16), and themes
 ```
 
 ## How config loads
@@ -55,6 +57,11 @@ completion backend all live in private `modules/cc/*` modules, not in
 derived by the `:set` functions of `cc/default-org-dir` (in
 `modules/cc/agenda/init.el`) and `cc/notes-root-dir` (in
 `modules/cc/notes/init.el`).
+
+`config.el` loads optional `ui-vars.el` after `custom-vars.el`, before themed
+configs. Keep UI preferences local to each machine; normally do not symlink
+`ui-vars.el` to one synchronized copy, since displays, scaling, and fonts differ.
+Font size is a fixed integer pixel size (default 16), with no DPI calculation.
 
 **Adding a new `config.d/` file requires registering it in `config.el`.**
 Forgetting this is the most common mistake — the file silently never loads.
@@ -95,8 +102,9 @@ These rules apply across `config.d/`, `modules/cc/`, and
 
 1. Define it in the relevant `config.d/*.el` (or module `config.el`) with
    the `cc/` prefix and a `cc-<area>` group.
-2. Add an example value to `custom-vars.example.el` under the matching section
-   (`;; llm`, `;; code completion`, ...). The template must list every
+2. Add an example value to `ui-vars.example.el` for UI options, or
+   `custom-vars.example.el` for other options, under the matching section
+   (`;; llm`, `;; code completion`, ...). The templates together must list every
    customizable option; a new `defcustom` without an example entry is
    incomplete.
 

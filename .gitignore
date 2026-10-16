@@ -20,3 +20,5 @@ CLAUDE.md
 mycustom.el
 custom-vars.el
 custom.el
+
+ui-vars.el

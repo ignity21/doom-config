@@ -5,22 +5,7 @@
   user-full-name "Name"
   user-mail-address "name@example.com")
 
-;; Fonts
-(setopt
-  ;; `cc/font-size' is in pixels.  Omit it to derive a size from the display
-  ;; (7.5pt at the monitor's physical DPI); set it to use a fixed size.
-  cc/font-size 17
-  cc/emoji-font (font-spec :family "Noto Color Emoji" :size cc/font-size)
-  doom-font (font-spec :family "Hack Nerd Font Mono" :size cc/font-size)
-  doom-symbol-font (font-spec :family "Sarasa Mono SC" :size cc/font-size)
-  doom-variable-pitch-font (font-spec :family "LXGW WenKai" :size cc/font-size)
-  doom-big-font-increment (/ cc/font-size 4) ; increase by 25%
-  )
-
-;; Themes
-(setopt
-  cc/light-ef-theme 'ef-cyprus
-  cc/dark-ef-theme 'ef-dream)
+;; Fonts and themes: see ui-vars.example.el (machine-local ui-vars.el).
 
 ;; Defaults
 (setopt

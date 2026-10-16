@@ -17,6 +17,18 @@
 | Project search/replace | vertico+ripgrep -> embark export |
 
 * Configuration
+** Personal settings
+Copy =custom-vars.example.el= to =custom-vars.el= for identity, provider keys,
+directories, and backend settings.  Copy =ui-vars.example.el= to =ui-vars.el=
+for fonts, font size, and themes.  Both personal files are ignored by Git;
+=ui-vars.el= is optional and loads after =custom-vars.el=.
+
+Keep =ui-vars.el= local to each machine in most cases.  Avoid symlinking it to
+one synchronized copy: monitors, display scaling, and available fonts differ.
+Set =cc/font-size= to an integer pixel size (default: 16), then restart Emacs.
+There is no automatic DPI calculation.  Floating-point =font-spec :size=
+values mean points rather than pixels.
+
 ** Icon Fonts
 ~M-x nerd-icons-install-fonts~
 
